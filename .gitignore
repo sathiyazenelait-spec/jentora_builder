@@ -1,0 +1,36 @@
+# Dependencies & Build outputs
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.output/
+**/.output/
+.vinxi/
+**/.vinxi/
+.tanstack/
+**/.tanstack/
+.nitro/
+**/.nitro/
+.wrangler/
+**/.wrangler/
+target/
+**/target/
+build/
+**/build/
+logs/
+*.log
+
+# Environment & local files
+*.local
+.dev.vars
+
+# Maven wrapper jar if desired
+HELP.md
+
+# IDEs
+.idea/
+**/.idea/
+.vscode/
+**/.vscode/
+*.iml
+.DS_Store
