@@ -210,7 +210,7 @@ export const adminApi = {
     return res.data;
   },
 
-  updateQueryStatus: async (id: number, payload: { status: string; adminNotes?: string }) => {
+  updateQueryStatus: async (id: number, payload: { status: string; adminNotes?: string | undefined }) => {
     return request<{ success: boolean; message: string; data: ContactQuery }>(`/admin/queries/${id}/status`, {
       method: 'PATCH',
       body: JSON.stringify(payload),
@@ -245,11 +245,11 @@ export const adminApi = {
   updateUser: async (
     id: number,
     user: {
-      email?: string;
-      fullName?: string;
-      password?: string;
-      role?: string;
-      active?: boolean;
+      email?: string | undefined;
+      fullName?: string | undefined;
+      password?: string | undefined;
+      role?: string | undefined;
+      active?: boolean | undefined;
     }
   ) => {
     return request<{ success: boolean; message: string; data: User }>(`/admin/users/${id}`, {
