@@ -272,6 +272,59 @@ export function UniqueSellingPointsSection() {
   );
 }
 
+function QualitySafetyCard({ item, index }: { item: { title: string; desc: string }; index: number }) {
+  const [tilt, setTilt] = useState({ x: 0, y: 0, active: false });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 14; // -7deg to +7deg
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -14;
+    setTilt({ x, y, active: true });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ x: 0, y: 0, active: false });
+  };
+
+  return (
+    <div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="qa-card luxury-framed light-sweep"
+      style={{
+        padding: '28px 24px',
+        borderRadius: '16px',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        textAlign: 'center',
+        transform: tilt.active
+          ? `perspective(1000px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) translateY(-8px) scale3d(1.025, 1.025, 1.025)`
+          : 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px) scale3d(1, 1, 1)',
+        transition: tilt.active
+          ? 'transform 0.08s ease-out, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease'
+          : 'transform 0.4s ease-out, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
+      }}
+    >
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+          <span className="morph inline-block px-2.5 py-0.5 text-xs text-accent border border-accent/40 font-semibold rounded-full">
+            0{index + 1}
+          </span>
+          <CheckCircle2 size={20} className="text-accent hover-wobble" />
+        </div>
+        <h3 style={{ fontSize: '22px', fontFamily: 'var(--font-display)', marginBottom: '12px', textAlign: 'center' }}>
+          {item.title}
+        </h3>
+        <p style={{ fontSize: '14px', lineHeight: '1.75', color: 'var(--muted-foreground)', textAlign: 'center' }}>
+          {item.desc}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export function QualityAndSafetySection() {
   const [tab, setTab] = useState<'qa' | 'safety'>('qa');
 
@@ -320,31 +373,7 @@ export function QualityAndSafetySection() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px', marginTop: '40px', perspective: '1200px' }}>
           {(tab === 'qa' ? qualityAssurancePractices : safetyStandards).map((item, i) => (
             <Reveal key={item.title} className={`delay-${(i % 4 + 1) * 100}`} style={{ height: '100%' }}>
-              <div
-                className="qa-card luxury-framed light-sweep"
-                style={{
-                  padding: '28px 24px',
-                  borderRadius: '16px',
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  textAlign: 'center',
-                }}
-              >
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                    <span className="morph inline-block px-2.5 py-0.5 text-xs text-accent border border-accent/40 font-semibold rounded-full">0{i + 1}</span>
-                    <CheckCircle2 size={20} className="text-accent hover-wobble" />
-                  </div>
-                  <h3 style={{ fontSize: '22px', fontFamily: 'var(--font-display)', marginBottom: '12px', textAlign: 'center' }}>
-                    {item.title}
-                  </h3>
-                  <p style={{ fontSize: '14px', lineHeight: '1.75', color: 'var(--muted-foreground)', textAlign: 'center' }}>
-                    {item.desc}
-                  </p>
-                </div>
-              </div>
+              <QualitySafetyCard item={item} index={i} />
             </Reveal>
           ))}
         </div>
