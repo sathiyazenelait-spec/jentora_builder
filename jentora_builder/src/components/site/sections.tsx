@@ -317,30 +317,30 @@ export function QualityAndSafetySection() {
         </div>
 
         {/* TAB CONTENT */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px', marginTop: '40px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px', marginTop: '40px', perspective: '1200px' }}>
           {(tab === 'qa' ? qualityAssurancePractices : safetyStandards).map((item, i) => (
-            <Reveal key={item.title} className={`delay-${(i % 4 + 1) * 100}`}>
+            <Reveal key={item.title} className={`delay-${(i % 4 + 1) * 100}`} style={{ height: '100%' }}>
               <div
                 className="qa-card luxury-framed light-sweep"
                 style={{
-                  padding: '24px',
-                  border: '1px solid var(--light-line)',
-                  borderRadius: '12px',
+                  padding: '28px 24px',
+                  borderRadius: '16px',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
+                  textAlign: 'center',
                 }}
               >
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-                    <span className="morph inline-block px-2.5 py-0.5 text-xs text-accent border border-accent/40 font-semibold">0{i + 1}</span>
-                    <CheckCircle2 size={18} className="text-accent hover-wobble" />
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                    <span className="morph inline-block px-2.5 py-0.5 text-xs text-accent border border-accent/40 font-semibold rounded-full">0{i + 1}</span>
+                    <CheckCircle2 size={20} className="text-accent hover-wobble" />
                   </div>
-                  <h3 style={{ fontSize: '24px', fontFamily: 'var(--font-display)', marginBottom: '8px' }}>
+                  <h3 style={{ fontSize: '22px', fontFamily: 'var(--font-display)', marginBottom: '12px', textAlign: 'center' }}>
                     {item.title}
                   </h3>
-                  <p style={{ fontSize: '15px', lineHeight: '1.75', color: 'var(--muted-foreground)' }}>
+                  <p style={{ fontSize: '14px', lineHeight: '1.75', color: 'var(--muted-foreground)', textAlign: 'center' }}>
                     {item.desc}
                   </p>
                 </div>
