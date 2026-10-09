@@ -1027,7 +1027,6 @@ button,a,input,select,textarea{outline-offset:5px}
 .expertise-service-card p,
 .vision-card p,
 .mission-card p,
-.project-info p,
 .story-showcase-section p,
 .approach p,
 .service-row p,
@@ -1039,6 +1038,10 @@ button,a,input,select,textarea{outline-offset:5px}
 .stat-card p {
   text-align: justify;
   text-justify: inter-word;
+}
+.project-info p {
+  text-align: left;
+  white-space: nowrap;
 }
 
 /* PORTFOLIO GRID */

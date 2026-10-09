@@ -602,12 +602,16 @@ export function ProjectItem({ project }: { project: Project }) {
       </Link>
       <div className="image-note">ILLUSTRATIVE ARCHITECTURAL CONCEPT · CERTIFIED SPECIFICATIONS</div>
       <div className="project-info">
-        <div>
+        <div style={{ flex: 1, minWidth: 0 }}>
           <div className="project-number">LANDMARK {project.number} / 04</div>
-          <Link to="/projects/$projectId" params={{ projectId: project.id }}>
-            <h3 className="hover:text-accent font-display">{project.name}</h3>
-          </Link>
-          <p>{project.location}</p>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', flexWrap: 'wrap', marginTop: '4px' }}>
+            <Link to="/projects/$projectId" params={{ projectId: project.id }}>
+              <h3 className="hover:text-accent font-display" style={{ margin: 0, whiteSpace: 'nowrap' }}>{project.name}</h3>
+            </Link>
+            <span style={{ color: 'var(--muted-foreground)', fontSize: '15px', whiteSpace: 'nowrap' }}>
+              · {project.location}
+            </span>
+          </div>
         </div>
         <Button variant="minimal" size="icon" asChild className="hover-wobble">
           <Link to="/projects/$projectId" params={{ projectId: project.id }} aria-label={`Open project ${project.number}`}>
