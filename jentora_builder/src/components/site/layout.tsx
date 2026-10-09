@@ -171,9 +171,9 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="line-button"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '0 22px', height: '52px', fontSize: '10px', fontWeight: '500', textDecoration: 'none' }}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '0 24px', height: '54px', fontSize: '13px', fontWeight: '600', textDecoration: 'none' }}
               >
-                <MessageCircle size={15} style={{ color: '#25D366' }} /> CHAT ON WHATSAPP
+                <MessageCircle size={17} style={{ color: '#25D366' }} /> CHAT ON WHATSAPP
               </a>
             </div>
           </div>
@@ -191,26 +191,26 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             {/* COL 1: BRAND & EXPERTISE */}
             <div className="footer-col" style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
               <Link to="/" aria-label="Jentora home">
-                <img className="logo" src={logo} alt="Jentora" style={{ width: '130px', height: 'auto' }} />
+                <img className="logo" src={logo} alt="Jentora" style={{ width: '140px', height: 'auto' }} />
               </Link>
-              <p style={{ fontSize: '11px', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: '600' }}>
+              <p style={{ fontSize: '13px', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: '600' }}>
                 PASSION · PRECISION · PERFECTION
               </p>
-              <p style={{ fontSize: '13px', lineHeight: '1.7', color: '#cbd5e1', maxWidth: '300px' }}>
+              <p style={{ fontSize: '15px', lineHeight: '1.7', color: '#cbd5e1', maxWidth: '300px' }}>
                 17 Years of industry experience delivering premium residential, commercial, and industrial landmarks built on trust and superior craftsmanship.
               </p>
               <div style={{ marginTop: '8px' }}>
-                <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--accent)', display: 'block', marginBottom: '8px' }}>
+                <span style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--accent)', display: 'block', marginBottom: '8px', fontWeight: '600' }}>
                   KEY OPERATING HUBS
                 </span>
-                <p style={{ fontSize: '13px', fontWeight: '500', color: '#ffffff' }}>
+                <p style={{ fontSize: '15px', fontWeight: '500', color: '#ffffff' }}>
                   Chennai · Thiruvallur · Coimbatore
                 </p>
               </div>
 
               {/* SOCIAL MEDIA INTEGRATION */}
               <div style={{ marginTop: '12px' }}>
-                <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--accent)', display: 'block', marginBottom: '12px' }}>
+                <span style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--accent)', display: 'block', marginBottom: '12px', fontWeight: '600' }}>
                   FOLLOW OUR JOURNEY
                 </span>
                 <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
@@ -219,7 +219,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Jentora Facebook"
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '36px', height: '36px', borderRadius: '50%', border: '1px solid rgba(212, 175, 55, 0.35)', color: '#ffffff', transition: 'all 0.3s' }}
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '38px', height: '38px', borderRadius: '50%', border: '1px solid rgba(212, 175, 55, 0.35)', color: '#ffffff', transition: 'all 0.3s' }}
                     className="hover:border-accent hover:text-accent hover:scale-105"
                   >
                     <Facebook size={16} />
@@ -229,7 +229,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Jentora Instagram"
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '36px', height: '36px', borderRadius: '50%', border: '1px solid rgba(212, 175, 55, 0.35)', color: '#ffffff', transition: 'all 0.3s' }}
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '38px', height: '38px', borderRadius: '50%', border: '1px solid rgba(212, 175, 55, 0.35)', color: '#ffffff', transition: 'all 0.3s' }}
                     className="hover:border-accent hover:text-accent hover:scale-105"
                   >
                     <Instagram size={16} />
@@ -239,7 +239,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Jentora LinkedIn"
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '36px', height: '36px', borderRadius: '50%', border: '1px solid rgba(212, 175, 55, 0.35)', color: '#ffffff', transition: 'all 0.3s' }}
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '38px', height: '38px', borderRadius: '50%', border: '1px solid rgba(212, 175, 55, 0.35)', color: '#ffffff', transition: 'all 0.3s' }}
                     className="hover:border-accent hover:text-accent hover:scale-105"
                   >
                     <Linkedin size={16} />
@@ -249,7 +249,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Jentora YouTube"
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '36px', height: '36px', borderRadius: '50%', border: '1px solid rgba(212, 175, 55, 0.35)', color: '#ffffff', transition: 'all 0.3s' }}
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '38px', height: '38px', borderRadius: '50%', border: '1px solid rgba(212, 175, 55, 0.35)', color: '#ffffff', transition: 'all 0.3s' }}
                     className="hover:border-accent hover:text-accent hover:scale-105"
                   >
                     <Youtube size={16} />
@@ -260,18 +260,18 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
             {/* COL 2: CONSTRUCTION SERVICES */}
             <div className="footer-col">
-              <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent)', fontWeight: '600', display: 'block', marginBottom: '18px' }}>
+              <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent)', fontWeight: '600', display: 'block', marginBottom: '18px' }}>
                 OUR SERVICES
               </span>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {services.map(([title], i) => (
                   <li key={title}>
                     <Link
                       to="/services"
-                      style={{ fontSize: '13px', color: '#cbd5e1', transition: 'color 0.3s', display: 'flex', alignItems: 'center', gap: '8px' }}
+                      style={{ fontSize: '15px', color: '#cbd5e1', transition: 'color 0.3s', display: 'flex', alignItems: 'center', gap: '8px' }}
                       className="hover:text-accent"
                     >
-                      <span style={{ fontSize: '9px', color: 'var(--accent)' }}>0{i + 1}</span> {title}
+                      <span style={{ fontSize: '12px', color: 'var(--accent)', fontWeight: '600' }}>0{i + 1}</span> {title}
                     </Link>
                   </li>
                 ))}
@@ -280,46 +280,46 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
             {/* COL 3: COMPANY & NAVIGATION */}
             <div className="footer-col">
-              <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent)', fontWeight: '600', display: 'block', marginBottom: '18px' }}>
+              <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent)', fontWeight: '600', display: 'block', marginBottom: '18px' }}>
                 EXPLORE JENTORA
               </span>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 {navigation.map((n, i) => (
                   <li key={n.to}>
                     <Link
                       to={n.to}
-                      style={{ fontSize: '13px', fontWeight: '500', color: '#ffffff', transition: 'color 0.3s', display: 'flex', alignItems: 'center', gap: '10px' }}
+                      style={{ fontSize: '15px', fontWeight: '500', color: '#ffffff', transition: 'color 0.3s', display: 'flex', alignItems: 'center', gap: '10px' }}
                       className="hover:text-accent"
                     >
-                      <span style={{ fontSize: '10px', color: 'var(--accent)' }}>0{i + 1}</span>
+                      <span style={{ fontSize: '12px', color: 'var(--accent)', fontWeight: '600' }}>0{i + 1}</span>
                       {n.label}
                     </Link>
                   </li>
                 ))}
               </ul>
               <div style={{ marginTop: '28px', paddingTop: '20px', borderTop: '1px solid var(--light-line)' }}>
-                <p style={{ fontSize: '12px', color: '#cbd5e1', marginBottom: '8px' }}>
+                <p style={{ fontSize: '14px', color: '#cbd5e1', marginBottom: '10px', lineHeight: '1.6' }}>
                   Have an architectural concept or construction project in mind?
                 </p>
                 <Link
                   to="/contact"
-                  style={{ fontSize: '11px', fontWeight: '600', letterSpacing: '0.08em', color: 'var(--accent)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                  style={{ fontSize: '13px', fontWeight: '600', letterSpacing: '0.08em', color: 'var(--accent)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                   className="hover:underline"
                 >
-                  REQUEST PROJECT CONSULTATION <ArrowUpRight size={13} />
+                  REQUEST PROJECT CONSULTATION <ArrowUpRight size={14} />
                 </Link>
               </div>
             </div>
 
             {/* COL 4: REGISTERED OFFICE & CONTACT */}
             <div className="footer-col" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent)', fontWeight: '600', display: 'block', marginBottom: '2px' }}>
+              <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent)', fontWeight: '600', display: 'block', marginBottom: '2px' }}>
                 REGISTERED OFFICE
               </span>
               
               <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                 <MapPin size={18} style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '3px' }} />
-                <address style={{ fontStyle: 'normal', fontSize: '13px', lineHeight: '1.6', color: '#cbd5e1' }}>
+                <address style={{ fontStyle: 'normal', fontSize: '15px', lineHeight: '1.6', color: '#cbd5e1' }}>
                   {company.address.full}
                 </address>
               </div>
@@ -333,7 +333,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
-                  fontSize: '10px',
+                  fontSize: '13px',
                   letterSpacing: '0.06em',
                   fontWeight: '600',
                   color: 'var(--accent)',
@@ -341,13 +341,13 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                 }}
                 className="hover:underline"
               >
-                OPEN IN GOOGLE MAPS <ExternalLink size={12} />
+                OPEN IN GOOGLE MAPS <ExternalLink size={13} />
               </a>
 
               {/* PHONE NUMBERS */}
               <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', marginTop: '6px' }}>
                 <Phone size={18} style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '3px' }} />
-                <div style={{ fontSize: '13px', color: '#cbd5e1', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div style={{ fontSize: '15px', color: '#cbd5e1', display: 'flex', flexDirection: 'column', gap: '4px' }}>
                   <a href={`tel:${company.primaryPhone.replace(/\s+/g, '')}`} className="hover:text-accent" style={{ color: '#cbd5e1' }}>
                     {company.primaryPhone}
                   </a>
@@ -360,7 +360,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               {/* EMAIL ADDRESS */}
               <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                 <Mail size={18} style={{ color: 'var(--accent)', flexShrink: 0 }} />
-                <a href={`mailto:${company.email}`} style={{ fontSize: '13px', color: '#cbd5e1' }} className="hover:text-accent">
+                <a href={`mailto:${company.email}`} style={{ fontSize: '15px', color: '#cbd5e1' }} className="hover:text-accent">
                   {company.email}
                 </a>
               </div>
@@ -368,14 +368,14 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               {/* OPERATING HOURS */}
               <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                 <Clock size={18} style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '3px' }} />
-                <div style={{ fontSize: '12px', color: '#cbd5e1' }}>
+                <div style={{ fontSize: '14px', color: '#cbd5e1' }}>
                   <span>{company.operatingHours}</span>
                 </div>
               </div>
 
               {/* POWERED BY */}
               <div className="powered-by" style={{ marginTop: '16px', alignItems: 'flex-start' }}>
-                <span style={{ fontSize: '10px', letterSpacing: '0.12em', color: 'var(--accent)' }}>POWERED BY</span>
+                <span style={{ fontSize: '12px', letterSpacing: '0.12em', color: 'var(--accent)', fontWeight: '600' }}>POWERED BY</span>
                 <a href="https://zenelaitinfotech.com/" target="_blank" rel="noopener noreferrer">
                   <img style={{ height: '34px', background: '#ffffff', padding: '4px 8px', borderRadius: '4px' }} src={zenelaitLogo} alt="Zenelait Innotech" />
                 </a>

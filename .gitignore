@@ -34,3 +34,5 @@ HELP.md
 **/.vscode/
 *.iml
 .DS_Store
+*.lock.db
+*.trace.db

@@ -85,20 +85,20 @@ function Contact() {
                 <MapPin size={18} style={{ color: 'var(--foreground)' }} />
               </div>
               <div>
-                <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--muted-foreground)', fontWeight: '600', display: 'block' }}>
+                <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--muted-foreground)', fontWeight: '600', display: 'block' }}>
                   REGISTERED OFFICE
                 </span>
-                <address style={{ fontStyle: 'normal', fontSize: '13px', lineHeight: '1.6', color: 'var(--foreground)', marginTop: '4px' }}>
+                <address style={{ fontStyle: 'normal', fontSize: '15px', lineHeight: '1.6', color: 'var(--foreground)', marginTop: '4px' }}>
                   {company.address.full}
                 </address>
                 <a
                   href={company.googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--accent)', fontWeight: '600', marginTop: '6px' }}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--accent)', fontWeight: '600', marginTop: '6px' }}
                   className="hover:underline"
                 >
-                  View on Google Maps <ExternalLink size={12} />
+                  View on Google Maps <ExternalLink size={13} />
                 </a>
               </div>
             </div>
@@ -109,15 +109,15 @@ function Contact() {
                 <Phone size={18} style={{ color: 'var(--foreground)' }} />
               </div>
               <div>
-                <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--muted-foreground)', fontWeight: '600', display: 'block' }}>
+                <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--muted-foreground)', fontWeight: '600', display: 'block' }}>
                   BUSINESS CONTACT NUMBERS
                 </span>
                 <div style={{ display: 'flex', gap: '16px', marginTop: '4px', flexWrap: 'wrap' }}>
-                  <a href={`tel:${company.primaryPhone.replace(/\s+/g, '')}`} style={{ fontSize: '13px', fontWeight: '500', color: 'var(--foreground)' }} className="hover:text-accent">
+                  <a href={`tel:${company.primaryPhone.replace(/\s+/g, '')}`} style={{ fontSize: '15px', fontWeight: '500', color: 'var(--foreground)' }} className="hover:text-accent">
                     {company.primaryPhone}
                   </a>
                   <span style={{ color: 'var(--border)' }}>|</span>
-                  <a href={`tel:${company.secondaryPhone.replace(/\s+/g, '')}`} style={{ fontSize: '13px', fontWeight: '500', color: 'var(--foreground)' }} className="hover:text-accent">
+                  <a href={`tel:${company.secondaryPhone.replace(/\s+/g, '')}`} style={{ fontSize: '15px', fontWeight: '500', color: 'var(--foreground)' }} className="hover:text-accent">
                     {company.secondaryPhone}
                   </a>
                 </div>
@@ -130,10 +130,10 @@ function Contact() {
                 <Mail size={18} style={{ color: 'var(--foreground)' }} />
               </div>
               <div>
-                <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--muted-foreground)', fontWeight: '600', display: 'block' }}>
+                <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--muted-foreground)', fontWeight: '600', display: 'block' }}>
                   OFFICIAL EMAIL ADDRESS
                 </span>
-                <a href={`mailto:${company.email}`} style={{ fontSize: '13px', fontWeight: '500', color: 'var(--foreground)', marginTop: '4px', display: 'block' }} className="hover:text-accent">
+                <a href={`mailto:${company.email}`} style={{ fontSize: '15px', fontWeight: '500', color: 'var(--foreground)', marginTop: '4px', display: 'block' }} className="hover:text-accent">
                   {company.email}
                 </a>
               </div>
@@ -145,10 +145,10 @@ function Contact() {
                 <Clock size={18} style={{ color: 'var(--foreground)' }} />
               </div>
               <div>
-                <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--muted-foreground)', fontWeight: '600', display: 'block' }}>
+                <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--muted-foreground)', fontWeight: '600', display: 'block' }}>
                   OPERATING HOURS
                 </span>
-                <p style={{ fontSize: '13px', color: 'var(--foreground)', marginTop: '4px' }}>
+                <p style={{ fontSize: '15px', color: 'var(--foreground)', marginTop: '4px' }}>
                   {company.operatingHours}
                 </p>
               </div>
@@ -166,9 +166,9 @@ function Contact() {
                   gap: '10px',
                   background: '#25D366',
                   color: '#ffffff',
-                  padding: '12px 24px',
+                  padding: '14px 26px',
                   borderRadius: '6px',
-                  fontSize: '12px',
+                  fontSize: '13px',
                   fontWeight: '600',
                   letterSpacing: '0.04em',
                   textDecoration: 'none',
@@ -182,7 +182,7 @@ function Contact() {
 
             {/* SOCIAL CHANNELS */}
             <div style={{ marginTop: '16px', paddingTop: '20px', borderTop: '1px solid var(--border)' }}>
-              <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--muted-foreground)', fontWeight: '600', display: 'block', marginBottom: '12px' }}>
+              <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--muted-foreground)', fontWeight: '600', display: 'block', marginBottom: '12px' }}>
                 SOCIAL MEDIA CHANNELS
               </span>
               <div style={{ display: 'flex', gap: '12px' }}>
@@ -215,7 +215,7 @@ function Contact() {
                 Your vision.<br />
                 <em>A promising beginning.</em>
               </h2>
-              <p style={{ fontSize: '14px', color: 'var(--muted-foreground)', marginTop: '12px', lineHeight: '1.7' }}>
+              <p style={{ fontSize: '16px', color: 'var(--muted-foreground)', marginTop: '12px', lineHeight: '1.7' }}>
                 Thank you for reaching out to Jentora Builder. Our engineering and project consultation team will connect with you promptly.
               </p>
               <Button variant="minimal" className="mt-7" onClick={() => setSent(false)}>
@@ -227,7 +227,7 @@ function Contact() {
               <h3 style={{ fontSize: '26px', fontFamily: 'var(--font-display)', marginBottom: '8px', color: 'var(--foreground)' }}>
                 TELL US WHAT YOU HAVE IN MIND
               </h3>
-              <p style={{ fontSize: '12px', color: 'var(--muted-foreground)', marginBottom: '24px' }}>
+              <p style={{ fontSize: '15px', color: 'var(--muted-foreground)', marginBottom: '24px' }}>
                 Fill out the project details below and our team will prepare a tailored consultation.
               </p>
 

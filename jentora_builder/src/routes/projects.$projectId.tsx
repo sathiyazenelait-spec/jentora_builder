@@ -98,9 +98,9 @@ function ProjectDetail() {
               target="_blank"
               rel="noopener noreferrer"
               className="line-button"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '0 20px', height: '52px', fontSize: '10px', fontWeight: '500', textDecoration: 'none' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '0 24px', height: '54px', fontSize: '13px', fontWeight: '600', textDecoration: 'none' }}
             >
-              <MessageCircle size={15} style={{ color: '#25D366' }} /> ENQUIRE VIA WHATSAPP
+              <MessageCircle size={17} style={{ color: '#25D366' }} /> ENQUIRE VIA WHATSAPP
             </a>
           </div>
         </div>
@@ -183,7 +183,7 @@ function ProjectDetail() {
           <DialogTitle style={{ fontFamily: 'var(--font-display)', fontSize: '32px', color: 'var(--foreground)' }}>
             Request a Quote
           </DialogTitle>
-          <DialogDescription style={{ fontSize: '13px', color: 'var(--muted-foreground)', marginTop: '6px' }}>
+          <DialogDescription style={{ fontSize: '15px', color: 'var(--muted-foreground)', marginTop: '6px' }}>
             Get detailed pricing, floor plans, and architectural specifications for <strong>{project.name}</strong> ({project.location}).
           </DialogDescription>
 
@@ -193,7 +193,7 @@ function ProjectDetail() {
                 <Check size={24} />
               </div>
               <h3 style={{ fontSize: '24px', fontFamily: 'var(--font-display)', color: 'var(--foreground)' }}>Quote Request Received</h3>
-              <p style={{ fontSize: '13px', color: 'var(--muted-foreground)', marginTop: '8px', lineHeight: '1.6' }}>
+              <p style={{ fontSize: '15px', color: 'var(--muted-foreground)', marginTop: '8px', lineHeight: '1.6' }}>
                 Thank you! Our project team will connect with you with pricing and project details. You can also reach our desk directly at <a href="tel:+919444484625" style={{ color: 'var(--foreground)', fontWeight: '600' }}>+91 9444484625</a>.
               </p>
               <Button variant="editorial" className="mt-6" onClick={() => setQuoteOpen(false)}>
@@ -207,28 +207,28 @@ function ProjectDetail() {
             >
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <div className="field">
-                  <label htmlFor="quote-name" style={{ fontSize: '10px', fontWeight: '600', letterSpacing: '0.05em' }}>YOUR NAME *</label>
-                  <input id="quote-name" name="name" required placeholder="Full name" style={{ border: '1px solid var(--border)', padding: '10px 12px', background: 'var(--background)', color: 'var(--foreground)', borderRadius: '6px' }} />
+                  <label htmlFor="quote-name" style={{ fontSize: '13px', fontWeight: '600', letterSpacing: '0.04em' }}>YOUR NAME *</label>
+                  <input id="quote-name" name="name" required placeholder="Full name" style={{ fontSize: '14px', border: '1px solid var(--border)', padding: '10px 12px', background: 'var(--background)', color: 'var(--foreground)', borderRadius: '6px' }} />
                 </div>
                 <div className="field">
-                  <label htmlFor="quote-phone" style={{ fontSize: '10px', fontWeight: '600', letterSpacing: '0.05em' }}>PHONE NUMBER *</label>
-                  <input id="quote-phone" name="phone" type="tel" required placeholder="+91 XXXXX XXXXX" style={{ border: '1px solid var(--border)', padding: '10px 12px', background: 'var(--background)', color: 'var(--foreground)', borderRadius: '6px' }} />
+                  <label htmlFor="quote-phone" style={{ fontSize: '13px', fontWeight: '600', letterSpacing: '0.04em' }}>PHONE NUMBER *</label>
+                  <input id="quote-phone" name="phone" type="tel" required placeholder="+91 XXXXX XXXXX" style={{ fontSize: '14px', border: '1px solid var(--border)', padding: '10px 12px', background: 'var(--background)', color: 'var(--foreground)', borderRadius: '6px' }} />
                 </div>
               </div>
 
               <div className="field">
-                <label htmlFor="quote-email" style={{ fontSize: '10px', fontWeight: '600', letterSpacing: '0.05em' }}>EMAIL ADDRESS *</label>
-                <input id="quote-email" name="email" type="email" required placeholder="you@example.com" style={{ border: '1px solid var(--border)', padding: '10px 12px', background: 'var(--background)', color: 'var(--foreground)', borderRadius: '6px' }} />
+                <label htmlFor="quote-email" style={{ fontSize: '13px', fontWeight: '600', letterSpacing: '0.04em' }}>EMAIL ADDRESS *</label>
+                <input id="quote-email" name="email" type="email" required placeholder="you@example.com" style={{ fontSize: '14px', border: '1px solid var(--border)', padding: '10px 12px', background: 'var(--background)', color: 'var(--foreground)', borderRadius: '6px' }} />
               </div>
 
               <div className="field">
-                <label htmlFor="quote-message" style={{ fontSize: '10px', fontWeight: '600', letterSpacing: '0.05em' }}>PROJECT REQUIREMENTS / QUESTIONS</label>
+                <label htmlFor="quote-message" style={{ fontSize: '13px', fontWeight: '600', letterSpacing: '0.04em' }}>PROJECT REQUIREMENTS / QUESTIONS</label>
                 <textarea
                   id="quote-message"
                   name="message"
                   rows={3}
                   placeholder={`Tell us about your requirement for ${project.name}…`}
-                  style={{ border: '1px solid var(--border)', padding: '10px 12px', background: 'var(--background)', color: 'var(--foreground)', borderRadius: '6px', resize: 'vertical' }}
+                  style={{ fontSize: '14px', border: '1px solid var(--border)', padding: '10px 12px', background: 'var(--background)', color: 'var(--foreground)', borderRadius: '6px', resize: 'vertical' }}
                 />
               </div>
 
@@ -240,9 +240,9 @@ function ProjectDetail() {
                   href={whatsappQuoteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#128C7E', fontWeight: '600' }}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: '#128C7E', fontWeight: '600' }}
                 >
-                  <MessageCircle size={15} /> Instant Quote on WhatsApp
+                  <MessageCircle size={16} /> Instant Quote on WhatsApp
                 </a>
               </div>
             </form>

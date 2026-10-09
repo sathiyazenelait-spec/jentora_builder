@@ -5,6 +5,8 @@ import {
   Award, 
   Building2, 
   CheckCircle2, 
+  ChevronLeft,
+  ChevronRight,
   Clock, 
   FileCheck, 
   HardHat, 
@@ -43,17 +45,83 @@ export function ContactLink({ light = false }: { light?: boolean }) {
   );
 }
 
+const philosophyDetails = [
+  {
+    num: '01',
+    title: 'Passion',
+    tagline: 'Passion in every idea.',
+    desc: 'Every landmark begins with an inspired idea. We channel relentless passion into bespoke architectural concepts, structural innovation, and functional aesthetics tailored for modern luxury living.',
+    points: ['Bespoke Architectural Concepts', 'Client-Centric Design Innovation', 'Sustainable Material Selection'],
+    linkTo: '/about',
+    linkText: 'DISCOVER OUR PASSION',
+  },
+  {
+    num: '02',
+    title: 'Precision',
+    tagline: 'Precision in every detail.',
+    desc: 'Civil engineering demands millimeter accuracy. We implement rigorous DTCP/CMDA approvals, multi-tier soil & structural testing, and laser-calibrated execution to guarantee generational stability.',
+    points: ['100% CMDA & DTCP Compliance', 'Multi-Tier Structural Audits', 'Calibrated Civil Engineering'],
+    linkTo: '/services',
+    linkText: 'EXPLORE OUR PRECISION',
+  },
+  {
+    num: '03',
+    title: 'Perfection',
+    tagline: 'Perfection in every project.',
+    desc: 'Uncompromising dedication from ground-breaking through turnkey key handover. We combine transparent stage-linked milestone governance, artisan finishes, and lifetime client trust.',
+    points: ['Turnkey Milestone Governance', 'Master Artisan Finishes', 'Generational Structural Warranty'],
+    linkTo: '/projects',
+    linkText: 'VIEW COMPLETED LANDMARKS',
+  },
+];
+
 export function Philosophy() {
   return (
     <section className="philosophy">
       <div className="container">
         <SectionLabel>THE JENTORA PHILOSOPHY</SectionLabel>
         <div className="philosophy-list">
-          {philosophies.map(([title, text], i) => (
-            <Reveal key={title} className={`philosophy-item delay-${(i + 1) * 100}`}>
-              <span className="morph inline-block px-2 py-0.5 border border-accent/40">0{i + 1}</span>
-              <h3 className="flip-in">{title}.</h3>
-              <p>{text}</p>
+          {philosophyDetails.map((item, i) => (
+            <Reveal key={item.title} className={`philosophy-card-reveal delay-${(i + 1) * 100}`}>
+              <div className="philosophy-item luxury-framed light-sweep">
+                <div className="philosophy-card-header">
+                  <span className="philosophy-num-badge">
+                    {item.num}
+                  </span>
+                  <span className="philosophy-pillar-label">
+                    PILLAR {item.num}
+                  </span>
+                </div>
+
+                <h3 className="philosophy-title flip-in">
+                  {item.title}<em>.</em>
+                </h3>
+
+                <p className="philosophy-tagline">
+                  {item.tagline}
+                </p>
+
+                {/* EXTENDED CONTENT THAT EXPANDS / EXTENDS ON HOVER */}
+                <div className="philosophy-extended-content">
+                  <p className="philosophy-desc">
+                    {item.desc}
+                  </p>
+
+                  <div className="philosophy-points">
+                    {item.points.map((pt) => (
+                      <div key={pt} className="philosophy-point-item">
+                        <span className="philosophy-point-bullet">✦</span> {pt}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="philosophy-action-wrap">
+                    <Link to={item.linkTo} className="philosophy-action-link hover-wobble">
+                      {item.linkText} <ArrowUpRight size={15} />
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </Reveal>
           ))}
         </div>
@@ -64,12 +132,12 @@ export function Philosophy() {
 
 export function Stats() {
   return (
-    <div className="stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '28px', marginTop: '36px', paddingTop: '28px', borderTop: '1px solid var(--border)' }}>
+    <div className="stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '28px', marginTop: '36px', paddingTop: '28px', borderTop: '1px solid var(--border)' }}>
       <div className="stat sparkle">
         <strong style={{ fontSize: '52px', fontFamily: 'var(--font-display)', fontWeight: '400', lineHeight: 1 }}>
           17<span style={{ color: 'var(--accent)' }}>+</span>
         </strong>
-        <span style={{ fontSize: '9px', letterSpacing: '0.05em', color: 'var(--muted-foreground)', display: 'block', marginTop: '6px' }}>
+        <span style={{ fontSize: '13px', letterSpacing: '0.05em', color: 'var(--muted-foreground)', display: 'block', marginTop: '8px' }}>
           YEARS INDUSTRY EXPERIENCE
         </span>
       </div>
@@ -77,7 +145,7 @@ export function Stats() {
         <strong style={{ fontSize: '52px', fontFamily: 'var(--font-display)', fontWeight: '400', lineHeight: 1 }}>
           02
         </strong>
-        <span style={{ fontSize: '9px', letterSpacing: '0.05em', color: 'var(--muted-foreground)', display: 'block', marginTop: '6px' }}>
+        <span style={{ fontSize: '13px', letterSpacing: '0.05em', color: 'var(--muted-foreground)', display: 'block', marginTop: '8px' }}>
           COMPLETED LANDMARKS
         </span>
       </div>
@@ -85,7 +153,7 @@ export function Stats() {
         <strong style={{ fontSize: '52px', fontFamily: 'var(--font-display)', fontWeight: '400', lineHeight: 1 }}>
           03
         </strong>
-        <span style={{ fontSize: '9px', letterSpacing: '0.05em', color: 'var(--muted-foreground)', display: 'block', marginTop: '6px' }}>
+        <span style={{ fontSize: '13px', letterSpacing: '0.05em', color: 'var(--muted-foreground)', display: 'block', marginTop: '8px' }}>
           ACTIVE REGIONS (CHENNAI · THIRUVALLUR · COIMBATORE)
         </span>
       </div>
@@ -106,7 +174,7 @@ export function LeadershipSection() {
             </h2>
           </Reveal>
           <Reveal>
-            <p className="subtle" style={{ maxWidth: '420px', fontSize: '13px', lineHeight: '1.7' }}>
+            <p className="subtle" style={{ maxWidth: '440px', fontSize: '16px', lineHeight: '1.75' }}>
               Our executive leadership brings over 17 years of hands-on construction acumen, ensuring every development adheres to the highest standards of safety, precision, and client satisfaction.
             </p>
           </Reveal>
@@ -116,31 +184,31 @@ export function LeadershipSection() {
           {leadership.map((leader, i) => (
             <Reveal key={leader.name}>
               <div
+                className="leadership-card luxury-framed"
                 style={{
-                  background: 'var(--background)',
                   border: '1px solid var(--border)',
                   padding: '36px',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  borderRadius: '8px',
+                  borderRadius: '12px',
                 }}
               >
                 <div>
-                  <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent)', fontWeight: '600' }}>
+                  <span className="leader-role" style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent)', fontWeight: '600' }}>
                     0{i + 1} / {leader.role}
                   </span>
-                  <h3 style={{ fontSize: '32px', margin: '14px 0 10px', fontFamily: 'var(--font-display)', color: 'var(--foreground)' }}>
+                  <h3 style={{ fontSize: '32px', margin: '14px 0 10px', fontFamily: 'var(--font-display)' }}>
                     {leader.name}
                   </h3>
-                  <div style={{ width: '32px', height: '1px', background: 'var(--accent)', marginBottom: '18px' }} />
-                  <p style={{ fontSize: '13px', lineHeight: '1.75', color: 'var(--muted-foreground)' }}>
+                  <div className="accent-bar" style={{ width: '32px', height: '1px', background: 'var(--accent)', marginBottom: '18px' }} />
+                  <p style={{ fontSize: '16px', lineHeight: '1.75', color: 'var(--muted-foreground)' }}>
                     {leader.bio}
                   </p>
                 </div>
-                <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '10px', color: 'var(--foreground)', fontWeight: '600', letterSpacing: '0.05em' }}>
-                  <UserCheck size={14} style={{ color: 'var(--accent)' }} /> JENTORA EXECUTIVE LEADERSHIP
+                <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: '600', letterSpacing: '0.05em' }}>
+                  <UserCheck size={16} style={{ color: 'var(--accent)' }} /> JENTORA EXECUTIVE LEADERSHIP
                 </div>
               </div>
             </Reveal>
@@ -164,7 +232,7 @@ export function UniqueSellingPointsSection() {
             </h2>
           </Reveal>
           <Reveal>
-            <p className="subtle" style={{ maxWidth: '420px', fontSize: '13px', lineHeight: '1.7' }}>
+            <p className="subtle" style={{ maxWidth: '440px', fontSize: '16px', lineHeight: '1.75' }}>
               From initial architectural schematics to transparent milestone-linked payment schedules, we combine personalized client care with rigorous structural engineering.
             </p>
           </Reveal>
@@ -174,10 +242,10 @@ export function UniqueSellingPointsSection() {
           {uniqueSellingPoints.map((usp, i) => (
             <Reveal key={usp.title} className={`delay-${(i % 4 + 1) * 100}`}>
               <div
+                className="usp-card luxury-framed light-sweep"
                 style={{
                   border: '1px solid var(--border)',
                   padding: '30px',
-                  background: 'var(--background)',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
@@ -185,15 +253,14 @@ export function UniqueSellingPointsSection() {
                   position: 'relative',
                   overflow: 'hidden',
                 }}
-                className="hover:border-accent hover:-translate-y-2 hover:shadow-xl light-sweep"
               >
-                <span className="morph inline-flex items-center justify-center w-8 h-8 text-xs font-semibold text-accent border border-accent/30 bg-accent/5">
+                <span className="morph inline-flex items-center justify-center w-8 h-8 text-sm font-semibold text-accent border border-accent/30 bg-accent/5">
                   {usp.number}
                 </span>
-                <h3 style={{ fontSize: '24px', fontFamily: 'var(--font-display)', margin: '14px 0 10px', color: 'var(--foreground)' }}>
+                <h3 style={{ fontSize: '26px', fontFamily: 'var(--font-display)', margin: '14px 0 10px' }}>
                   {usp.title}
                 </h3>
-                <p style={{ fontSize: '12px', lineHeight: '1.7', color: 'var(--muted-foreground)' }}>
+                <p style={{ fontSize: '15px', lineHeight: '1.75', color: 'var(--muted-foreground)' }}>
                   {usp.desc}
                 </p>
               </div>
@@ -231,7 +298,7 @@ export function QualityAndSafetySection() {
                   borderColor: tab === 'qa' ? 'var(--accent)' : 'var(--light-line)',
                 }}
               >
-                <ShieldCheck size={14} className="hover-wobble" /> QUALITY ASSURANCE ({qualityAssurancePractices.length})
+                <ShieldCheck size={16} className="hover-wobble" /> QUALITY ASSURANCE ({qualityAssurancePractices.length})
               </Button>
               <Button
                 variant={tab === 'safety' ? 'editorial' : 'line'}
@@ -243,7 +310,7 @@ export function QualityAndSafetySection() {
                   borderColor: tab === 'safety' ? 'var(--accent)' : 'var(--light-line)',
                 }}
               >
-                <HardHat size={14} className="hover-wobble" /> SAFETY PROTOCOLS ({safetyStandards.length})
+                <HardHat size={16} className="hover-wobble" /> SAFETY PROTOCOLS ({safetyStandards.length})
               </Button>
             </div>
           </Reveal>
@@ -254,27 +321,26 @@ export function QualityAndSafetySection() {
           {(tab === 'qa' ? qualityAssurancePractices : safetyStandards).map((item, i) => (
             <Reveal key={item.title} className={`delay-${(i % 4 + 1) * 100}`}>
               <div
+                className="qa-card luxury-framed light-sweep"
                 style={{
                   padding: '24px',
                   border: '1px solid var(--light-line)',
-                  background: 'rgba(255, 255, 255, 0.03)',
-                  borderRadius: '8px',
+                  borderRadius: '12px',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
                 }}
-                className="hover:border-accent hover:-translate-y-1 light-sweep"
               >
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-                    <span className="morph inline-block px-2 py-0.5 text-xs text-accent border border-accent/40 font-semibold">0{i + 1}</span>
-                    <CheckCircle2 size={16} className="text-accent hover-wobble" />
+                    <span className="morph inline-block px-2.5 py-0.5 text-xs text-accent border border-accent/40 font-semibold">0{i + 1}</span>
+                    <CheckCircle2 size={18} className="text-accent hover-wobble" />
                   </div>
-                  <h3 style={{ fontSize: '20px', fontFamily: 'var(--font-display)', color: 'var(--primary-foreground)', marginBottom: '8px' }}>
+                  <h3 style={{ fontSize: '24px', fontFamily: 'var(--font-display)', marginBottom: '8px' }}>
                     {item.title}
                   </h3>
-                  <p style={{ fontSize: '12px', lineHeight: '1.65', color: 'var(--secondary)' }}>
+                  <p style={{ fontSize: '15px', lineHeight: '1.75', color: 'var(--muted-foreground)' }}>
                     {item.desc}
                   </p>
                 </div>
@@ -289,11 +355,11 @@ export function QualityAndSafetySection() {
 
 export function LuxuryTrustStrip() {
   const badges = [
-    { icon: <Award size={18} />, title: '17+ Years Pedigree', sub: 'Commercial & Residential Mastery' },
-    { icon: <ShieldCheck size={18} />, title: 'ISO 9001:2015 Certified', sub: 'Audited Quality Systems' },
-    { icon: <FileCheck size={18} />, title: '100% CMDA & DTCP', sub: 'Full Regulatory Adherence' },
-    { icon: <Building2 size={18} />, title: '3 Operating Hubs', sub: 'Chennai · Thiruvallur · Coimbatore' },
-    { icon: <Clock size={18} />, title: 'Milestone Delivery', sub: 'Zero Tolerance Delay Track Record' },
+    { icon: <Award size={20} />, title: '17+ Years Pedigree', sub: 'Commercial & Residential Mastery' },
+    { icon: <ShieldCheck size={20} />, title: 'ISO 9001:2015 Certified', sub: 'Audited Quality Systems' },
+    { icon: <FileCheck size={20} />, title: '100% CMDA & DTCP', sub: 'Full Regulatory Adherence' },
+    { icon: <Building2 size={20} />, title: '3 Operating Hubs', sub: 'Chennai · Thiruvallur · Coimbatore' },
+    { icon: <Clock size={20} />, title: 'Milestone Delivery', sub: 'Zero Tolerance Delay Track Record' },
   ];
 
   return (
@@ -321,65 +387,148 @@ export function LuxuryTestimonialsSection() {
       quote: 'Jentora Builder delivered our luxury apartment complex in Vadapalani with exquisite craftsmanship and complete transparency at every milestone stage. Truly world-class builder.',
       author: 'Residential Landmark Client',
       location: 'Vadapalani, Chennai',
+      projectType: 'Luxury Residential',
       rating: 5,
     },
     {
       quote: 'From soil testing to architectural precision and interior handover, Mr. Saravanan and the Jentora engineering team maintained uncompromising safety and structural integrity.',
       author: 'Commercial & Turnkey Investor',
       location: 'Thiruvallur & Coimbatore Hub',
+      projectType: 'Industrial & Commercial',
       rating: 5,
     },
     {
       quote: 'The milestone-linked payment structure gave us total peace of mind. Every material batch was certified, and handover was executed flawlessly.',
       author: 'Private Villa Owner',
       location: 'Anna Nagar, Chennai',
+      projectType: 'Bespoke Luxury Villa',
       rating: 5,
     },
   ];
 
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+  };
+
   return (
     <section className="section" style={{ background: 'linear-gradient(180deg, #070a12 0%, #0e1626 100%)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
       <div className="container">
-        <div className="section-heading">
+        <div className="section-heading" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px' }}>
+          <div>
+            <Reveal>
+              <SectionLabel>CLIENT TESTIMONIALS & TRUST</SectionLabel>
+              <h2 style={{ fontSize: '52px', margin: '14px 0 0 0' }}>
+                Endorsed by clients.<br />
+                <em>Defined by excellence.</em>
+              </h2>
+            </Reveal>
+            <Reveal>
+              <p className="subtle" style={{ maxWidth: '480px', fontSize: '16px', lineHeight: '1.75', marginTop: '16px' }}>
+                Hear from property owners and investors who have partnered with Jentora for landmark residential, commercial, and turnkey industrial projects.
+              </p>
+            </Reveal>
+          </div>
+
+          {/* PREV / NEXT NAVIGATION CONTROLS (< > BUTTONS) */}
           <Reveal>
-            <SectionLabel>CLIENT TESTIMONIALS & TRUST</SectionLabel>
-            <h2 style={{ fontSize: '52px' }}>
-              Endorsed by clients.<br />
-              <em>Defined by excellence.</em>
-            </h2>
-          </Reveal>
-          <Reveal>
-            <p className="subtle" style={{ maxWidth: '420px', fontSize: '13px', lineHeight: '1.7' }}>
-              Hear from property owners and investors who have partnered with Jentora for landmark residential, commercial, and turnkey industrial projects.
-            </p>
+            <div className="testimonial-nav-controls" aria-label="Testimonial Navigation">
+              <button 
+                type="button" 
+                onClick={handlePrev} 
+                className="testimonial-nav-btn light-sweep" 
+                aria-label="Previous Testimonial"
+                title="Previous Testimonial"
+              >
+                <ChevronLeft size={22} />
+              </button>
+              <button 
+                type="button" 
+                onClick={handleNext} 
+                className="testimonial-nav-btn light-sweep" 
+                aria-label="Next Testimonial"
+                title="Next Testimonial"
+              >
+                <ChevronRight size={22} />
+              </button>
+            </div>
           </Reveal>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', marginTop: '40px' }}>
-          {testimonials.map((item, idx) => (
-            <Reveal key={item.author} className={`delay-${(idx + 1) * 150}`}>
-              <div className="luxury-testimonial-card luxury-framed">
-                <div>
-                  <div className="star-rating">
-                    {[...Array(item.rating)].map((_, i) => (
-                      <Star key={i} size={14} fill="currentColor" stroke="none" />
-                    ))}
+          {testimonials.map((item, idx) => {
+            const isActive = activeIndex === idx;
+            return (
+              <Reveal key={item.author} className={`delay-${(idx + 1) * 150}`}>
+                <div 
+                  onClick={() => setActiveIndex(idx)}
+                  className={`luxury-testimonial-card luxury-framed ${isActive ? 'is-active' : ''}`}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setActiveIndex(idx);
+                    }
+                  }}
+                  aria-pressed={isActive}
+                >
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+                      <div className="star-rating" style={{ margin: 0 }}>
+                        {[...Array(item.rating)].map((_, i) => (
+                          <Star key={i} size={16} fill="currentColor" stroke="none" />
+                        ))}
+                      </div>
+                      <span style={{ 
+                        fontSize: '11px', 
+                        fontWeight: 700, 
+                        letterSpacing: '0.08em', 
+                        textTransform: 'uppercase',
+                        padding: '3px 10px',
+                        borderRadius: '20px',
+                        background: isActive ? 'rgba(180, 83, 9, 0.12)' : 'rgba(212, 175, 55, 0.12)',
+                        border: `1px solid ${isActive ? 'rgba(180, 83, 9, 0.35)' : 'rgba(212, 175, 55, 0.35)'}`,
+                        color: isActive ? '#92400e' : 'var(--accent)'
+                      }}>
+                        {item.projectType}
+                      </span>
+                    </div>
+
+                    <div className="quote-mark-gold">“</div>
+                    <p style={{ fontSize: '16px', lineHeight: '1.8', fontStyle: 'italic', marginBottom: '24px' }}>
+                      {item.quote}
+                    </p>
                   </div>
-                  <div className="quote-mark-gold">“</div>
-                  <p style={{ fontSize: '13px', lineHeight: '1.8', color: '#e2e8f0', fontStyle: 'italic', marginBottom: '24px' }}>
-                    {item.quote}
-                  </p>
+                  <div className="testimonial-footer" style={{ borderTop: '1px solid rgba(212, 175, 55, 0.2)', paddingTop: '16px' }}>
+                    <strong style={{ display: 'block', fontSize: '16px', fontFamily: 'var(--font-display)', letterSpacing: '0.04em' }}>
+                      {item.author}
+                    </strong>
+                    <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                      {item.location}
+                    </span>
+                  </div>
                 </div>
-                <div style={{ borderTop: '1px solid rgba(212, 175, 55, 0.2)', paddingTop: '16px' }}>
-                  <strong style={{ display: 'block', fontSize: '13px', color: 'var(--foreground)', fontFamily: 'var(--font-display)', letterSpacing: '0.04em' }}>
-                    {item.author}
-                  </strong>
-                  <span style={{ fontSize: '10px', color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                    {item.location}
-                  </span>
-                </div>
-              </div>
-            </Reveal>
+              </Reveal>
+            );
+          })}
+        </div>
+
+        {/* PAGINATION DOTS */}
+        <div className="testimonial-dots">
+          {testimonials.map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => setActiveIndex(idx)}
+              className={`testimonial-dot ${activeIndex === idx ? 'is-active' : ''}`}
+              aria-label={`Go to testimonial ${idx + 1}`}
+            />
           ))}
         </div>
       </div>
@@ -518,26 +667,36 @@ export function InnerHero({
   label,
   title,
   text,
+  counter,
   image = images.hero,
 }: {
   label: string;
   title: ReactNode;
   text?: string;
+  counter?: string;
   image?: string;
 }) {
   return (
-    <section className="inner-hero">
-      <img className="hero-image" src={image} alt="Contemporary architecture, illustrative concept" />
-      <div className="hero-shade" />
-      <div className="container inner-hero-content">
-        <div className="mb-4">
-          <span className="luxury-hero-badge">
-            <span className="luxury-hero-badge-dot" />
-            {label}
-          </span>
+    <section
+      className="services-hero-section page-hero-section"
+      style={{ backgroundImage: `url(${image})` }}
+    >
+      <div className="services-hero-overlay page-hero-overlay" />
+      <div className="container services-hero-container page-hero-container">
+        <div className="services-hero-content">
+          <span className="services-hero-subtitle page-hero-subtitle">{label}</span>
+          <h1 className="services-hero-title page-hero-title">{title}</h1>
+          {text && (
+            <p className="services-hero-description page-hero-description">
+              {text}
+            </p>
+          )}
         </div>
-        <h1>{title}</h1>
-        {text && <p style={{ fontSize: '15px', color: '#cbd5e1', lineHeight: '1.7', maxWidth: '540px' }}>{text}</p>}
+        {counter && (
+          <div className="services-hero-counter page-hero-counter">
+            <span>{counter}</span>
+          </div>
+        )}
       </div>
     </section>
   );
@@ -552,7 +711,7 @@ export function Approach() {
         ['03', 'Perfection in the finish', 'High-end interior turnkey craftsmanship, rigorous final safety inspection, and guaranteed milestone handover.'],
       ].map(([n, t, d]) => (
         <Reveal key={n}>
-          <div className="luxury-testimonial-card luxury-framed h-full">
+          <div className="approach-card luxury-framed h-full" style={{ background: 'rgba(14, 22, 38, 0.7)', border: '1px solid rgba(212, 175, 55, 0.25)', borderRadius: '16px', padding: '32px' }}>
             <span className="text-accent font-bold text-lg font-display mb-2">{n}</span>
             <h3 className="text-2xl font-display text-foreground mb-3">{t}</h3>
             <p className="text-muted-foreground text-xs leading-relaxed">{d}</p>

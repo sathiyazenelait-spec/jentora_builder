@@ -31,13 +31,9 @@ function About() {
     <>
       <InnerHero
         label="ABOUT JENTORA"
-        title={
-          <>
-            Building with<br />
-            <em>purpose & precision.</em>
-          </>
-        }
-        text="17 Years of industry experience. A foundation built on trust, client-centric engineering, and architectural mastery."
+        title="WHO WE ARE."
+        text="17 Years of industry experience in commercial, residential, and industrial construction across Tamil Nadu."
+        counter="01 — 17"
         image={images.apartment}
       />
 

@@ -13,7 +13,7 @@ export function ProjectGallery({ cover, items }: { cover: string; items?: string
 
   const controls = (
     <div className="gallery-controls" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px' }}>
-      <span style={{ fontSize: '11px', letterSpacing: '0.08em', color: 'var(--muted-foreground)' }}>
+      <span style={{ fontSize: '13px', letterSpacing: '0.08em', color: 'var(--muted-foreground)', fontWeight: '500' }}>
         0{index + 1} / 0{slides.length} · SITE PROGRESS & ARCHITECTURAL PERSPECTIVES
       </span>
       <div className="gallery-buttons" style={{ display: 'flex', gap: '8px' }}>
@@ -49,7 +49,7 @@ export function ProjectGallery({ cover, items }: { cover: string; items?: string
           style={{ width: '100%', height: '580px', objectFit: 'cover', cursor: 'pointer', transition: 'opacity 0.3s' }}
           onClick={() => setOpen(true)}
         />
-        <div style={{ position: 'absolute', bottom: '16px', right: '16px', background: 'rgba(30, 39, 54, 0.85)', color: '#ffffff', padding: '6px 12px', fontSize: '9px', letterSpacing: '0.06em', borderRadius: '4px', backdropFilter: 'blur(4px)' }}>
+        <div style={{ position: 'absolute', bottom: '16px', right: '16px', background: 'rgba(30, 39, 54, 0.85)', color: '#ffffff', padding: '8px 14px', fontSize: '12px', letterSpacing: '0.06em', borderRadius: '4px', backdropFilter: 'blur(4px)', fontWeight: '600' }}>
           CLICK TO EXPAND
         </div>
       </div>

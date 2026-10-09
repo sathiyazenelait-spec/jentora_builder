@@ -22,8 +22,9 @@ function Vision() {
     <>
       <InnerHero
         label="VISION & MISSION"
-        title={<>Driven by purpose.<br />Defined by <em>possibility.</em></>}
-        text={companyCommitment.tagline}
+        title="WHY WE BUILD."
+        text="Passion in every idea. Precision in every detail. Perfection in every project. Building generational trust across Tamil Nadu."
+        counter="01 — 03"
         image={images.hero}
       />
 
