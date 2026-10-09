@@ -74,8 +74,12 @@ function ProjectDetail() {
   return (
     <>
       {/* HERO SECTION */}
-      <section className="inner-hero project-detail-hero">
-        <img className="hero-image" src={project.image} alt={project.name} />
+      <section className="inner-hero project-detail-hero" style={{ overflow: 'hidden' }}>
+        <img 
+          className={`hero-image ${('rotate' in project && project.rotate === 90) ? 'rotated-hero-img' : ''}`} 
+          src={project.image} 
+          alt={project.name} 
+        />
         <div className="hero-shade" />
         <div className="container inner-hero-content">
           <SectionLabel>PROJECT {project.number} / 04</SectionLabel>
@@ -151,7 +155,11 @@ function ProjectDetail() {
               </h2>
             </div>
           </div>
-          <ProjectGallery cover={project.image} items={project.gallery} />
+          <ProjectGallery 
+            cover={project.image} 
+            items={project.gallery} 
+            rotate={'rotate' in project ? project.rotate : 0} 
+          />
         </div>
       </section>
 

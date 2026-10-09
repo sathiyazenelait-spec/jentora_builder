@@ -429,42 +429,18 @@ export function LuxuryTestimonialsSection() {
               </h2>
             </Reveal>
             <Reveal>
-              <p className="subtle" style={{ maxWidth: '480px', fontSize: '16px', lineHeight: '1.75', marginTop: '16px' }}>
+              <p className="subtle" style={{ maxWidth: '540px', fontSize: '16px', lineHeight: '1.75', marginTop: '16px' }}>
                 Hear from property owners and investors who have partnered with Jentora for landmark residential, commercial, and turnkey industrial projects.
               </p>
             </Reveal>
           </div>
-
-          {/* PREV / NEXT NAVIGATION CONTROLS (< > BUTTONS) */}
-          <Reveal>
-            <div className="testimonial-nav-controls" aria-label="Testimonial Navigation">
-              <button 
-                type="button" 
-                onClick={handlePrev} 
-                className="testimonial-nav-btn light-sweep" 
-                aria-label="Previous Testimonial"
-                title="Previous Testimonial"
-              >
-                <ChevronLeft size={22} />
-              </button>
-              <button 
-                type="button" 
-                onClick={handleNext} 
-                className="testimonial-nav-btn light-sweep" 
-                aria-label="Next Testimonial"
-                title="Next Testimonial"
-              >
-                <ChevronRight size={22} />
-              </button>
-            </div>
-          </Reveal>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', marginTop: '40px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', marginTop: '40px', alignItems: 'stretch' }}>
           {testimonials.map((item, idx) => {
             const isActive = activeIndex === idx;
             return (
-              <Reveal key={item.author} className={`delay-${(idx + 1) * 150}`}>
+              <Reveal key={item.author} className={`delay-${(idx + 1) * 150}`} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <div 
                   onClick={() => setActiveIndex(idx)}
                   className={`luxury-testimonial-card luxury-framed ${isActive ? 'is-active' : ''}`}
@@ -477,8 +453,9 @@ export function LuxuryTestimonialsSection() {
                     }
                   }}
                   aria-pressed={isActive}
+                  style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}
                 >
-                  <div>
+                  <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
                       <div className="star-rating" style={{ margin: 0 }}>
                         {[...Array(item.rating)].map((_, i) => (
@@ -501,11 +478,11 @@ export function LuxuryTestimonialsSection() {
                     </div>
 
                     <div className="quote-mark-gold">“</div>
-                    <p style={{ fontSize: '16px', lineHeight: '1.8', fontStyle: 'italic', marginBottom: '24px' }}>
+                    <p style={{ fontSize: '15px', lineHeight: '1.8', fontStyle: 'italic', marginBottom: '24px', textAlign: 'justify', textJustify: 'inter-word', flex: 1 }}>
                       {item.quote}
                     </p>
                   </div>
-                  <div className="testimonial-footer" style={{ borderTop: '1px solid rgba(212, 175, 55, 0.2)', paddingTop: '16px' }}>
+                  <div className="testimonial-footer" style={{ borderTop: '1px solid rgba(212, 175, 55, 0.2)', paddingTop: '16px', marginTop: 'auto' }}>
                     <strong style={{ display: 'block', fontSize: '16px', fontFamily: 'var(--font-display)', letterSpacing: '0.04em' }}>
                       {item.author}
                     </strong>
@@ -519,18 +496,42 @@ export function LuxuryTestimonialsSection() {
           })}
         </div>
 
-        {/* PAGINATION DOTS */}
-        <div className="testimonial-dots">
-          {testimonials.map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => setActiveIndex(idx)}
-              className={`testimonial-dot ${activeIndex === idx ? 'is-active' : ''}`}
-              aria-label={`Go to testimonial ${idx + 1}`}
-            />
-          ))}
-        </div>
+        {/* CONTROLS BAR: ARROW LEFT + DOT INDICATORS + ARROW RIGHT */}
+        <Reveal>
+          <div className="testimonial-controls-bar" aria-label="Testimonials Navigation">
+            <button 
+              type="button" 
+              onClick={handlePrev} 
+              className="testimonial-nav-btn light-sweep" 
+              aria-label="Previous Testimonial"
+              title="Previous Testimonial"
+            >
+              <ChevronLeft size={20} />
+            </button>
+
+            <div className="testimonial-dots">
+              {testimonials.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setActiveIndex(idx)}
+                  className={`testimonial-dot ${activeIndex === idx ? 'is-active' : ''}`}
+                  aria-label={`Go to testimonial ${idx + 1}`}
+                />
+              ))}
+            </div>
+
+            <button 
+              type="button" 
+              onClick={handleNext} 
+              className="testimonial-nav-btn light-sweep" 
+              aria-label="Next Testimonial"
+              title="Next Testimonial"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -580,6 +581,7 @@ export function VipConsultationBanner() {
 }
 
 export function ProjectItem({ project }: { project: Project }) {
+  const isRotated = 'rotate' in project && project.rotate === 90;
   return (
     <Reveal className="project-item">
       <Link
@@ -592,6 +594,7 @@ export function ProjectItem({ project }: { project: Project }) {
           src={project.image}
           alt={`Architectural concept for ${project.category.toLowerCase()}`}
           loading="lazy"
+          className={isRotated ? 'rotated-project-img' : ''}
           width={1536}
           height={1024}
         />

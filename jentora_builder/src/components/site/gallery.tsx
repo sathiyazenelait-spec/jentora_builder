@@ -3,10 +3,11 @@ import { ArrowLeft, ArrowRight, Expand, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
-export function ProjectGallery({ cover, items }: { cover: string; items?: string[] }) {
+export function ProjectGallery({ cover, items, rotate = 0 }: { cover: string; items?: string[]; rotate?: number }) {
   const slides = items && items.length > 0 ? items : [cover];
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
+  const isRotated = rotate === 90;
 
   const change = (step: number) =>
     setIndex((i) => (i + step + slides.length) % slides.length);
@@ -40,16 +41,16 @@ export function ProjectGallery({ cover, items }: { cover: string; items?: string
       aria-label="Project site photo gallery"
       style={{ outline: 'none' }}
     >
-      <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '4px', background: 'var(--primary)' }}>
+      <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '4px', background: 'var(--primary)', height: '580px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <img
-          className="gallery-image"
+          className={`gallery-image ${isRotated ? 'rotated-gallery-img' : ''}`}
           src={slides[index]}
           alt={`Site photo and perspective ${index + 1}`}
           loading="lazy"
           style={{ width: '100%', height: '580px', objectFit: 'cover', cursor: 'pointer', transition: 'opacity 0.3s' }}
           onClick={() => setOpen(true)}
         />
-        <div style={{ position: 'absolute', bottom: '16px', right: '16px', background: 'rgba(30, 39, 54, 0.85)', color: '#ffffff', padding: '8px 14px', fontSize: '12px', letterSpacing: '0.06em', borderRadius: '4px', backdropFilter: 'blur(4px)', fontWeight: '600' }}>
+        <div style={{ position: 'absolute', bottom: '16px', right: '16px', background: 'rgba(30, 39, 54, 0.85)', color: '#ffffff', padding: '8px 14px', fontSize: '12px', letterSpacing: '0.06em', borderRadius: '4px', backdropFilter: 'blur(4px)', fontWeight: '600', zIndex: 2 }}>
           CLICK TO EXPAND
         </div>
       </div>
@@ -81,12 +82,19 @@ export function ProjectGallery({ cover, items }: { cover: string; items?: string
                 flexShrink: 0,
                 opacity: i === index ? 1 : 0.6,
                 transition: 'opacity 0.2s, border-color 0.2s',
+                overflow: 'hidden',
+                width: '84px',
+                height: '64px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
               aria-label={`Select site photo ${i + 1}`}
             >
               <img
                 src={thumb}
                 alt={`Thumbnail ${i + 1}`}
+                className={isRotated ? 'rotated-thumb-img' : ''}
                 style={{ width: '80px', height: '60px', objectFit: 'cover', borderRadius: '2px', display: 'block' }}
                 loading="lazy"
               />
@@ -109,10 +117,11 @@ export function ProjectGallery({ cover, items }: { cover: string; items?: string
           <DialogDescription className="sr-only">
             Actual site photographs and architectural perspectives. Use arrow keys to navigate.
           </DialogDescription>
-          <div style={{ position: 'relative', width: '100%', height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ position: 'relative', width: '100%', height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
             <img
               src={slides[index]}
               alt={`Full size site photo ${index + 1}`}
+              className={isRotated ? 'rotated-fullscreen-img' : ''}
               style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
             />
           </div>

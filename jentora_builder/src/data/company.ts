@@ -150,6 +150,7 @@ export const projects = [
     year: '2026',
     status: 'Completed',
     image: '/site-photos/thiruvallur/thiruvallur-1.jpg',
+    rotate: 90,
     gallery: [
       '/site-photos/thiruvallur/thiruvallur-1.jpg',
       '/site-photos/thiruvallur/thiruvallur-2.jpg',

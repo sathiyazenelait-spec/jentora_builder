@@ -157,10 +157,10 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <footer className="site-footer">
         <div className="container">
           {/* TOP CTA BAND */}
-          <div className="footer-cta-band" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '30px', paddingBottom: '50px', borderBottom: '1px solid var(--light-line)' }}>
+          <div className="footer-cta-band" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '30px', paddingBottom: '50px' }}>
             <div>
-              <span className="eyebrow" style={{ color: 'var(--accent)', marginBottom: '14px' }}>START YOUR PROJECT</span>
-              <h2 style={{ fontSize: '48px', lineHeight: '1.05', margin: '10px 0 0', color: '#ffffff' }}>
+              <span className="eyebrow" style={{ marginBottom: '14px', display: 'inline-block' }}>START YOUR PROJECT</span>
+              <h2 style={{ fontSize: '48px', lineHeight: '1.05', margin: '10px 0 0' }}>
                 Let’s build something<br /><em>exceptional together.</em>
               </h2>
             </div>
@@ -193,24 +193,24 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               <Link to="/" aria-label="Jentora home">
                 <img className="logo" src={logo} alt="Jentora" style={{ width: '140px', height: 'auto' }} />
               </Link>
-              <p style={{ fontSize: '13px', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: '600' }}>
+              <p style={{ fontSize: '13px', color: '#92400e', letterSpacing: '0.12em', fontWeight: '700' }}>
                 PASSION · PRECISION · PERFECTION
               </p>
-              <p style={{ fontSize: '15px', lineHeight: '1.7', color: '#cbd5e1', maxWidth: '300px' }}>
+              <p style={{ fontSize: '15px', lineHeight: '1.7', maxWidth: '300px' }}>
                 17 Years of industry experience delivering premium residential, commercial, and industrial landmarks built on trust and superior craftsmanship.
               </p>
               <div style={{ marginTop: '8px' }}>
-                <span style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--accent)', display: 'block', marginBottom: '8px', fontWeight: '600' }}>
+                <span className="footer-section-title" style={{ marginBottom: '6px' }}>
                   KEY OPERATING HUBS
                 </span>
-                <p style={{ fontSize: '15px', fontWeight: '500', color: '#ffffff' }}>
+                <p style={{ fontSize: '15px', fontWeight: '700', color: '#090d16' }}>
                   Chennai · Thiruvallur · Coimbatore
                 </p>
               </div>
 
               {/* SOCIAL MEDIA INTEGRATION */}
               <div style={{ marginTop: '12px' }}>
-                <span style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--accent)', display: 'block', marginBottom: '12px', fontWeight: '600' }}>
+                <span className="footer-section-title" style={{ marginBottom: '10px' }}>
                   FOLLOW OUR JOURNEY
                 </span>
                 <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
@@ -219,8 +219,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Jentora Facebook"
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '38px', height: '38px', borderRadius: '50%', border: '1px solid rgba(212, 175, 55, 0.35)', color: '#ffffff', transition: 'all 0.3s' }}
-                    className="hover:border-accent hover:text-accent hover:scale-105"
+                    className="footer-social-btn"
                   >
                     <Facebook size={16} />
                   </a>
@@ -229,8 +228,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Jentora Instagram"
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '38px', height: '38px', borderRadius: '50%', border: '1px solid rgba(212, 175, 55, 0.35)', color: '#ffffff', transition: 'all 0.3s' }}
-                    className="hover:border-accent hover:text-accent hover:scale-105"
+                    className="footer-social-btn"
                   >
                     <Instagram size={16} />
                   </a>
@@ -239,8 +237,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Jentora LinkedIn"
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '38px', height: '38px', borderRadius: '50%', border: '1px solid rgba(212, 175, 55, 0.35)', color: '#ffffff', transition: 'all 0.3s' }}
-                    className="hover:border-accent hover:text-accent hover:scale-105"
+                    className="footer-social-btn"
                   >
                     <Linkedin size={16} />
                   </a>
@@ -249,8 +246,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Jentora YouTube"
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '38px', height: '38px', borderRadius: '50%', border: '1px solid rgba(212, 175, 55, 0.35)', color: '#ffffff', transition: 'all 0.3s' }}
-                    className="hover:border-accent hover:text-accent hover:scale-105"
+                    className="footer-social-btn"
                   >
                     <Youtube size={16} />
                   </a>
@@ -260,7 +256,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
             {/* COL 2: CONSTRUCTION SERVICES */}
             <div className="footer-col">
-              <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent)', fontWeight: '600', display: 'block', marginBottom: '18px' }}>
+              <span className="footer-section-title">
                 OUR SERVICES
               </span>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -268,10 +264,9 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                   <li key={title}>
                     <Link
                       to="/services"
-                      style={{ fontSize: '15px', color: '#cbd5e1', transition: 'color 0.3s', display: 'flex', alignItems: 'center', gap: '8px' }}
-                      className="hover:text-accent"
+                      style={{ fontSize: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}
                     >
-                      <span style={{ fontSize: '12px', color: 'var(--accent)', fontWeight: '600' }}>0{i + 1}</span> {title}
+                      <span className="footer-num-badge">0{i + 1}</span> {title}
                     </Link>
                   </li>
                 ))}
@@ -280,7 +275,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
             {/* COL 3: COMPANY & NAVIGATION */}
             <div className="footer-col">
-              <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent)', fontWeight: '600', display: 'block', marginBottom: '18px' }}>
+              <span className="footer-section-title">
                 EXPLORE JENTORA
               </span>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -288,22 +283,21 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                   <li key={n.to}>
                     <Link
                       to={n.to}
-                      style={{ fontSize: '15px', fontWeight: '500', color: '#ffffff', transition: 'color 0.3s', display: 'flex', alignItems: 'center', gap: '10px' }}
-                      className="hover:text-accent"
+                      style={{ fontSize: '15px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '10px' }}
                     >
-                      <span style={{ fontSize: '12px', color: 'var(--accent)', fontWeight: '600' }}>0{i + 1}</span>
+                      <span className="footer-num-badge">0{i + 1}</span>
                       {n.label}
                     </Link>
                   </li>
                 ))}
               </ul>
-              <div style={{ marginTop: '28px', paddingTop: '20px', borderTop: '1px solid var(--light-line)' }}>
-                <p style={{ fontSize: '14px', color: '#cbd5e1', marginBottom: '10px', lineHeight: '1.6' }}>
+              <div className="footer-divider" style={{ marginTop: '28px', paddingTop: '20px', borderTop: '1px solid' }}>
+                <p style={{ fontSize: '14px', marginBottom: '10px', lineHeight: '1.6' }}>
                   Have an architectural concept or construction project in mind?
                 </p>
                 <Link
                   to="/contact"
-                  style={{ fontSize: '13px', fontWeight: '600', letterSpacing: '0.08em', color: 'var(--accent)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                  style={{ fontSize: '13px', fontWeight: '700', letterSpacing: '0.08em', color: '#b45309', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                   className="hover:underline"
                 >
                   REQUEST PROJECT CONSULTATION <ArrowUpRight size={14} />
@@ -313,13 +307,13 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
             {/* COL 4: REGISTERED OFFICE & CONTACT */}
             <div className="footer-col" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent)', fontWeight: '600', display: 'block', marginBottom: '2px' }}>
+              <span className="footer-section-title" style={{ marginBottom: '2px' }}>
                 REGISTERED OFFICE
               </span>
               
               <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                <MapPin size={18} style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '3px' }} />
-                <address style={{ fontStyle: 'normal', fontSize: '15px', lineHeight: '1.6', color: '#cbd5e1' }}>
+                <MapPin size={18} style={{ color: '#b45309', flexShrink: 0, marginTop: '3px' }} />
+                <address style={{ fontStyle: 'normal', fontSize: '15px', lineHeight: '1.6' }}>
                   {company.address.full}
                 </address>
               </div>
@@ -335,9 +329,9 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                   gap: '6px',
                   fontSize: '13px',
                   letterSpacing: '0.06em',
-                  fontWeight: '600',
-                  color: 'var(--accent)',
-                  padding: '6px 0',
+                  fontWeight: '700',
+                  color: '#b45309',
+                  padding: '4px 0',
                 }}
                 className="hover:underline"
               >
@@ -346,12 +340,12 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
               {/* PHONE NUMBERS */}
               <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', marginTop: '6px' }}>
-                <Phone size={18} style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '3px' }} />
-                <div style={{ fontSize: '15px', color: '#cbd5e1', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  <a href={`tel:${company.primaryPhone.replace(/\s+/g, '')}`} className="hover:text-accent" style={{ color: '#cbd5e1' }}>
+                <Phone size={18} style={{ color: '#b45309', flexShrink: 0, marginTop: '3px' }} />
+                <div style={{ fontSize: '15px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <a href={`tel:${company.primaryPhone.replace(/\s+/g, '')}`}>
                     {company.primaryPhone}
                   </a>
-                  <a href={`tel:${company.secondaryPhone.replace(/\s+/g, '')}`} className="hover:text-accent" style={{ color: '#cbd5e1' }}>
+                  <a href={`tel:${company.secondaryPhone.replace(/\s+/g, '')}`}>
                     {company.secondaryPhone}
                   </a>
                 </div>
@@ -359,25 +353,25 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
               {/* EMAIL ADDRESS */}
               <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                <Mail size={18} style={{ color: 'var(--accent)', flexShrink: 0 }} />
-                <a href={`mailto:${company.email}`} style={{ fontSize: '15px', color: '#cbd5e1' }} className="hover:text-accent">
+                <Mail size={18} style={{ color: '#b45309', flexShrink: 0 }} />
+                <a href={`mailto:${company.email}`} style={{ fontSize: '15px', fontWeight: '500' }}>
                   {company.email}
                 </a>
               </div>
 
               {/* OPERATING HOURS */}
               <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                <Clock size={18} style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '3px' }} />
-                <div style={{ fontSize: '14px', color: '#cbd5e1' }}>
+                <Clock size={18} style={{ color: '#b45309', flexShrink: 0, marginTop: '3px' }} />
+                <div style={{ fontSize: '14px' }}>
                   <span>{company.operatingHours}</span>
                 </div>
               </div>
 
               {/* POWERED BY */}
               <div className="powered-by" style={{ marginTop: '16px', alignItems: 'flex-start' }}>
-                <span style={{ fontSize: '12px', letterSpacing: '0.12em', color: 'var(--accent)', fontWeight: '600' }}>POWERED BY</span>
+                <span style={{ fontSize: '12px', letterSpacing: '0.12em', color: '#92400e', fontWeight: '700' }}>POWERED BY</span>
                 <a href="https://zenelaitinfotech.com/" target="_blank" rel="noopener noreferrer">
-                  <img style={{ height: '34px', background: '#ffffff', padding: '4px 8px', borderRadius: '4px' }} src={zenelaitLogo} alt="Zenelait Innotech" />
+                  <img style={{ height: '34px', background: '#ffffff', padding: '4px 8px', borderRadius: '4px', border: '1px solid rgba(180,83,9,0.2)' }} src={zenelaitLogo} alt="Zenelait Innotech" />
                 </a>
               </div>
             </div>
@@ -385,27 +379,26 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         </div>
 
         {/* BOTTOM LEGAL STRIP */}
-        <div className="footer-bottom" style={{ color: '#94a3b8' }}>
-          <span style={{ color: '#cbd5e1' }}>© {new Date().getFullYear()} JENTORA BUILDER PRIVATE LIMITED. ALL RIGHTS RESERVED.</span>
-          <span style={{ color: '#94a3b8' }}>17 YEARS OF INDUSTRY EXPERIENCE · PASSION · PRECISION · PERFECTION</span>
+        <div className="footer-bottom">
+          <span>© {new Date().getFullYear()} JENTORA BUILDER PRIVATE LIMITED. ALL RIGHTS RESERVED.</span>
+          <span>17 YEARS OF INDUSTRY EXPERIENCE · PASSION · PRECISION · PERFECTION</span>
           <div className="flex items-center gap-5">
-            <Button variant="minimal" className="h-auto text-[8px] text-slate-300 hover:text-white" onClick={() => setLegal('Privacy Policy')}>
+            <Button variant="minimal" className="h-auto text-[10px] font-semibold text-slate-700 hover:text-pink-600" onClick={() => setLegal('Privacy Policy')}>
               PRIVACY POLICY
             </Button>
-            <Button variant="minimal" className="h-auto text-[8px] text-slate-300 hover:text-white" onClick={() => setLegal('Terms of Service')}>
+            <Button variant="minimal" className="h-auto text-[10px] font-semibold text-slate-700 hover:text-pink-600" onClick={() => setLegal('Terms of Service')}>
               TERMS OF SERVICE
             </Button>
             <Link
               to="/admin/login"
               style={{
-                fontSize: '8px',
+                fontSize: '10px',
                 letterSpacing: '0.08em',
-                color: 'var(--accent)',
-                opacity: 0.9,
+                color: '#92400e',
                 textDecoration: 'none',
-                fontWeight: '600',
+                fontWeight: '700',
               }}
-              className="hover:opacity-100 hover:underline"
+              className="hover:text-pink-600 hover:underline"
             >
               ADMIN PORTAL
             </Link>
