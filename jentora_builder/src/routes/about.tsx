@@ -5,14 +5,12 @@ import {
   InnerHero, 
   SectionLabel, 
   Stats, 
-  Philosophy, 
   Approach, 
   TextLink,
   LeadershipSection,
   QualityAndSafetySection,
   UniqueSellingPointsSection,
   LuxuryTrustStrip,
-  LuxuryTestimonialsSection,
   VipConsultationBanner
 } from '@/components/site/sections';
 import { Reveal } from '@/components/site/reveal';
@@ -97,9 +95,6 @@ function About() {
       {/* QUALITY & SAFETY STANDARDS */}
       <QualityAndSafetySection />
 
-      {/* PHILOSOPHY */}
-      <Philosophy />
-
       {/* HOW WE WORK */}
       <section className="section">
         <div className="container">
@@ -116,9 +111,6 @@ function About() {
           <Approach />
         </div>
       </section>
-
-      {/* CLIENT TESTIMONIALS */}
-      <LuxuryTestimonialsSection />
 
       {/* VIP CONSULTATION CTA */}
       <VipConsultationBanner />

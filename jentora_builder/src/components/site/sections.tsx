@@ -10,6 +10,7 @@ import {
   Clock, 
   FileCheck, 
   HardHat, 
+  MessageCircle,
   PhoneCall, 
   ShieldCheck, 
   Sparkles, 
@@ -603,19 +604,19 @@ export function VipConsultationBanner() {
                   Speak directly with our Managing Director & Principal Engineers. We provide complimentary structural feasibility reviews, preliminary architectural estimates, and customized stage-linked payment planning.
                 </p>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' }}>
-                <Button asChild variant="editorial" className="light-sweep" style={{ height: '56px', padding: '0 36px', fontSize: '12px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', justifyContent: 'center' }}>
+                <Button asChild variant="editorial" className="light-sweep" style={{ height: '56px', padding: '0 36px', fontSize: '13px', width: '100%', maxWidth: '420px', justifyContent: 'center' }}>
                   <Link to="/contact">
                     REQUEST DIRECT PROJECT CONSULTATION <ArrowUpRight />
                   </Link>
                 </Button>
-                <div style={{ display: 'flex', gap: '20px', alignItems: 'center', marginTop: '8px' }}>
-                  <a href="tel:+919444484625" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: 'var(--accent)', fontWeight: '600' }} className="hover:underline">
-                    <PhoneCall size={15} /> +91 94444 84625
+                <div style={{ display: 'flex', gap: '20px', alignItems: 'center', justifyContent: 'center', width: '100%', flexWrap: 'wrap' }}>
+                  <a href="tel:+919444484625" style={{ display: 'inline-flex', alignItems: 'center', gap: '9px', fontSize: '15px', color: 'var(--accent)', fontWeight: '700' }} className="hover:underline">
+                    <PhoneCall size={18} /> +91 94444 84625
                   </a>
-                  <span style={{ color: 'rgba(255, 255, 255, 0.2)' }}>|</span>
-                  <a href={company.whatsappUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: '#25D366', fontWeight: '600' }} className="hover:underline">
-                    WhatsApp Direct Line
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>|</span>
+                  <a href={company.whatsappUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '9px', fontSize: '15px', color: '#25D366', fontWeight: '700' }} className="hover:underline">
+                    <MessageCircle size={18} /> WhatsApp Direct Line
                   </a>
                 </div>
               </div>

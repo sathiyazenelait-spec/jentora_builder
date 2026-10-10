@@ -1,17 +1,17 @@
 import { Link, useRouterState } from '@tanstack/react-router';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { 
-  ArrowUpRight, 
-  Menu, 
-  X, 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Clock, 
-  MessageCircle, 
-  Facebook, 
-  Instagram, 
-  Linkedin, 
+import {
+  ArrowUpRight,
+  Menu,
+  X,
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  MessageCircle,
+  Facebook,
+  Instagram,
+  Linkedin,
   Youtube,
   ExternalLink
 } from 'lucide-react';
@@ -190,8 +190,23 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           >
             {/* COL 1: BRAND & EXPERTISE */}
             <div className="footer-col" style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-              <Link to="/" aria-label="Jentora home">
-                <img className="logo" src={logo} alt="Jentora" style={{ width: '140px', height: 'auto' }} />
+              <Link to="/" aria-label="Jentora home" style={{ display: 'inline-flex', width: 'fit-content' }}>
+                <div
+                  className="footer-logo-badge"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: '#070a12',
+                    padding: '8px 24px',
+                    borderRadius: '9999px',
+                    border: '1px solid rgba(212, 175, 55, 0.45)',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.18)',
+                    transition: 'all 0.3s ease',
+                  }}
+                >
+                  <img className="logo" src={logo} alt="Jentora" style={{ width: '90px', height: '36px', objectFit: 'contain', display: 'block' }} />
+                </div>
               </Link>
               <p style={{ fontSize: '13px', color: '#92400e', letterSpacing: '0.12em', fontWeight: '700' }}>
                 PASSION · PRECISION · PERFECTION
@@ -310,7 +325,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               <span className="footer-section-title" style={{ marginBottom: '2px' }}>
                 REGISTERED OFFICE
               </span>
-              
+
               <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                 <MapPin size={18} style={{ color: '#b45309', flexShrink: 0, marginTop: '3px' }} />
                 <address style={{ fontStyle: 'normal', fontSize: '15px', lineHeight: '1.6' }}>
@@ -380,9 +395,9 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
         {/* BOTTOM LEGAL STRIP */}
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} JENTORA BUILDER PRIVATE LIMITED. ALL RIGHTS RESERVED.</span>
-          <span>17 YEARS OF INDUSTRY EXPERIENCE · PASSION · PRECISION · PERFECTION</span>
-          <div className="flex items-center gap-5">
+          <span style={{ whiteSpace: 'nowrap', flexShrink: 0 }}>© {new Date().getFullYear()} JENTORA BUILDER PVT LTD. ALL RIGHTS RESERVED.</span>
+          <span style={{ whiteSpace: 'nowrap', flexShrink: 0 }}>17 YEARS OF INDUSTRY EXPERIENCE</span>
+          <div className="flex items-center gap-5 whitespace-nowrap" style={{ flexShrink: 0 }}>
             <Button variant="minimal" className="h-auto text-[10px] font-semibold text-slate-700 hover:text-pink-600" onClick={() => setLegal('Privacy Policy')}>
               PRIVACY POLICY
             </Button>
@@ -406,6 +421,16 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         </div>
       </footer>
 
+      {/* SVG GRADIENT DEFINITIONS */}
+      <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none', opacity: 0 }} aria-hidden="true">
+        <defs>
+          <linearGradient id="pink-arrow-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#ec4899" />
+            <stop offset="100%" stopColor="#f43f5e" />
+          </linearGradient>
+        </defs>
+      </svg>
+
       {/* FLOATING WHATSAPP BUTTON (GLOBAL) */}
       <a
         href={company.whatsappUrl}
@@ -414,7 +439,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         aria-label="Chat with Jentora Builder on WhatsApp"
         style={{
           position: 'fixed',
-          bottom: '24px',
+          bottom: '124px',
           right: '24px',
           zIndex: 90,
           display: 'flex',
@@ -455,5 +480,5 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     </>
   );
 }
-function CustomCursor(){const ref=useRef<HTMLDivElement>(null);useEffect(()=>{if(!window.matchMedia('(pointer:fine) and (min-width:1024px) and (prefers-reduced-motion:no-preference)').matches)return;const move=(e:MouseEvent)=>{const el=ref.current;if(!el)return;const target=e.target instanceof Element?e.target:null;const over=Boolean(target?.closest('.project-image'));el.classList.toggle('over-project',over);el.textContent=over?'VIEW ↗':'';el.style.opacity='1';el.style.transform=`translate(${e.clientX-(over?32:5)}px,${e.clientY-(over?32:5)}px)`};document.addEventListener('mousemove',move);return()=>document.removeEventListener('mousemove',move)},[]);return <div ref={ref} className="custom-cursor" aria-hidden="true"/>}
-export function ArchitecturalNotFound(){return <section className="not-found"><div className="container"><h1>404</h1><div className="eyebrow">PAGE NOT FOUND</div><h2>The space you are looking for<br/><em>does not exist here.</em></h2><Button asChild variant="light"><Link to="/">RETURN HOME<ArrowUpRight/></Link></Button></div></section>}
+function CustomCursor() { const ref = useRef<HTMLDivElement>(null); useEffect(() => { if (!window.matchMedia('(pointer:fine) and (min-width:1024px) and (prefers-reduced-motion:no-preference)').matches) return; const move = (e: MouseEvent) => { const el = ref.current; if (!el) return; const target = e.target instanceof Element ? e.target : null; const over = Boolean(target?.closest('.project-image')); el.classList.toggle('over-project', over); el.textContent = over ? 'VIEW ↗' : ''; el.style.opacity = '1'; el.style.transform = `translate(${e.clientX - (over ? 32 : 5)}px,${e.clientY - (over ? 32 : 5)}px)` }; document.addEventListener('mousemove', move); return () => document.removeEventListener('mousemove', move) }, []); return <div ref={ref} className="custom-cursor" aria-hidden="true" /> }
+export function ArchitecturalNotFound() { return <section className="not-found"><div className="container"><h1>404</h1><div className="eyebrow">PAGE NOT FOUND</div><h2>The space you are looking for<br /><em>does not exist here.</em></h2><Button asChild variant="light"><Link to="/">RETURN HOME<ArrowUpRight /></Link></Button></div></section> }

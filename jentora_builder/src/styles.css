@@ -175,6 +175,8 @@ button,a,input,select,textarea{outline-offset:5px}
 .site-footer .footer-bottom span {
   color: #1e293b !important;
   font-weight: 600;
+  white-space: nowrap !important;
+  flex-shrink: 0;
 }
 .site-footer .footer-bottom button {
   color: #475569 !important;
@@ -347,7 +349,8 @@ button,a,input,select,textarea{outline-offset:5px}
   transition: all 0.3s ease;
   text-decoration: none;
 }
-.logo-wrap:hover {
+.logo-wrap:hover,
+.footer-logo-badge:hover {
   transform: scale(1.03);
   border-color: #ec4899;
   box-shadow: 0 0 14px rgba(236, 72, 153, 0.4);
@@ -446,15 +449,19 @@ button,a,input,select,textarea{outline-offset:5px}
   transition: all 0.3s ease !important;
 }
 .nav-cta:hover {
-  background: linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #fbcfe8 100%) !important;
-  color: #ffffff !important;
+  background: #ffffff !important;
+  color: #070a12 !important;
   border-color: #ec4899 !important;
-  box-shadow: 0 0 20px rgba(236, 72, 153, 0.5) !important;
+  box-shadow: 0 4px 22px rgba(236, 72, 153, 0.4), 0 0 12px rgba(255, 255, 255, 0.8) !important;
   transform: translateY(-1px) scale(1.02) !important;
 }
-.nav-cta:hover a,
+.nav-cta:hover a {
+  color: #070a12 !important;
+}
 .nav-cta:hover svg {
-  color: #ffffff !important;
+  stroke: url(#pink-arrow-gradient) !important;
+  color: #ec4899 !important;
+  filter: drop-shadow(0 1px 4px rgba(236, 72, 153, 0.5));
 }
 
 /* HOME HERO ULTRA LUXURY STYLING */
@@ -2921,32 +2928,34 @@ input, textarea, select {
 .contact-select,
 .contact-textarea {
   width: 100%;
-  background: rgba(6, 10, 18, 0.75);
-  border: 1px solid rgba(212, 175, 55, 0.28);
+  background: #f8fafc;
+  border: 1.5px solid rgba(212, 175, 55, 0.4);
   border-radius: 10px;
-  color: #ffffff;
+  color: #0f172a;
   padding: 14px 18px;
   font-size: 15px;
   font-family: var(--font-sans);
+  font-weight: 500;
   outline: none;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 .contact-input:focus,
 .contact-select:focus,
 .contact-textarea:focus {
   border-color: #d4af37;
-  background: rgba(10, 16, 28, 0.95);
-  box-shadow: 0 0 16px rgba(212, 175, 55, 0.35), inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.35), inset 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 .contact-input::placeholder,
 .contact-textarea::placeholder {
-  color: rgba(148, 163, 184, 0.6);
+  color: #64748b;
   font-size: 14px;
 }
 .contact-select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23b45309' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 16px center;
   background-size: 16px;
@@ -2954,8 +2963,8 @@ input, textarea, select {
   cursor: pointer;
 }
 .contact-select option {
-  background: #0b1220;
-  color: #ffffff;
+  background: #ffffff;
+  color: #0f172a;
   padding: 10px;
 }
 .contact-textarea {
