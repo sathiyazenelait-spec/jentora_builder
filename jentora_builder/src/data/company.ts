@@ -198,7 +198,7 @@ export const projects = [
 ];
 export type Project = typeof projects[number];
 export const services = [
- ['Residential Construction','High-quality residential construction, with precision in every detail.'],
+ ['Residential Construction','From custom luxury villas to modern apartment complexes, we craft exceptional living environments tailored to your lifestyle. Combining architectural elegance with structural integrity, we manage every phase—from ground preparation to final luxury finishes—ensuring your home stands as a lasting legacy of quality and comfort.'],
  ['Commercial Construction','Construction for commercial spaces, guided by quality and trust.'],
  ['Industrial Construction','Industrial construction with a focus on precision and execution.'],
  ['Turnkey Projects','A complete approach to bringing your construction project together.'],

@@ -277,8 +277,8 @@ function QualitySafetyCard({ item, index }: { item: { title: string; desc: strin
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 14; // -7deg to +7deg
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -14;
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 12; // -6deg to +6deg
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -12;
     setTilt({ x, y, active: true });
   };
 
@@ -290,7 +290,7 @@ function QualitySafetyCard({ item, index }: { item: { title: string; desc: strin
     <div
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="qa-card luxury-framed light-sweep"
+      className="qa-card luxury-framed light-sweep smooth-float-card"
       style={{
         padding: '28px 24px',
         borderRadius: '16px',
@@ -303,8 +303,8 @@ function QualitySafetyCard({ item, index }: { item: { title: string; desc: strin
           ? `perspective(1000px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) translateY(-8px) scale3d(1.025, 1.025, 1.025)`
           : 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px) scale3d(1, 1, 1)',
         transition: tilt.active
-          ? 'transform 0.08s ease-out, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease'
-          : 'transform 0.4s ease-out, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
+          ? 'transform 0.1s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease'
+          : 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease',
       }}
     >
       <div>
@@ -369,12 +369,30 @@ export function QualityAndSafetySection() {
           </Reveal>
         </div>
 
-        {/* TAB CONTENT */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px', marginTop: '40px', perspective: '1200px' }}>
+        {/* TAB CONTENT WITH VERY SMOOTH FADE FLOATING TO CENTER TRANSITION */}
+        <div
+          key={tab}
+          className="fade-float-center"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '24px',
+            marginTop: '40px',
+            perspective: '1200px'
+          }}
+        >
           {(tab === 'qa' ? qualityAssurancePractices : safetyStandards).map((item, i) => (
-            <Reveal key={item.title} className={`delay-${(i % 4 + 1) * 100}`} style={{ height: '100%' }}>
+            <div
+              key={`${tab}-${item.title}`}
+              className="fade-float-center"
+              style={{
+                height: '100%',
+                animationDelay: `${(i % 4) * 0.09}s`,
+                animationFillMode: 'both'
+              }}
+            >
               <QualitySafetyCard item={item} index={i} />
-            </Reveal>
+            </div>
           ))}
         </div>
       </div>
@@ -681,7 +699,7 @@ export function ServiceList({ preview = false }: { preview?: boolean }) {
               </Button>
               {open === i && (
                 <div className="service-detail p-6 bg-[#0c1424] border border-accent/20 rounded-b-lg">
-                  <p className="text-muted-foreground leading-relaxed">{service[1]}</p>
+                  <p className="text-muted-foreground leading-relaxed text-justify" style={{ textAlign: 'justify', textJustify: 'inter-word' }}>{service[1]}</p>
                   {!preview && (
                     <img
                       className="service-visual rounded-lg mt-4 border border-accent/20"

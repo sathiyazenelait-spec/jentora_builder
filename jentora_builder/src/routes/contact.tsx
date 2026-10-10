@@ -80,9 +80,9 @@ function Contact() {
         <div className="container">
           <div className="contact-layout-grid">
             
-            {/* LEFT COLUMN: CONTACT DETAILS & ADDRESS */}
-            <Reveal>
-              <div className="contact-info-card luxury-framed">
+            {/* LEFT COLUMN: CONTACT DETAILS & ADDRESS (FLOATING FADE FROM LEFT) */}
+            <div className="contact-col-left fade-float-from-left">
+              <div className="contact-info-card luxury-framed smooth-float-card">
                 <div>
                   <SectionLabel>GET IN TOUCH</SectionLabel>
                   <h2 style={{ fontSize: '42px', margin: '14px 0 16px', lineHeight: '1.1', fontFamily: 'var(--font-display)', color: 'var(--foreground)' }}>
@@ -214,11 +214,11 @@ function Contact() {
                   </div>
                 </div>
               </div>
-            </Reveal>
+            </div>
 
-            {/* RIGHT COLUMN: ENQUIRY FORM */}
-            <Reveal className="delay-150">
-              <div className="contact-form-card luxury-framed">
+            {/* RIGHT COLUMN: ENQUIRY FORM (FLOATING FADE FROM RIGHT) */}
+            <div className="contact-col-right fade-float-from-right">
+              <div className="contact-form-card luxury-framed smooth-float-card">
                 {sent ? (
                   <div className="form-success" role="status" style={{ textAlign: 'center', padding: '60px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
                     <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'linear-gradient(135deg, #ffffff 0%, #fffdf4 35%, #f9ebd0 100%)', color: '#090d16', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px', boxShadow: '0 0 25px rgba(212, 175, 55, 0.4)' }}>
@@ -348,7 +348,7 @@ function Contact() {
                   </form>
                 )}
               </div>
-            </Reveal>
+            </div>
 
           </div>
         </div>

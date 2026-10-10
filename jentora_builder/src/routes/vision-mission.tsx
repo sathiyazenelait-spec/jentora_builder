@@ -59,26 +59,40 @@ function Vision() {
               {missionData.intro}
             </p>
           </div>
-          <div>
-            {missionPoints.map((item, i) => (
-              <div key={item.title} className="reveal visible">
-                <Button
-                  variant="minimal"
-                  className="service-row"
-                  aria-expanded={open === i}
-                  onClick={() => setOpen(open === i ? null : i)}
+          <div className="mission-points-list">
+            {missionPoints.map((item, i) => {
+              const isOpen = open === i;
+              return (
+                <div
+                  key={item.title}
+                  className={`mission-point-item ${isOpen ? 'is-open' : ''} fade-float-center`}
+                  style={{ animationDelay: `${i * 0.08}s` }}
                 >
-                  <span className="number morph font-bold text-accent">0{i + 1}</span>
-                  <h3>{item.title}</h3>
-                  <ArrowUpRight className="hover-wobble" />
-                </Button>
-                {open === i && (
-                  <p className="service-detail bounce-in" style={{ fontSize: '13px', lineHeight: '1.7', color: 'var(--muted-foreground)' }}>
-                    {item.desc}
-                  </p>
-                )}
-              </div>
-            ))}
+                  <button
+                    type="button"
+                    className="mission-point-btn"
+                    aria-expanded={isOpen}
+                    onClick={() => setOpen(isOpen ? null : i)}
+                  >
+                    <div className="mission-point-header">
+                      <span className="mission-point-number">0{i + 1}</span>
+                      <h3 className="mission-point-title">{item.title}</h3>
+                    </div>
+                    <div className="mission-point-icon-wrap">
+                      <ArrowUpRight size={22} />
+                    </div>
+                  </button>
+
+                  <div className={`mission-point-collapse ${isOpen ? 'is-expanded' : ''}`}>
+                    <div className="mission-point-collapse-inner">
+                      <p className="mission-point-desc">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

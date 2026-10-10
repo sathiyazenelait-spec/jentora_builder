@@ -103,7 +103,7 @@ function Services() {
                     <div className="service-zigzag-content">
                       <span className="service-zigzag-num">{item.number}</span>
                       <h3 className="service-zigzag-title">{item.title}</h3>
-                      <p className="service-zigzag-desc">{item.desc}</p>
+                      <p className="service-zigzag-desc text-justify" style={{ textAlign: 'justify', textJustify: 'inter-word' }}>{item.desc}</p>
                       <Link to="/contact" className="service-zigzag-link hover-wobble">
                         EXPLORE SERVICE <ArrowRight size={14} className="text-accent" />
                       </Link>

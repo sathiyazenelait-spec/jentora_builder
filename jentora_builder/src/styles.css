@@ -262,12 +262,39 @@ button,a,input,select,textarea{outline-offset:5px}
 }
 
 /* NAVIGATION & GLASS HEADER */
-/* NAVIGATION & GLASS HEADER - COMPACT ROUNDED WHITE-GOLD FLOATING PILL */
+/* NAVIGATION & GLASS HEADER - COMPACT ROUNDED WHITE-GOLD FLOATING PILL WITH FADE FLOAT ANIMATION */
+@keyframes navFadeFloatCenter {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, -36px, 0) scale(0.96);
+    filter: blur(8px);
+  }
+  65% {
+    opacity: 0.95;
+    transform: translate3d(-50%, 3px, 0) scale(1.004);
+    filter: blur(0.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(-50%, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes navFloatGentle {
+  0%, 100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  50% {
+    transform: translate3d(-50%, -4px, 0);
+  }
+}
+
 .site-nav {
   position: fixed;
   top: 16px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate3d(-50%, 0, 0);
   z-index: 100;
   width: min(1220px, calc(100% - 32px));
   color: #000000;
@@ -277,8 +304,17 @@ button,a,input,select,textarea{outline-offset:5px}
   border: 1px solid rgba(212, 175, 55, 0.45);
   border-radius: 9999px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 20px rgba(212, 175, 55, 0.2);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: navFadeFloatCenter 1.2s cubic-bezier(0.16, 1, 0.3, 1) both,
+             navFloatGentle 6.5s ease-in-out 1.25s infinite alternate;
+  transition: top 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   padding: 0 16px;
+  will-change: transform, opacity, box-shadow;
+}
+.site-nav:hover {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3), 0 0 28px rgba(212, 175, 55, 0.35);
 }
 .site-nav .container {
   padding: 0 !important;
@@ -704,6 +740,18 @@ button,a,input,select,textarea{outline-offset:5px}
   grid-template-columns: 1.15fr 0.85fr;
   gap: 70px;
   align-items: center;
+}
+.intro-grid p {
+  text-align: justify;
+  text-justify: inter-word;
+  line-height: 1.8;
+  font-size: 16px;
+  color: var(--muted-foreground);
+  margin: 18px 0 24px;
+}
+.text-justify {
+  text-align: justify !important;
+  text-justify: inter-word !important;
 }
 .intro-image {
   position: relative;
@@ -1309,10 +1357,12 @@ button,a,input,select,textarea{outline-offset:5px}
   color: var(--foreground);
 }
 .service-zigzag-desc {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted-foreground);
-  line-height: 1.8;
+  line-height: 1.85;
   margin-bottom: 30px;
+  text-align: justify;
+  text-justify: inter-word;
 }
 .service-zigzag-link {
   font-size: 10px;
@@ -1861,12 +1911,105 @@ input, textarea, select {
   }
 }
 
+/* ==========================================================================
+   FADE FLOATING TO CENTER ANIMATIONS WITH ULTRA-SMOOTH TRANSITIONS
+   ========================================================================== */
+
+/* 1. Core Fade Floating to Center (Smooth Upward Floating Entrance) */
+@keyframes fadeFloatCenter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 36px, 0) scale(0.95);
+    filter: blur(8px);
+  }
+  60% {
+    opacity: 0.95;
+    transform: translate3d(0, -6px, 0) scale(1.008);
+    filter: blur(0.5px);
+  }
+  85% {
+    transform: translate3d(0, 2px, 0) scale(0.998);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.fade-float-center {
+  animation: fadeFloatCenter 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity, filter;
+}
+
+/* 2. Fade Floating Down to Center */
+@keyframes fadeFloatCenterDown {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -36px, 0) scale(0.95);
+    filter: blur(8px);
+  }
+  60% {
+    opacity: 0.95;
+    transform: translate3d(0, 4px, 0) scale(1.006);
+    filter: blur(0.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.fade-float-center-down {
+  animation: fadeFloatCenterDown 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity, filter;
+}
+
+/* 3. Continuous Gentle Floating Levitation */
+@keyframes floatGentleLevitate {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+.float-levitate {
+  animation: floatGentleLevitate 5.5s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.fade-float-continuous {
+  animation: fadeFloatCenter 1.1s cubic-bezier(0.16, 1, 0.3, 1) both,
+             floatGentleLevitate 6s ease-in-out 1.2s infinite alternate;
+  will-change: transform, opacity;
+}
+
+/* 4. Ultra-Smooth Floating Hover Cards with Silk Physics */
+.smooth-float-card {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: transform, box-shadow;
+}
+
+.smooth-float-card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.45), 0 0 25px rgba(212, 175, 55, 0.28) !important;
+  border-color: rgba(212, 175, 55, 0.6) !important;
+}
+
 /* Scroll reveal enhanced smooth physics */
 .reveal {
   opacity: 0;
-  transform: translateY(35px) scale(0.985);
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), filter 0.85s ease;
-  filter: blur(3px);
+  transform: translateY(32px) scale(0.975);
+  transition: opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.95s cubic-bezier(0.16, 1, 0.3, 1), 
+              filter 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: blur(4px);
   will-change: opacity, transform, filter;
 }
 .reveal.visible {
@@ -1934,18 +2077,196 @@ input, textarea, select {
   transform: scale(1.06);
 }
 
-/* Service Row Interactive Sweep */
+/* Service Row Interactive Sweep & Refined Typography */
 .service-row {
   position: relative;
   transition: padding-left 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
 }
 .service-row:hover {
-  padding-left: 14px;
+  padding-left: 12px;
   background: rgba(201, 160, 99, 0.04);
+}
+.service-row h3 {
+  font-size: clamp(20px, 2.2vw, 26px) !important;
+  font-weight: 600 !important;
+}
+.service-row .number {
+  font-size: 16px !important;
 }
 .service-row:hover .number {
   color: var(--accent);
-  transform: scale(1.15);
+  transform: scale(1.1);
+}
+
+/* ==========================================================================
+   MISSION POINTS INTERACTIVE EXPANDABLE CARDS (REFINED SCALE & SILK PHYSICS)
+   ========================================================================== */
+
+.mission-point-item {
+  border-top: 1px solid rgba(212, 175, 55, 0.18);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 12px;
+  margin-bottom: 6px;
+  overflow: hidden;
+  background: transparent;
+  will-change: transform, box-shadow;
+}
+.mission-point-item:last-child {
+  border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+}
+.mission-point-item:hover {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(255, 255, 255, 0.015) 100%);
+  border-color: rgba(212, 175, 55, 0.4);
+  transform: translateX(6px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+.mission-point-item.is-open {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.07) 0%, rgba(14, 22, 38, 0.55) 100%);
+  border-color: rgba(212, 175, 55, 0.45);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35), 0 0 16px rgba(212, 175, 55, 0.12);
+}
+
+.mission-point-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  color: inherit;
+}
+.mission-point-btn:hover {
+  color: inherit;
+}
+
+.mission-point-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+.mission-point-number {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  padding: 3px 11px;
+  border-radius: 9999px;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  background: rgba(212, 175, 55, 0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mission-point-item:hover .mission-point-number,
+.mission-point-item.is-open .mission-point-number {
+  background: linear-gradient(135deg, #e5c07b 0%, #d4af37 100%);
+  color: #070a12;
+  border-color: #d4af37;
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
+}
+
+.mission-point-title {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.25;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mission-point-item:hover .mission-point-title {
+  color: #fff2cc;
+  transform: translateX(3px);
+}
+.mission-point-item.is-open .mission-point-title {
+  color: #d4af37;
+}
+
+.mission-point-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--accent);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.4s ease,
+              border-color 0.4s ease,
+              color 0.4s ease,
+              box-shadow 0.4s ease;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+.mission-point-item:hover .mission-point-icon-wrap {
+  border-color: var(--accent);
+  background: rgba(212, 175, 55, 0.15);
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.25);
+}
+.mission-point-item.is-open .mission-point-icon-wrap {
+  transform: rotate(45deg);
+  background: var(--accent);
+  color: #070a12;
+  border-color: var(--accent);
+  box-shadow: 0 0 18px rgba(212, 175, 55, 0.45);
+}
+
+.mission-point-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+}
+.mission-point-collapse.is-expanded {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.mission-point-collapse-inner {
+  overflow: hidden;
+  padding: 0 16px 20px 80px;
+}
+@media (max-width: 768px) {
+  .mission-point-collapse-inner {
+    padding: 0 14px 16px 14px;
+  }
+  .mission-point-header {
+    gap: 14px;
+  }
+}
+
+.mission-point-desc {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #cbd5e1;
+  text-align: justify;
+  text-justify: inter-word;
+  margin: 0;
+  border-left: 2px solid var(--accent);
+  padding-left: 18px;
+  background: rgba(0, 0, 0, 0.22);
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-right: 16px;
+  border-radius: 0 8px 8px 0;
+  animation: fadeFloatCenter 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* Floating WhatsApp Pulse & Glow */
@@ -2430,6 +2751,66 @@ input, textarea, select {
   gap: 40px;
   align-items: stretch;
 }
+/* CONTACT PAGE FLOATING FADE LEFT & RIGHT TRANSITIONS */
+@keyframes fadeFloatFromLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(-90px, 0, 0) scale(0.95);
+    filter: blur(8px);
+  }
+  65% {
+    opacity: 0.95;
+    transform: translate3d(6px, -2px, 0) scale(1.006);
+    filter: blur(0.5px);
+  }
+  85% {
+    transform: translate3d(-2px, 1px, 0) scale(0.998);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes fadeFloatFromRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(90px, 0, 0) scale(0.95);
+    filter: blur(8px);
+  }
+  65% {
+    opacity: 0.95;
+    transform: translate3d(-6px, -2px, 0) scale(1.006);
+    filter: blur(0.5px);
+  }
+  85% {
+    transform: translate3d(2px, 1px, 0) scale(0.998);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.fade-float-from-left {
+  animation: fadeFloatFromLeft 1.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity, filter;
+}
+
+.fade-float-from-right {
+  animation: fadeFloatFromRight 1.25s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+  will-change: transform, opacity, filter;
+}
+
+.contact-col-left,
+.contact-col-right {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .contact-info-card,
 .contact-form-card {
   background: rgba(14, 22, 38, 0.78);
@@ -2443,6 +2824,18 @@ input, textarea, select {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow;
+}
+
+.contact-info-card:hover,
+.contact-form-card:hover {
+  transform: translateY(-8px) scale(1.012);
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55), 0 0 30px rgba(212, 175, 55, 0.25);
 }
 .contact-info-card {
   gap: 26px;

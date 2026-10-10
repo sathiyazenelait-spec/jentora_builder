@@ -109,8 +109,8 @@ function Home() {
               We don’t just build structures.<br />
               <em>We create landmarks of trust.</em>
             </h2>
-            <p>
-              Built on 17 years of industry experience, Jentora brings a considered approach to residential and commercial construction. Every space begins with purpose. Every detail matters.
+            <p className="text-justify" style={{ textAlign: 'justify', textJustify: 'inter-word', lineHeight: '1.8' }}>
+              {company.introduction}
             </p>
             <TextLink to="/about">DISCOVER JENTORA</TextLink>
             <Stats />
@@ -185,7 +185,7 @@ function Home() {
                 {
                   num: '01',
                   title: 'Residential Construction',
-                  desc: 'Custom luxury villas, contemporary duplexes, and multi-family apartments crafted with bespoke architectural aesthetics, reinforced earthquake-resistant structural engineering, and premium finishes.',
+                  desc: 'From custom luxury villas to modern apartment complexes, we craft exceptional living environments tailored to your lifestyle. Combining architectural elegance with structural integrity, we manage every phase—from ground preparation to final luxury finishes—ensuring your home stands as a lasting legacy of quality and comfort.',
                   tag: 'Villas · Apartments · Independent Homes',
                 },
                 {
@@ -245,7 +245,7 @@ function Home() {
                       {service.title}
                     </h3>
 
-                    <p style={{ fontSize: '16px', lineHeight: '1.75', color: '#cbd5e1', margin: 0 }}>
+                    <p className="text-justify" style={{ fontSize: '16px', lineHeight: '1.75', color: '#cbd5e1', margin: 0, textAlign: 'justify', textJustify: 'inter-word' }}>
                       {service.desc}
                     </p>
                   </div>

@@ -76,7 +76,9 @@ function About() {
               New beginnings.<br />
               <em>Lasting foundations.</em>
             </h2>
-            <p>{company.introduction}</p>
+            <p className="text-justify" style={{ textAlign: 'justify', textJustify: 'inter-word', lineHeight: '1.8' }}>
+              {company.introduction}
+            </p>
             <Stats />
           </Reveal>
           <Reveal className="intro-image luxury-framed light-sweep">
