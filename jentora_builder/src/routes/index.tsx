@@ -22,7 +22,7 @@ export const Route = createFileRoute('/')({
   head: () =>
     pageHead(
       'Jentora — Building with Precision — Jentora Builder',
-      'Premium residential, commercial and industrial construction in Chennai, Thiruvallur, and Coimbatore. 17 years of industry experience, united by passion, precision and perfection.'
+      'Premium residential, commercial and industrial construction in Chennai and Coimbatore. 20 years of industry experience, united by passion, precision and perfection.'
     ),
   component: Home,
 });
@@ -45,7 +45,7 @@ function Home() {
           <div className="mb-4 luxury-smooth-badge">
             <span className="luxury-hero-badge">
               <span className="luxury-hero-badge-dot" />
-              17 YEARS OF ARCHITECTURAL EXCELLENCE · EST. 2009
+              20 YEARS OF ARCHITECTURAL EXCELLENCE
             </span>
           </div>
           <h1 className="luxury-smooth-title">
@@ -53,7 +53,7 @@ function Home() {
             Delivering with <em>enduring trust.</em>
           </h1>
           <p className="luxury-smooth-desc">
-            Pioneering luxury residential, commercial, and turnkey industrial landmarks across <strong>Chennai, Thiruvallur, and Coimbatore</strong> with master engineering and unyielding integrity.
+            Pioneering luxury residential, commercial, and turnkey industrial landmarks across <strong>Chennai and Coimbatore</strong> with master engineering and unyielding integrity.
           </p>
           <div className="hero-actions luxury-smooth-actions">
             <Button asChild variant="editorial" className="light-sweep">
@@ -71,7 +71,7 @@ function Home() {
           {/* FLOATING STATS BANNER */}
           <div className="hero-stats-banner luxury-smooth-stats">
             <div className="hero-stat-item">
-              <strong>17+</strong>
+              <strong>20+</strong>
               <span>Years Industry Mastery</span>
             </div>
             <div className="hero-stat-item">
@@ -91,7 +91,7 @@ function Home() {
             </a>
             <div className="signature">
               JENTORA BUILDER PRIVATE LIMITED
-              <span>17 YEARS OF INDUSTRY MASTERY · CHENNAI · THIRUVALLUR · COIMBATORE</span>
+              <span>20 YEARS OF INDUSTRY MASTERY · CHENNAI · COIMBATORE</span>
             </div>
           </div>
         </div>
@@ -148,13 +148,13 @@ function Home() {
                   to <em>reality.</em>
                 </h2>
                 <p style={{ fontSize: '16px', lineHeight: '1.8', color: 'var(--muted-foreground)', marginBottom: '28px' }}>
-                  A thoughtful approach. A precise execution. We unite 17 years of civil engineering mastery, rigorous lab-tested materials, and end-to-end transparency to construct landmarks that stand the test of time.
+                  A thoughtful approach. A precise execution. We unite 20 years of civil engineering mastery, rigorous lab-tested materials, and end-to-end transparency to construct landmarks that stand the test of time.
                 </p>
 
                 {/* TRUST PILLS */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '32px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: '#cbd5e1', letterSpacing: '0.04em' }}>
-                    <span style={{ color: 'var(--accent)', fontSize: '16px' }}>✦</span> 100% CMDA & DTCP Regulatory Compliance
+                    <span style={{ color: 'var(--accent)', fontSize: '16px' }}>✦</span> 100% Statutory & Regulatory Compliance
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: '#cbd5e1', letterSpacing: '0.04em' }}>
                     <span style={{ color: 'var(--accent)', fontSize: '16px' }}>✦</span> Transparent Stage-Linked Milestone Schedules
@@ -210,7 +210,7 @@ function Home() {
                   num: '05',
                   title: 'Architectural Planning & Engineering',
                   desc: 'Master site planning, 3D structural modeling, solar & wind microclimate optimization, and full structural validation ensuring 100% compliance with government building norms.',
-                  tag: '3D BIM · Structural Engineering · CMDA Approvals',
+                  tag: '3D BIM · Structural Engineering · Regulatory Approvals',
                 },
               ].map((service, idx) => (
                 <Reveal key={service.num} className={`delay-${(idx + 1) * 100}`}>
@@ -300,18 +300,15 @@ function Home() {
                 <em>Purpose moves us.</em>
               </h2>
               <p style={{ fontSize: '16px', lineHeight: '1.8', color: 'var(--muted-foreground)', marginBottom: '24px' }}>
-                At Jentora Builder, we believe constructing a home or commercial landmark represents a lifetime of trust, aspiration, and investment. Backed by 17 years of master construction acumen, we deliver turnkey residential villas, high-grade commercial hubs, and industrial developments across Chennai, Thiruvallur, and Coimbatore with unwavering structural perfection.
+                At Jentora Builder, we believe constructing a home or commercial landmark represents a lifetime of trust, aspiration, and investment. Backed by 20 years of master construction acumen, we deliver turnkey residential villas, high-grade commercial hubs, and industrial developments across Chennai and Coimbatore with unwavering structural perfection.
               </p>
               
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '32px' }}>
                 <span className="sparkle" style={{ background: 'rgba(212, 175, 55, 0.1)', border: '1px solid rgba(212, 175, 55, 0.35)', color: 'var(--accent)', padding: '6px 14px', borderRadius: '50px', fontSize: '13px', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                  ✦ 17+ Years Pedigree
+                  ✦ 20+ Years Pedigree
                 </span>
                 <span className="sparkle" style={{ background: 'rgba(212, 175, 55, 0.1)', border: '1px solid rgba(212, 175, 55, 0.35)', color: 'var(--accent)', padding: '6px 14px', borderRadius: '50px', fontSize: '13px', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', animationDelay: '0.3s' }}>
                   ✦ 2 Landmark Deliveries
-                </span>
-                <span className="sparkle" style={{ background: 'rgba(212, 175, 55, 0.1)', border: '1px solid rgba(212, 175, 55, 0.35)', color: 'var(--accent)', padding: '6px 14px', borderRadius: '50px', fontSize: '13px', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', animationDelay: '0.6s' }}>
-                  ✦ 3 Regional Hubs
                 </span>
               </div>
 
@@ -338,7 +335,7 @@ function Home() {
                 height={1024}
                 className="rounded-2xl shadow-2xl transition-transform duration-700 hover:scale-105"
               />
-              <span className="vertical-note">ESTABLISHED MASTERY · CHENNAI · THIRUVALLUR · COIMBATORE</span>
+              <span className="vertical-note">ESTABLISHED MASTERY · CHENNAI · COIMBATORE</span>
             </Reveal>
           </div>
         </div>

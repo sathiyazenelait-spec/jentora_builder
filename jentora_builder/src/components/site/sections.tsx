@@ -60,8 +60,8 @@ const philosophyDetails = [
     num: '02',
     title: 'Precision',
     tagline: 'Precision in every detail.',
-    desc: 'Civil engineering demands millimeter accuracy. We implement rigorous DTCP/CMDA approvals, multi-tier soil & structural testing, and laser-calibrated execution to guarantee generational stability.',
-    points: ['100% CMDA & DTCP Compliance', 'Multi-Tier Structural Audits', 'Calibrated Civil Engineering'],
+    desc: 'Civil engineering demands millimeter accuracy. We implement rigorous statutory compliance, multi-tier soil & structural testing, and laser-calibrated execution to guarantee generational stability.',
+    points: ['100% Regulatory Compliance', 'Multi-Tier Structural Audits', 'Calibrated Civil Engineering'],
     linkTo: '/services',
     linkText: 'EXPLORE OUR PRECISION',
   },
@@ -136,7 +136,7 @@ export function Stats() {
     <div className="stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '28px', marginTop: '36px', paddingTop: '28px', borderTop: '1px solid var(--border)' }}>
       <div className="stat sparkle">
         <strong style={{ fontSize: '52px', fontFamily: 'var(--font-display)', fontWeight: '400', lineHeight: 1 }}>
-          17<span style={{ color: 'var(--accent)' }}>+</span>
+          20<span style={{ color: 'var(--accent)' }}>+</span>
         </strong>
         <span style={{ fontSize: '13px', letterSpacing: '0.05em', color: 'var(--muted-foreground)', display: 'block', marginTop: '8px' }}>
           YEARS INDUSTRY EXPERIENCE
@@ -152,10 +152,10 @@ export function Stats() {
       </div>
       <div className="stat sparkle" style={{ animationDelay: '0.8s' }}>
         <strong style={{ fontSize: '52px', fontFamily: 'var(--font-display)', fontWeight: '400', lineHeight: 1 }}>
-          03
+          02
         </strong>
         <span style={{ fontSize: '13px', letterSpacing: '0.05em', color: 'var(--muted-foreground)', display: 'block', marginTop: '8px' }}>
-          ACTIVE REGIONS (CHENNAI · THIRUVALLUR · COIMBATORE)
+          ACTIVE REGIONS (CHENNAI · COIMBATORE)
         </span>
       </div>
     </div>
@@ -176,7 +176,7 @@ export function LeadershipSection() {
           </Reveal>
           <Reveal>
             <p className="subtle" style={{ maxWidth: '440px', fontSize: '16px', lineHeight: '1.75' }}>
-              Our executive leadership brings over 17 years of hands-on construction acumen, ensuring every development adheres to the highest standards of safety, precision, and client satisfaction.
+              Our executive leadership brings over 20 years of hands-on construction acumen, ensuring every development adheres to the highest standards of safety, precision, and client satisfaction.
             </p>
           </Reveal>
         </div>
@@ -403,10 +403,7 @@ export function QualityAndSafetySection() {
 
 export function LuxuryTrustStrip() {
   const badges = [
-    { icon: <Award size={20} />, title: '17+ Years Pedigree', sub: 'Commercial & Residential Mastery' },
-    { icon: <ShieldCheck size={20} />, title: 'ISO 9001:2015 Certified', sub: 'Audited Quality Systems' },
-    { icon: <FileCheck size={20} />, title: '100% CMDA & DTCP', sub: 'Full Regulatory Adherence' },
-    { icon: <Building2 size={20} />, title: '3 Operating Hubs', sub: 'Chennai · Thiruvallur · Coimbatore' },
+    { icon: <Award size={20} />, title: '20+ Years Pedigree', sub: 'Commercial & Residential Mastery' },
     { icon: <Clock size={20} />, title: 'Milestone Delivery', sub: 'Zero Tolerance Delay Track Record' },
   ];
 
@@ -441,7 +438,7 @@ export function LuxuryTestimonialsSection() {
     {
       quote: 'From soil testing to architectural precision and interior handover, Mr. Saravanan and the Jentora engineering team maintained uncompromising safety and structural integrity.',
       author: 'Commercial & Turnkey Investor',
-      location: 'Thiruvallur & Coimbatore Hub',
+      location: 'Coimbatore Hub',
       projectType: 'Industrial & Commercial',
       rating: 5,
     },
@@ -611,8 +608,8 @@ export function VipConsultationBanner() {
                   </Link>
                 </Button>
                 <div style={{ display: 'flex', gap: '20px', alignItems: 'center', justifyContent: 'center', width: '100%', flexWrap: 'wrap' }}>
-                  <a href="tel:+919444484625" style={{ display: 'inline-flex', alignItems: 'center', gap: '9px', fontSize: '15px', color: 'var(--accent)', fontWeight: '700' }} className="hover:underline">
-                    <PhoneCall size={18} /> +91 94444 84625
+                  <a href="tel:+919444434196" style={{ display: 'inline-flex', alignItems: 'center', gap: '9px', fontSize: '15px', color: 'var(--accent)', fontWeight: '700' }} className="hover:underline">
+                    <PhoneCall size={18} /> +91 94444 34196
                   </a>
                   <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>|</span>
                   <a href={company.whatsappUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '9px', fontSize: '15px', color: '#25D366', fontWeight: '700' }} className="hover:underline">
@@ -761,7 +758,7 @@ export function Approach() {
   return (
     <div className="approach">
       {[
-        ['01', 'A considered beginning', 'Architectural planning, feasibility analysis, DTCP/CMDA approvals, and sustainable master planning.'],
+        ['01', 'A considered beginning', 'Architectural planning, feasibility analysis, regulatory approvals, and sustainable master planning.'],
         ['02', 'Precision in the process', 'Civil structural engineering, rigorous lab material testing, multi-tier QA audits, and milestone management.'],
         ['03', 'Perfection in the finish', 'High-end interior turnkey craftsmanship, rigorous final safety inspection, and guaranteed milestone handover.'],
       ].map(([n, t, d]) => (

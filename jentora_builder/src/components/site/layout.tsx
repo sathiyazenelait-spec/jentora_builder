@@ -141,8 +141,8 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           </nav>
           <div className="mt-8 pt-6 border-t border-white/15 text-xs text-secondary/80 flex flex-col gap-2">
             <p className="font-semibold text-accent">JENTORA BUILDER PRIVATE LIMITED</p>
-            <p>Chennai · Thiruvallur · Coimbatore</p>
-            <a href="tel:+919444484625" className="hover:text-accent">+91 9444484625</a>
+            <p>Chennai · Coimbatore</p>
+            <a href="tel:+919444434196" className="hover:text-accent">+91 9444434196</a>
           </div>
           <p className="eyebrow mt-8">PASSION · PRECISION · PERFECTION</p>
         </div>
@@ -212,14 +212,14 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                 PASSION · PRECISION · PERFECTION
               </p>
               <p style={{ fontSize: '15px', lineHeight: '1.7', maxWidth: '300px' }}>
-                17 Years of industry experience delivering premium residential, commercial, and industrial landmarks built on trust and superior craftsmanship.
+                20 Years of industry experience delivering premium residential, commercial, and industrial landmarks built on trust and superior craftsmanship.
               </p>
               <div style={{ marginTop: '8px' }}>
                 <span className="footer-section-title" style={{ marginBottom: '6px' }}>
-                  KEY OPERATING HUBS
+                  OPERATING REGIONS
                 </span>
                 <p style={{ fontSize: '15px', fontWeight: '700', color: '#090d16' }}>
-                  Chennai · Thiruvallur · Coimbatore
+                  Chennai · Coimbatore
                 </p>
               </div>
 
@@ -360,9 +360,6 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                   <a href={`tel:${company.primaryPhone.replace(/\s+/g, '')}`}>
                     {company.primaryPhone}
                   </a>
-                  <a href={`tel:${company.secondaryPhone.replace(/\s+/g, '')}`}>
-                    {company.secondaryPhone}
-                  </a>
                 </div>
               </div>
 
@@ -396,7 +393,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         {/* BOTTOM LEGAL STRIP */}
         <div className="footer-bottom">
           <span style={{ whiteSpace: 'nowrap', flexShrink: 0 }}>© {new Date().getFullYear()} JENTORA BUILDER PVT LTD. ALL RIGHTS RESERVED.</span>
-          <span style={{ whiteSpace: 'nowrap', flexShrink: 0 }}>17 YEARS OF INDUSTRY EXPERIENCE</span>
+          <span style={{ whiteSpace: 'nowrap', flexShrink: 0 }}>20 YEARS OF INDUSTRY EXPERIENCE</span>
           <div className="flex items-center gap-5 whitespace-nowrap" style={{ flexShrink: 0 }}>
             <Button variant="minimal" className="h-auto text-[10px] font-semibold text-slate-700 hover:text-pink-600" onClick={() => setLegal('Privacy Policy')}>
               PRIVACY POLICY

@@ -26,7 +26,7 @@ export const Route = createFileRoute('/contact')({
   head: () =>
     pageHead(
       'Contact Us — Jentora Builder',
-      'Connect with Jentora Builder Private Limited for luxury residential, commercial and industrial construction projects in Chennai, Thiruvallur, and Coimbatore.'
+      'Connect with Jentora Builder Private Limited for luxury residential, commercial and industrial construction projects in Chennai and Coimbatore.'
     ),
   component: Contact,
 });
@@ -90,7 +90,7 @@ function Contact() {
                     <em>our leadership team.</em>
                   </h2>
                   <p style={{ fontSize: '15px', lineHeight: '1.75', color: 'var(--muted-foreground)', marginBottom: '32px' }}>
-                    From initial concept drawings to turnkey structural handover, connect directly with our engineering team in Chennai, Thiruvallur, and Coimbatore.
+                    From initial concept drawings to turnkey structural handover, connect directly with our engineering team in Chennai and Coimbatore.
                   </p>
 
                   {/* CONTACT DETAIL ROWS */}
@@ -124,14 +124,10 @@ function Contact() {
                         <Phone size={20} />
                       </div>
                       <div>
-                        <span className="contact-item-label">DIRECT PHONE LINES</span>
+                        <span className="contact-item-label">DIRECT PHONE LINE</span>
                         <div style={{ display: 'flex', gap: '14px', marginTop: '4px', flexWrap: 'wrap', alignItems: 'center' }}>
                           <a href={`tel:${company.primaryPhone.replace(/\s+/g, '')}`} className="contact-item-value contact-item-link" style={{ fontWeight: '600' }}>
                             {company.primaryPhone}
-                          </a>
-                          <span style={{ color: 'rgba(212, 175, 55, 0.4)' }}>•</span>
-                          <a href={`tel:${company.secondaryPhone.replace(/\s+/g, '')}`} className="contact-item-value contact-item-link" style={{ fontWeight: '600' }}>
-                            {company.secondaryPhone}
                           </a>
                         </div>
                       </div>
@@ -190,7 +186,7 @@ function Contact() {
                     }}
                     className="hover:opacity-95 hover:scale-[1.02]"
                   >
-                    <MessageCircle size={18} /> CONNECT VIA WHATSAPP (+91 94444 84625)
+                    <MessageCircle size={18} /> CONNECT VIA WHATSAPP (+91 94444 34196)
                   </a>
 
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '20px', flexWrap: 'wrap', gap: '12px' }}>
@@ -320,7 +316,7 @@ function Contact() {
                             className="contact-textarea"
                             required
                             maxLength={3000}
-                            placeholder="Mention plot location (e.g. Chennai, Thiruvallur, Coimbatore), estimated square footage, timeline, or specific architectural needs…"
+                            placeholder="Mention plot location (e.g. Chennai, Coimbatore), estimated square footage, timeline, or specific architectural needs…"
                           />
                         </div>
                       </div>

@@ -8,7 +8,7 @@ export const Route = createFileRoute('/projects/')({
   head: () =>
     pageHead(
       'Selected Projects — Jentora Builder',
-      'Explore Jentora’s apartments in Chennai and Thiruvallur and individual villas in Coimbatore.'
+      'Explore Jentora’s apartments and commercial landmarks in Chennai and individual villas in Coimbatore.'
     ),
   component: Projects,
 });

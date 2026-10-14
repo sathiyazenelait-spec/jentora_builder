@@ -13,12 +13,12 @@ export const company = {
   name: 'Jentora Builder Private Limited', 
   shortName: 'Jentora',
   established: '2025', 
-  experience: '17+', 
-  experienceFull: '17 Years of Industry experience in Commercial, Residential, Industrial Buildings',
+  experience: '20+', 
+  experienceFull: '20 Years of Industry experience in Commercial, Residential, Industrial Buildings',
   completedProjects: 2,
   ongoingProjects: 2,
   totalProjects: 4,
-  keyAreas: ['Chennai', 'Thiruvallur', 'Coimbatore'],
+  keyAreas: ['Chennai', 'Coimbatore'],
   address: {
     street: 'Plot No.85, 2nd Floor, 4th Avenue Road, Shanthi Colony, Anna Nagar',
     city: 'Chennai',
@@ -26,15 +26,15 @@ export const company = {
     pincode: '600040',
     full: 'Plot No.85, 2nd Floor, 4th Avenue Road, Shanthi Colony, Anna Nagar, Chennai – 600040.'
   },
-  phones: ['+91 9444484625', '+91 9444434196'],
-  primaryPhone: '+91 9444484625',
-  secondaryPhone: '+91 9444434196',
+  phones: ['+91 9444434196'],
+  primaryPhone: '+91 9444434196',
+  secondaryPhone: '',
   email: 'info@jentora.co.in',
-  whatsapp: '+91 9444484625',
-  whatsappUrl: 'https://wa.me/919444484625?text=Hi%20Jentora%20Builder,%20I%20would%20like%20to%20enquire%20about%20your%20construction%20services.',
+  whatsapp: '+91 9444434196',
+  whatsappUrl: 'https://wa.me/919444434196?text=Hi%20Jentora%20Builder,%20I%20would%20like%20to%20enquire%20about%20your%20construction%20services.',
   googleMapsUrl: 'https://maps.app.goo.gl/jhPACJxwpdF3Prdp6',
   operatingHours: 'Monday to Saturday – 10.00 am to 6.00 pm',
-  introduction: 'Jentora Builder Pvt Ltd is a premier construction enterprise built on 17 years of industry experience delivering exceptional residential, commercial, and industrial developments across Chennai, Thiruvallur, and Coimbatore. We believe a home or commercial landmark is someone’s dream, life savings, and trust—and we construct with that uncompromising responsibility. With 2 completed landmarks and landmark projects under construction, we bring passion, precision, and perfection to every project.'
+  introduction: 'Jentora Builder Pvt Ltd is a premier construction enterprise built on 20 years of industry experience delivering exceptional residential, commercial, and industrial developments across Chennai and Coimbatore. We believe a home or commercial landmark is someone’s dream, life savings, and trust—and we construct with that uncompromising responsibility. With 2 completed landmarks and landmark projects under construction, we bring passion, precision, and perfection to every project.'
 };
 
 export const leadership = [
@@ -42,7 +42,7 @@ export const leadership = [
     name: 'Mr. SARAVANAN V',
     role: 'Managing Director',
     designation: 'Managing Director',
-    bio: 'Leading Jentora Builder with 17+ years of deep industry expertise across commercial, residential, and industrial construction. Mr. Saravanan drives the organization with a focus on engineering precision, structural integrity, and enduring client trust.'
+    bio: 'Leading Jentora Builder with 20+ years of deep industry expertise across commercial, residential, and industrial construction. Mr. Saravanan drives the organization with a focus on engineering precision, structural integrity, and enduring client trust.'
   },
   {
     name: 'Mrs. GIRIJA',
@@ -60,7 +60,7 @@ export const qualityAssurancePractices = [
   { title: 'Competency Development', desc: 'Continuous skill training, advanced engineering workshops, and certified trade craftsmanship.' },
   { title: 'Risk Management', desc: 'Proactive hazard identification, contingency planning, and structural safety mitigation.' },
   { title: 'Continuous Improvement', desc: 'Integration of modern construction methodologies, smart engineering, and client feedback mechanisms.' },
-  { title: 'Compliance & Regulatory Adherence', desc: 'Strict compliance with CMDA, DTCP, municipal planning permissions, and national building codes.' }
+  { title: 'Compliance & Regulatory Adherence', desc: 'Strict compliance with municipal planning permissions, building authorities, and national building codes.' }
 ];
 
 export const safetyStandards = [

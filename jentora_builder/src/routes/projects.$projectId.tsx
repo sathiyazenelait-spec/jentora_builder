@@ -67,7 +67,7 @@ function ProjectDetail() {
     ...(project.year ? [['COMPLETION', project.year]] : []),
   ];
 
-  const whatsappQuoteUrl = `https://wa.me/919444484625?text=${encodeURIComponent(
+  const whatsappQuoteUrl = `https://wa.me/919444434196?text=${encodeURIComponent(
     `Hi Jentora Builder, I would like to request a quote and brochure for ${project.name} (${project.location}).`
   )}`;
 
@@ -202,7 +202,7 @@ function ProjectDetail() {
               </div>
               <h3 style={{ fontSize: '24px', fontFamily: 'var(--font-display)', color: 'var(--foreground)' }}>Quote Request Received</h3>
               <p style={{ fontSize: '15px', color: 'var(--muted-foreground)', marginTop: '8px', lineHeight: '1.6' }}>
-                Thank you! Our project team will connect with you with pricing and project details. You can also reach our desk directly at <a href="tel:+919444484625" style={{ color: 'var(--foreground)', fontWeight: '600' }}>+91 9444484625</a>.
+                Thank you! Our project team will connect with you with pricing and project details. You can also reach our desk directly at <a href="tel:+919444434196" style={{ color: 'var(--foreground)', fontWeight: '600' }}>+91 9444434196</a>.
               </p>
               <Button variant="editorial" className="mt-6" onClick={() => setQuoteOpen(false)}>
                 CLOSE

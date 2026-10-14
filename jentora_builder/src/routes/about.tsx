@@ -19,7 +19,7 @@ export const Route = createFileRoute('/about')({
   head: () =>
     pageHead(
       'Our Story — Jentora Builder',
-      '17 Years of industry experience in Commercial, Residential, and Industrial buildings across Chennai, Thiruvallur, and Coimbatore.'
+      '20 Years of industry experience in Commercial, Residential, and Industrial buildings across Chennai and Coimbatore.'
     ),
   component: About,
 });
@@ -30,8 +30,8 @@ function About() {
       <InnerHero
         label="ABOUT JENTORA"
         title="WHO WE ARE."
-        text="17 Years of industry experience in commercial, residential, and industrial construction across Tamil Nadu."
-        counter="01 — 17"
+        text="20 Years of industry experience in commercial, residential, and industrial construction across Tamil Nadu."
+        counter="01 — 20"
         image={images.apartment}
       />
 
@@ -39,16 +39,13 @@ function About() {
       <div className="border-b border-accent/20 bg-gradient-to-r from-[#05080e] via-[#0e1626] to-[#05080e] py-3 text-xs relative z-10 shadow-lg">
         <div className="container flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="sparkle rounded border border-accent/40 bg-accent/15 px-2.5 py-0.5 text-[9px] font-bold tracking-wider text-accent uppercase">
-              ✦ ISO 9001:2015 CERTIFIED
-            </span>
-            <span className="text-foreground font-medium">17 Years of Engineering & Architectural Excellence</span>
+            <span className="text-foreground font-medium">20 Years of Engineering & Architectural Excellence</span>
             <span className="text-white/30 hidden md:inline">|</span>
-            <span className="text-muted-foreground">Operating Hubs: <strong className="text-foreground font-semibold">Chennai · Thiruvallur · Coimbatore</strong></span>
+            <span className="text-muted-foreground"><strong className="text-foreground font-semibold">Chennai · Coimbatore</strong></span>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-[11px]">
-            <a href="tel:+919444484625" className="inline-flex items-center gap-1.5 text-foreground hover:text-accent transition-colors font-medium">
-              <Phone size={12} className="text-accent" /> +91 94444 84625
+            <a href="tel:+919444434196" className="inline-flex items-center gap-1.5 text-foreground hover:text-accent transition-colors font-medium">
+              <Phone size={12} className="text-accent" /> +91 94444 34196
             </a>
             <span className="text-white/30 hidden sm:inline">|</span>
             <a href="mailto:info@jentora.co.in" className="inline-flex items-center gap-1.5 text-foreground hover:text-accent transition-colors font-medium">
@@ -81,7 +78,7 @@ function About() {
           </Reveal>
           <Reveal className="intro-image luxury-framed light-sweep">
             <img src={images.interior} alt="Architectural interior, illustrative concept" loading="lazy" className="rounded-2xl" />
-            <span className="vertical-note">17 YEARS OF INDUSTRY EXPERIENCE · CHENNAI · THIRUVALLUR · COIMBATORE</span>
+            <span className="vertical-note">20 YEARS OF INDUSTRY EXPERIENCE · CHENNAI · COIMBATORE</span>
           </Reveal>
         </div>
       </section>
