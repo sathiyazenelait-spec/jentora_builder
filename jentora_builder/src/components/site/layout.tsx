@@ -333,25 +333,19 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                 </address>
               </div>
 
-              {/* GOOGLE MAP LINK BUTTON */}
-              <a
-                href={company.googleMapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  fontSize: '13px',
-                  letterSpacing: '0.06em',
-                  fontWeight: '700',
-                  color: '#b45309',
-                  padding: '4px 0',
-                }}
-                className="hover:underline"
-              >
-                OPEN IN GOOGLE MAPS <ExternalLink size={13} />
-              </a>
+              {/* GOOGLE MAP IFRAME */}
+              <div style={{ borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(212, 175, 55, 0.35)', marginTop: '6px', width: '100%', maxWidth: '320px' }}>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7772.609857161226!2d80.2090326!3d13.079851!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265400136cad7%3A0x33538c1a7c98db7f!2sJentora%20Builder%20Private%20Limited!5e0!3m2!1sen!2sin!4v1791976692728!5m2!1sen!2sin"
+                  width="100%"
+                  height="160"
+                  style={{ border: 0, display: 'block' }}
+                  allowFullScreen={false}
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  title="Jentora Builder Location Map"
+                />
+              </div>
 
               {/* PHONE NUMBERS */}
               <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', marginTop: '6px' }}>
@@ -383,7 +377,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               <div className="powered-by" style={{ marginTop: '16px', alignItems: 'flex-start' }}>
                 <span style={{ fontSize: '12px', letterSpacing: '0.12em', color: '#92400e', fontWeight: '700' }}>POWERED BY</span>
                 <a href="https://zenelaitinfotech.com/" target="_blank" rel="noopener noreferrer">
-                  <img style={{ height: '34px', background: '#ffffff', padding: '4px 8px', borderRadius: '4px', border: '1px solid rgba(180,83,9,0.2)' }} src={zenelaitLogo} alt="Zenelait Innotech" />
+                  <img style={{ height: '42px', background: '#ffffff', padding: '4px 10px', borderRadius: '5px', border: '1px solid rgba(180,83,9,0.2)' }} src={zenelaitLogo} alt="Zenelait Innotech" />
                 </a>
               </div>
             </div>

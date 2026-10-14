@@ -15,9 +15,9 @@ export const company = {
   established: '2025', 
   experience: '20+', 
   experienceFull: '20 Years of Industry experience in Commercial, Residential, Industrial Buildings',
-  completedProjects: 2,
+  completedProjects: 157,
   ongoingProjects: 2,
-  totalProjects: 4,
+  totalProjects: 159,
   keyAreas: ['Chennai', 'Coimbatore'],
   address: {
     street: 'Plot No.85, 2nd Floor, 4th Avenue Road, Shanthi Colony, Anna Nagar',
@@ -34,7 +34,7 @@ export const company = {
   whatsappUrl: 'https://wa.me/919444434196?text=Hi%20Jentora%20Builder,%20I%20would%20like%20to%20enquire%20about%20your%20construction%20services.',
   googleMapsUrl: 'https://maps.app.goo.gl/jhPACJxwpdF3Prdp6',
   operatingHours: 'Monday to Saturday – 10.00 am to 6.00 pm',
-  introduction: 'Jentora Builder Pvt Ltd is a premier construction enterprise built on 20 years of industry experience delivering exceptional residential, commercial, and industrial developments across Chennai and Coimbatore. We believe a home or commercial landmark is someone’s dream, life savings, and trust—and we construct with that uncompromising responsibility. With 2 completed landmarks and landmark projects under construction, we bring passion, precision, and perfection to every project.'
+  introduction: 'Jentora Builder Pvt Ltd is a premier construction enterprise built on 20 years of industry experience delivering exceptional residential, commercial, and industrial developments across Chennai and Coimbatore. We believe a home or commercial landmark is someone’s dream, life savings, and trust—and we construct with that uncompromising responsibility. With 157 completed landmarks and landmark projects under construction, we bring passion, precision, and perfection to every project.'
 };
 
 export const leadership = [
@@ -150,7 +150,6 @@ export const projects = [
     year: '2026',
     status: 'Completed',
     image: '/site-photos/thiruvallur/thiruvallur-1.jpg',
-    rotate: 90,
     gallery: [
       '/site-photos/thiruvallur/thiruvallur-1.jpg',
       '/site-photos/thiruvallur/thiruvallur-2.jpg',

@@ -99,7 +99,7 @@ function SuperAdminDashboard() {
     companyName: defaultCompany.name || 'Jentora Builder Private Limited',
     tagline: 'PASSION · PRECISION · PERFECTION',
     yearsExperience: 20,
-    projectsCompleted: defaultCompany.completedProjects || 2,
+    projectsCompleted: defaultCompany.completedProjects || 157,
     managingDirector: leadership[0]?.name || 'Mr. SARAVANAN V',
     marketingLead: leadership[1]?.name || 'Mrs. GIRIJA',
     primaryPhone: defaultCompany.primaryPhone || '+91 9444434196',

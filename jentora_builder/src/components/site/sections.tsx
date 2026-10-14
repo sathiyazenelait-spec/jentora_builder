@@ -144,7 +144,7 @@ export function Stats() {
       </div>
       <div className="stat sparkle" style={{ animationDelay: '0.4s' }}>
         <strong style={{ fontSize: '52px', fontFamily: 'var(--font-display)', fontWeight: '400', lineHeight: 1 }}>
-          02
+          157
         </strong>
         <span style={{ fontSize: '13px', letterSpacing: '0.05em', color: 'var(--muted-foreground)', display: 'block', marginTop: '8px' }}>
           COMPLETED LANDMARKS

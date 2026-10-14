@@ -48,7 +48,7 @@ function Contact() {
         phone: String(formData.get('phone') || ''),
         projectType: String(formData.get('type') || 'General Construction'),
         location: 'Chennai / Tamil Nadu',
-        message: String(formData.get('message') || ''),
+        message: String(formData.get('message') || 'Project consultation enquiry via contact page'),
         source: 'CONTACT_PAGE',
       });
       setSent(true);
@@ -304,20 +304,6 @@ function Contact() {
                               <option key={t} value={t}>{t}</option>
                             ))}
                           </select>
-                        </div>
-
-                        <div className="contact-field wide">
-                          <label htmlFor="message" className="contact-label">
-                            PROJECT DETAILS & LOCATION <span className="req">*</span>
-                          </label>
-                          <textarea
-                            id="message"
-                            name="message"
-                            className="contact-textarea"
-                            required
-                            maxLength={3000}
-                            placeholder="Mention plot location (e.g. Chennai, Coimbatore), estimated square footage, timeline, or specific architectural needs…"
-                          />
                         </div>
                       </div>
 

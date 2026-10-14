@@ -74,6 +74,41 @@ function Services() {
       {/* LUXURY TRUST STRIP */}
       <LuxuryTrustStrip />
 
+      {/* WHY CHOOSE JENTORA / COMMITMENT SECTION */}
+      <section className="commitment-section">
+        <div className="container commitment-container">
+          <div className="commitment-left-image luxury-framed">
+            <img src={images.villas} alt="Modern concrete architecture villa" />
+          </div>
+
+          <div className="commitment-right-content">
+            <Reveal>
+              <span className="commitment-subtitle">WHY CHOOSE JENTORA</span>
+              <h2 className="commitment-title">
+                More Than Construction.<br />It’s a <span className="gold-shimmer-text">Commitment.</span>
+              </h2>
+
+              <div className="commitment-grid">
+                {commitments.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <div className="commitment-card luxury-framed" key={item.title}>
+                      <div className="commitment-icon-wrapper">
+                        <Icon size={20} strokeWidth={1.5} />
+                      </div>
+                      <div className="commitment-card-text">
+                        <h4>{item.title}</h4>
+                        <p>{item.desc}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* ZIGZAG SERVICES SECTION */}
       <section className="services-zigzag-section" id="services-list">
         <div className="container">
@@ -112,41 +147,6 @@ function Services() {
                 </Reveal>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* WHY CHOOSE JENTORA / COMMITMENT SECTION */}
-      <section className="commitment-section">
-        <div className="container commitment-container">
-          <div className="commitment-left-image luxury-framed">
-            <img src={images.villas} alt="Modern concrete architecture villa" />
-          </div>
-
-          <div className="commitment-right-content">
-            <Reveal>
-              <span className="commitment-subtitle">WHY CHOOSE JENTORA</span>
-              <h2 className="commitment-title">
-                More Than Construction.<br />It’s a <span className="gold-shimmer-text">Commitment.</span>
-              </h2>
-
-              <div className="commitment-grid">
-                {commitments.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <div className="commitment-card luxury-framed" key={item.title}>
-                      <div className="commitment-icon-wrapper">
-                        <Icon size={20} strokeWidth={1.5} />
-                      </div>
-                      <div className="commitment-card-text">
-                        <h4>{item.title}</h4>
-                        <p>{item.desc}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </Reveal>
           </div>
         </div>
       </section>

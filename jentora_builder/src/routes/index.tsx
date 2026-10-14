@@ -10,7 +10,6 @@ import {
   ServiceList, 
   TextLink,
   UniqueSellingPointsSection,
-  LeadershipSection,
   QualityAndSafetySection,
   LuxuryTrustStrip,
   LuxuryTestimonialsSection,
@@ -45,7 +44,7 @@ function Home() {
           <div className="mb-4 luxury-smooth-badge">
             <span className="luxury-hero-badge">
               <span className="luxury-hero-badge-dot" />
-              20 YEARS OF ARCHITECTURAL EXCELLENCE
+              20 YEARS OF ARCHITECTURAL EXCELLENCE · EST. 2006
             </span>
           </div>
           <h1 className="luxury-smooth-title">
@@ -75,7 +74,7 @@ function Home() {
               <span>Years Industry Mastery</span>
             </div>
             <div className="hero-stat-item">
-              <strong>02</strong>
+              <strong>157</strong>
               <span>Completed Landmarks</span>
             </div>
             <div className="hero-stat-item">
@@ -280,9 +279,6 @@ function Home() {
       {/* CLIENT TESTIMONIALS */}
       <LuxuryTestimonialsSection />
 
-      {/* LEADERSHIP & GOVERNANCE */}
-      <LeadershipSection />
-
       {/* QUALITY ASSURANCE & SAFETY PROTOCOLS */}
       <QualityAndSafetySection />
 
@@ -308,7 +304,10 @@ function Home() {
                   ✦ 20+ Years Pedigree
                 </span>
                 <span className="sparkle" style={{ background: 'rgba(212, 175, 55, 0.1)', border: '1px solid rgba(212, 175, 55, 0.35)', color: 'var(--accent)', padding: '6px 14px', borderRadius: '50px', fontSize: '13px', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', animationDelay: '0.3s' }}>
-                  ✦ 2 Landmark Deliveries
+                  ✦ 157 Landmark Deliveries
+                </span>
+                <span className="sparkle" style={{ background: 'rgba(212, 175, 55, 0.1)', border: '1px solid rgba(212, 175, 55, 0.35)', color: 'var(--accent)', padding: '6px 14px', borderRadius: '50px', fontSize: '13px', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', animationDelay: '0.6s' }}>
+                  ✦ 2 Regional Hubs
                 </span>
               </div>
 

@@ -7,7 +7,6 @@ import {
   Stats, 
   Approach, 
   TextLink,
-  LeadershipSection,
   QualityAndSafetySection,
   UniqueSellingPointsSection,
   LuxuryTrustStrip,
@@ -85,9 +84,6 @@ function About() {
 
       {/* UNIQUE SELLING POINTS */}
       <UniqueSellingPointsSection />
-
-      {/* LEADERSHIP */}
-      <LeadershipSection />
 
       {/* QUALITY & SAFETY STANDARDS */}
       <QualityAndSafetySection />
