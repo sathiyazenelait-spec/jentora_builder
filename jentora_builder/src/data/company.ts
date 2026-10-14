@@ -149,10 +149,10 @@ export const projects = [
     floors: 3,
     year: '2026',
     status: 'Completed',
-    image: '/site-photos/thiruvallur/thiruvallur-1.jpg',
+    image: '/site-photos/thiruvallur/thiruvallur-1.png',
     gallery: [
-      '/site-photos/thiruvallur/thiruvallur-1.jpg',
-      '/site-photos/thiruvallur/thiruvallur-2.jpg',
+      '/site-photos/thiruvallur/thiruvallur-1.png',
+      '/site-photos/thiruvallur/thiruvallur-2.png',
       '/site-photos/thiruvallur/thiruvallur-3.jpg',
       '/site-photos/thiruvallur/thiruvallur-4.jpg',
       '/site-photos/thiruvallur/thiruvallur-5.jpg',
