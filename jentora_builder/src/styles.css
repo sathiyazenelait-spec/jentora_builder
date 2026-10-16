@@ -576,6 +576,12 @@ button,a,input,select,textarea{outline-offset:5px}
   z-index: 1;
   pointer-events: none;
 }
+.hero-video {
+  filter: brightness(1.22) contrast(1.08) saturate(1.05);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
+}
 .hero-image {
   transform: scale(1.03);
   animation: subtleZoom 20s infinite alternate ease-in-out;
@@ -588,10 +594,11 @@ button,a,input,select,textarea{outline-offset:5px}
   position: absolute;
   inset: 0;
   z-index: 2;
+  pointer-events: none;
   background: 
-    radial-gradient(ellipse 70% 60% at 20% 40%, rgba(7, 10, 18, 0.85) 0%, transparent 85%),
-    linear-gradient(90deg, rgba(7, 10, 18, 0.94) 0%, rgba(7, 10, 18, 0.55) 50%, rgba(7, 10, 18, 0.88) 100%),
-    linear-gradient(0deg, #070a12 0%, rgba(7, 10, 18, 0.6) 40%, transparent 80%);
+    radial-gradient(ellipse 70% 60% at 20% 40%, rgba(7, 10, 18, 0.52) 0%, transparent 80%),
+    linear-gradient(90deg, rgba(7, 10, 18, 0.66) 0%, rgba(7, 10, 18, 0.22) 50%, rgba(7, 10, 18, 0.42) 100%),
+    linear-gradient(0deg, rgba(7, 10, 18, 0.75) 0%, rgba(7, 10, 18, 0.18) 30%, transparent 70%);
 }
 .hero-content {
   position: relative;
