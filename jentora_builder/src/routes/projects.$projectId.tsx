@@ -74,13 +74,7 @@ function ProjectDetail() {
   return (
     <>
       {/* HERO SECTION */}
-      <section className="inner-hero project-detail-hero" style={{ overflow: 'hidden' }}>
-        <img 
-          className={`hero-image ${('rotate' in project && project.rotate === 90) ? 'rotated-hero-img' : ''}`} 
-          src={project.image} 
-          alt={project.name} 
-        />
-        <div className="hero-shade" />
+      <section className="inner-hero project-detail-hero">
         <div className="container inner-hero-content">
           <SectionLabel>PROJECT {project.number} / 04</SectionLabel>
           <h1>{project.name}</h1>
@@ -91,7 +85,7 @@ function ProjectDetail() {
           </p>
           <div style={{ marginTop: '28px', display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
             <Button
-              variant="light"
+              variant="editorial"
               onClick={() => setQuoteOpen(true)}
               style={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }}
             >
@@ -114,6 +108,26 @@ function ProjectDetail() {
         </div>
       </section>
 
+      {/* ARCHITECTURAL GALLERY */}
+      <section className="section projects-section">
+        <div className="container">
+          <div className="section-heading">
+            <div>
+              <SectionLabel>ARCHITECTURAL PERSPECTIVES</SectionLabel>
+              <h2>
+                Form. Light.<br />
+                <em>Possibility.</em>
+              </h2>
+            </div>
+          </div>
+          <ProjectGallery
+            cover={project.image}
+            items={project.gallery}
+            rotate={'rotate' in project && typeof project.rotate === 'number' ? project.rotate : 0}
+          />
+        </div>
+      </section>
+
       {/* PROJECT OVERVIEW & SPECS */}
       <section className="section">
         <div className="container">
@@ -121,7 +135,7 @@ function ProjectDetail() {
             <div>
               <SectionLabel>PROJECT OVERVIEW</SectionLabel>
               <h2>
-                A landmark with<br />
+                A landmark with
                 <em>its own story.</em>
               </h2>
             </div>
@@ -140,26 +154,6 @@ function ProjectDetail() {
               </div>
             ))}
           </dl>
-        </div>
-      </section>
-
-      {/* ARCHITECTURAL GALLERY */}
-      <section className="section projects-section">
-        <div className="container">
-          <div className="section-heading">
-            <div>
-              <SectionLabel>ARCHITECTURAL PERSPECTIVES</SectionLabel>
-              <h2>
-                Form. Light.<br />
-                <em>Possibility.</em>
-              </h2>
-            </div>
-          </div>
-          <ProjectGallery 
-            cover={project.image} 
-            items={project.gallery} 
-            rotate={'rotate' in project ? project.rotate : 0} 
-          />
         </div>
       </section>
 

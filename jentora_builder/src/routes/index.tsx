@@ -16,6 +16,7 @@ import {
   VipConsultationBanner
 } from '@/components/site/sections';
 import { Reveal } from '@/components/site/reveal';
+import { Pointer3DCard } from '@/components/site/pointer-3d-card';
 
 export const Route = createFileRoute('/')({
   head: () =>
@@ -31,13 +32,15 @@ function Home() {
     <>
       {/* HERO SECTION */}
       <section className="home-hero">
-        <img
-          className="hero-image"
-          src={images.hero}
-          alt="Contemporary villa architecture, illustrative concept"
-          width={1920}
-          height={1088}
-          fetchPriority="high"
+        <video
+          className="hero-image hero-video"
+          src="/hero_video.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={images.hero}
+          aria-hidden="true"
         />
         <div className="hero-shade" />
         <div className="container hero-content">
@@ -135,7 +138,7 @@ function Home() {
       <UniqueSellingPointsSection />
 
       {/* SECTION 02: EXPERTISE & SERVICES */}
-      <section className="section expertise-section" style={{ background: 'linear-gradient(180deg, #070a12 0%, #090e18 50%, #070a12 100%)', borderTop: '1px solid var(--border)' }}>
+      <section className="section expertise-section">
         <div className="container">
           <div className="intro-grid" style={{ alignItems: 'flex-start', gap: '56px' }}>
             {/* LEFT STICKY OVERVIEW COLUMN */}
@@ -146,19 +149,19 @@ function Home() {
                   From vision<br />
                   to <em>reality.</em>
                 </h2>
-                <p style={{ fontSize: '16px', lineHeight: '1.8', color: 'var(--muted-foreground)', marginBottom: '28px' }}>
+                <p className="expertise-intro-desc" style={{ fontSize: '16px', lineHeight: '1.8', marginBottom: '28px' }}>
                   A thoughtful approach. A precise execution. We unite 20 years of civil engineering mastery, rigorous lab-tested materials, and end-to-end transparency to construct landmarks that stand the test of time.
                 </p>
 
                 {/* TRUST PILLS */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '32px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: '#cbd5e1', letterSpacing: '0.04em' }}>
+                  <div className="expertise-trust-pill" style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', letterSpacing: '0.04em' }}>
                     <span style={{ color: 'var(--accent)', fontSize: '16px' }}>✦</span> 100% Statutory & Regulatory Compliance
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: '#cbd5e1', letterSpacing: '0.04em' }}>
+                  <div className="expertise-trust-pill" style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', letterSpacing: '0.04em' }}>
                     <span style={{ color: 'var(--accent)', fontSize: '16px' }}>✦</span> Transparent Stage-Linked Milestone Schedules
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: '#cbd5e1', letterSpacing: '0.04em' }}>
+                  <div className="expertise-trust-pill" style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', letterSpacing: '0.04em' }}>
                     <span style={{ color: 'var(--accent)', fontSize: '16px' }}>✦</span> Multi-Tier Quality Audits & Structural Warranty
                   </div>
                 </div>
@@ -213,25 +216,13 @@ function Home() {
                 },
               ].map((service, idx) => (
                 <Reveal key={service.num} className={`delay-${(idx + 1) * 100}`}>
-                  <div
-                    className="expertise-service-card luxury-framed light-sweep"
-                    style={{
-                      background: 'rgba(14, 22, 38, 0.75)',
-                      border: '1px solid rgba(212, 175, 55, 0.25)',
-                      borderRadius: '16px',
-                      padding: '32px 36px',
-                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                      position: 'relative',
-                      overflow: 'hidden',
-                      backdropFilter: 'blur(14px)',
-                    }}
-                  >
+                  <div className="expertise-service-card luxury-framed light-sweep">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <span style={{ fontSize: '13px', fontWeight: '700', color: 'var(--accent)', background: 'rgba(212, 175, 55, 0.12)', border: '1px solid rgba(212, 175, 55, 0.35)', padding: '4px 12px', borderRadius: '50px' }}>
+                        <span className="expertise-service-num" style={{ fontSize: '13px', fontWeight: '700', padding: '4px 12px', borderRadius: '50px' }}>
                           {service.num}
                         </span>
-                        <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#94a3b8', fontWeight: '600' }}>
+                        <span className="expertise-service-tag" style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: '600' }}>
                           {service.tag}
                         </span>
                       </div>
@@ -240,11 +231,11 @@ function Home() {
                       </Link>
                     </div>
 
-                    <h3 style={{ fontSize: '28px', fontFamily: 'var(--font-display)', margin: '0 0 10px 0', color: '#ffffff' }}>
+                    <h3 className="expertise-service-title" style={{ fontSize: '28px', fontFamily: 'var(--font-display)', margin: '0 0 10px 0' }}>
                       {service.title}
                     </h3>
 
-                    <p className="text-justify" style={{ fontSize: '16px', lineHeight: '1.75', color: '#cbd5e1', margin: 0, textAlign: 'justify', textJustify: 'inter-word' }}>
+                    <p className="expertise-service-desc text-justify" style={{ fontSize: '16px', lineHeight: '1.75', margin: 0, textAlign: 'justify', textJustify: 'inter-word' }}>
                       {service.desc}
                     </p>
                   </div>
@@ -358,27 +349,26 @@ function Home() {
             </Reveal>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '36px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '36px', perspective: '1200px' }}>
             {/* VISION CARD */}
-            <Reveal className="delay-100">
-              <div
-                className="vision-card luxury-framed light-sweep"
+            <Reveal className="delay-100" style={{ height: '100%' }}>
+              <Pointer3DCard
+                className="vision-card luxury-framed light-sweep smooth-float-card"
+                maxTilt={10}
+                maxMove={12}
                 style={{
                   background: 'rgba(14, 22, 38, 0.75)',
                   border: '1px solid rgba(212, 175, 55, 0.28)',
                   borderRadius: '16px',
                   padding: '48px 40px',
                   height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
                   backdropFilter: 'blur(16px)',
                   position: 'relative',
                   overflow: 'hidden',
                 }}
               >
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px', transform: 'translateZ(20px)' }}>
                     <span style={{ fontSize: '13px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent)', background: 'rgba(212, 175, 55, 0.12)', padding: '6px 14px', borderRadius: '50px', border: '1px solid rgba(212, 175, 55, 0.3)' }}>
                       PILLAR 01 / LONG-TERM GOAL
                     </span>
@@ -387,15 +377,15 @@ function Home() {
                     </span>
                   </div>
 
-                  <h3 style={{ fontSize: '40px', fontFamily: 'var(--font-display)', lineHeight: '1.1', marginBottom: '16px' }}>
+                  <h3 style={{ fontSize: '40px', fontFamily: 'var(--font-display)', lineHeight: '1.1', marginBottom: '16px', transform: 'translateZ(26px)' }}>
                     Our <em>vision.</em>
                   </h3>
 
-                  <p style={{ fontSize: '16px', lineHeight: '1.8', color: '#cbd5e1', marginBottom: '28px' }}>
+                  <p style={{ fontSize: '16px', lineHeight: '1.8', color: '#cbd5e1', marginBottom: '28px', transform: 'translateZ(18px)' }}>
                     To be a trusted and respected leader in the construction and real estate industry, recognised for creating exceptional residential and commercial spaces that harmonize architectural elegance with generational durability.
                   </p>
 
-                  <div style={{ borderTop: '1px solid rgba(212, 175, 55, 0.18)', paddingTop: '20px', marginBottom: '28px', display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '14px', color: '#94a3b8' }}>
+                  <div style={{ borderTop: '1px solid rgba(212, 175, 55, 0.18)', paddingTop: '20px', marginBottom: '28px', display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '14px', color: '#94a3b8', transform: 'translateZ(16px)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span style={{ color: 'var(--accent)' }}>✦</span> Enduring Structural Integrity
                     </div>
@@ -405,36 +395,35 @@ function Home() {
                   </div>
                 </div>
 
-                <div>
-                  <Button asChild variant="minimal" className="hover-wobble">
-                    <Link to="/vision-mission" style={{ fontSize: '13px', letterSpacing: '0.08em', display: 'inline-flex', alignItems: 'center', gap: '8px', fontWeight: '600' }}>
+                <div style={{ transform: 'translateZ(24px)' }}>
+                  <Button asChild variant="minimal" className="vision-mission-explore-btn hover-wobble">
+                    <Link to="/vision-mission" style={{ fontSize: '13px', letterSpacing: '0.08em', display: 'inline-flex', alignItems: 'center', gap: '8px', fontWeight: '700' }}>
                       EXPLORE OUR VISION <ArrowRight size={15} className="text-accent" />
                     </Link>
                   </Button>
                 </div>
-              </div>
+              </Pointer3DCard>
             </Reveal>
 
             {/* MISSION CARD */}
-            <Reveal className="delay-200">
-              <div
-                className="mission-card luxury-framed light-sweep"
+            <Reveal className="delay-200" style={{ height: '100%' }}>
+              <Pointer3DCard
+                className="mission-card luxury-framed light-sweep smooth-float-card"
+                maxTilt={10}
+                maxMove={12}
                 style={{
                   background: 'rgba(14, 22, 38, 0.75)',
                   border: '1px solid rgba(212, 175, 55, 0.28)',
                   borderRadius: '16px',
                   padding: '48px 40px',
                   height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
                   backdropFilter: 'blur(16px)',
                   position: 'relative',
                   overflow: 'hidden',
                 }}
               >
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px', transform: 'translateZ(20px)' }}>
                     <span style={{ fontSize: '13px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent)', background: 'rgba(212, 175, 55, 0.12)', padding: '6px 14px', borderRadius: '50px', border: '1px solid rgba(212, 175, 55, 0.3)' }}>
                       PILLAR 02 / DAILY COMMITMENT
                     </span>
@@ -443,16 +432,16 @@ function Home() {
                     </span>
                   </div>
 
-                  <h3 style={{ fontSize: '40px', fontFamily: 'var(--font-display)', lineHeight: '1.1', marginBottom: '16px' }}>
+                  <h3 style={{ fontSize: '40px', fontFamily: 'var(--font-display)', lineHeight: '1.1', marginBottom: '16px', transform: 'translateZ(26px)' }}>
                     A commitment in<br />
                     <em>every detail.</em>
                   </h3>
 
-                  <p style={{ fontSize: '16px', lineHeight: '1.8', color: '#cbd5e1', marginBottom: '28px' }}>
+                  <p style={{ fontSize: '16px', lineHeight: '1.8', color: '#cbd5e1', marginBottom: '28px', transform: 'translateZ(18px)' }}>
                     Passion in every idea. Precision in every detail. Perfection in every project. Delivering superior quality, unyielding safety protocols, transparent milestone governance, and lasting trust for every client.
                   </p>
 
-                  <div style={{ borderTop: '1px solid rgba(212, 175, 55, 0.18)', paddingTop: '20px', marginBottom: '28px', display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '14px', color: '#94a3b8' }}>
+                  <div style={{ borderTop: '1px solid rgba(212, 175, 55, 0.18)', paddingTop: '20px', marginBottom: '28px', display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '14px', color: '#94a3b8', transform: 'translateZ(16px)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span style={{ color: 'var(--accent)' }}>✦</span> Rigorous Lab-Tested Material Quality
                     </div>
@@ -462,14 +451,14 @@ function Home() {
                   </div>
                 </div>
 
-                <div>
-                  <Button asChild variant="minimal" className="hover-wobble">
-                    <Link to="/vision-mission" style={{ fontSize: '13px', letterSpacing: '0.08em', display: 'inline-flex', alignItems: 'center', gap: '8px', fontWeight: '600' }}>
+                <div style={{ transform: 'translateZ(24px)' }}>
+                  <Button asChild variant="minimal" className="vision-mission-explore-btn hover-wobble">
+                    <Link to="/vision-mission" style={{ fontSize: '13px', letterSpacing: '0.08em', display: 'inline-flex', alignItems: 'center', gap: '8px', fontWeight: '700' }}>
                       EXPLORE OUR MISSION <ArrowRight size={15} className="text-accent" />
                     </Link>
                   </Button>
                 </div>
-              </div>
+              </Pointer3DCard>
             </Reveal>
           </div>
         </div>

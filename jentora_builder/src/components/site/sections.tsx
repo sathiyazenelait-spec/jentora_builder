@@ -17,7 +17,7 @@ import {
   Star, 
   UserCheck 
 } from 'lucide-react';
-import { useState, type ReactNode } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { 
   images, 
@@ -31,6 +31,7 @@ import {
   type Project 
 } from '@/data/company';
 import { Reveal } from './reveal';
+import { Pointer3DCard } from './pointer-3d-card';
 
 export function SectionLabel({ children }: { children: ReactNode }) {
   return <div className="eyebrow flip-in">{children}</div>;
@@ -164,7 +165,7 @@ export function Stats() {
 
 export function LeadershipSection() {
   return (
-    <section className="section" style={{ background: 'var(--secondary)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+    <section className="section leadership-section">
       <div className="container">
         <div className="section-heading">
           <Reveal>
@@ -222,7 +223,7 @@ export function LeadershipSection() {
 
 export function UniqueSellingPointsSection() {
   return (
-    <section className="section">
+    <section className="section unique-value-section">
       <div className="container">
         <div className="section-heading">
           <Reveal>
@@ -239,32 +240,34 @@ export function UniqueSellingPointsSection() {
           </Reveal>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginTop: '40px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginTop: '40px', perspective: '1200px' }}>
           {uniqueSellingPoints.map((usp, i) => (
-            <Reveal key={usp.title} className={`delay-${(i % 4 + 1) * 100}`}>
-              <div
-                className="usp-card luxury-framed light-sweep"
+            <Reveal key={usp.title} className={`delay-${(i % 4 + 1) * 100}`} style={{ height: '100%' }}>
+              <Pointer3DCard
+                className="usp-card luxury-framed light-sweep smooth-float-card"
+                maxTilt={12}
+                maxMove={14}
                 style={{
-                  border: '1px solid var(--border)',
-                  padding: '30px',
+                  padding: '34px 28px',
                   height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  borderRadius: '12px',
-                  position: 'relative',
-                  overflow: 'hidden',
+                  borderRadius: '16px',
                 }}
               >
-                <span className="morph inline-flex items-center justify-center w-8 h-8 text-sm font-semibold text-accent border border-accent/30 bg-accent/5">
-                  {usp.number}
-                </span>
-                <h3 style={{ fontSize: '26px', fontFamily: 'var(--font-display)', margin: '14px 0 10px' }}>
-                  {usp.title}
-                </h3>
-                <p style={{ fontSize: '15px', lineHeight: '1.75', color: 'var(--muted-foreground)' }}>
-                  {usp.desc}
-                </p>
-              </div>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px', transform: 'translateZ(20px)' }}>
+                    <span className="morph inline-flex items-center justify-center w-9 h-9 text-sm font-semibold text-accent border border-accent/30 bg-accent/5 rounded-full">
+                      {usp.number}
+                    </span>
+                    <Sparkles size={18} className="text-accent hover-wobble" />
+                  </div>
+                  <h3 style={{ fontSize: '26px', fontFamily: 'var(--font-display)', margin: '0 0 12px', transform: 'translateZ(26px)' }}>
+                    {usp.title}
+                  </h3>
+                  <p style={{ fontSize: '15px', lineHeight: '1.75', color: 'var(--muted-foreground)', transform: 'translateZ(16px)' }}>
+                    {usp.desc}
+                  </p>
+                </div>
+              </Pointer3DCard>
             </Reveal>
           ))}
         </div>
@@ -274,55 +277,33 @@ export function UniqueSellingPointsSection() {
 }
 
 function QualitySafetyCard({ item, index }: { item: { title: string; desc: string }; index: number }) {
-  const [tilt, setTilt] = useState({ x: 0, y: 0, active: false });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 12; // -6deg to +6deg
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -12;
-    setTilt({ x, y, active: true });
-  };
-
-  const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0, active: false });
-  };
-
   return (
-    <div
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+    <Pointer3DCard
       className="qa-card luxury-framed light-sweep smooth-float-card"
+      maxTilt={12}
+      maxMove={14}
       style={{
-        padding: '28px 24px',
+        padding: '30px 24px',
         borderRadius: '16px',
         height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
         textAlign: 'center',
-        transform: tilt.active
-          ? `perspective(1000px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) translateY(-8px) scale3d(1.025, 1.025, 1.025)`
-          : 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px) scale3d(1, 1, 1)',
-        transition: tilt.active
-          ? 'transform 0.1s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease'
-          : 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease',
       }}
     >
       <div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px', transform: 'translateZ(20px)' }}>
           <span className="morph inline-block px-2.5 py-0.5 text-xs text-accent border border-accent/40 font-semibold rounded-full">
             0{index + 1}
           </span>
           <CheckCircle2 size={20} className="text-accent hover-wobble" />
         </div>
-        <h3 style={{ fontSize: '22px', fontFamily: 'var(--font-display)', marginBottom: '12px', textAlign: 'center' }}>
+        <h3 style={{ fontSize: '22px', fontFamily: 'var(--font-display)', marginBottom: '12px', textAlign: 'center', transform: 'translateZ(24px)' }}>
           {item.title}
         </h3>
-        <p style={{ fontSize: '14px', lineHeight: '1.75', color: 'var(--muted-foreground)', textAlign: 'center' }}>
+        <p style={{ fontSize: '14px', lineHeight: '1.75', color: 'var(--muted-foreground)', textAlign: 'center', transform: 'translateZ(16px)' }}>
           {item.desc}
         </p>
       </div>
-    </div>
+    </Pointer3DCard>
   );
 }
 
@@ -330,7 +311,7 @@ export function QualityAndSafetySection() {
   const [tab, setTab] = useState<'qa' | 'safety'>('qa');
 
   return (
-    <section className="section" style={{ background: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+    <section className="section quality-safety-section">
       <div className="container">
         <div className="section-heading" style={{ color: 'var(--primary-foreground)' }}>
           <Reveal>
@@ -429,29 +410,54 @@ export function LuxuryTrustStrip() {
 export function LuxuryTestimonialsSection() {
   const testimonials = [
     {
+      id: 'vadapalani-residential',
       quote: 'Jentora Builder delivered our luxury apartment complex in Vadapalani with exquisite craftsmanship and complete transparency at every milestone stage. Truly world-class builder.',
       author: 'Residential Landmark Client',
+      role: 'Project Patron',
       location: 'Vadapalani, Chennai',
       projectType: 'Luxury Residential',
       rating: 5,
+      monogram: 'RL',
+      year: '2025 Handover',
+      stats: '18 Months Completion • Zero Defect',
     },
     {
+      id: 'coimbatore-commercial',
       quote: 'From soil testing to architectural precision and interior handover, Mr. Saravanan and the Jentora engineering team maintained uncompromising safety and structural integrity.',
       author: 'Commercial & Turnkey Investor',
+      role: 'Institutional Investor',
       location: 'Coimbatore Hub',
       projectType: 'Industrial & Commercial',
       rating: 5,
+      monogram: 'CI',
+      year: '2024 Handover',
+      stats: '45,000 Sq.Ft • Multi-Span Precast',
     },
     {
+      id: 'annanagar-villa',
       quote: 'The milestone-linked payment structure gave us total peace of mind. Every material batch was certified, and handover was executed flawlessly.',
       author: 'Private Villa Owner',
+      role: 'Estate Owner',
       location: 'Anna Nagar, Chennai',
       projectType: 'Bespoke Luxury Villa',
       rating: 5,
+      monogram: 'PV',
+      year: '2025 Handover',
+      stats: 'Custom Italian Marble • LEED Rated',
     },
   ];
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Auto-advance every 6.5 seconds unless paused by mouse hover
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+    }, 6500);
+    return () => clearInterval(interval);
+  }, [isPaused, testimonials.length]);
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
@@ -462,12 +468,22 @@ export function LuxuryTestimonialsSection() {
   };
 
   return (
-    <section className="section" style={{ background: 'linear-gradient(180deg, #070a12 0%, #0e1626 100%)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+    <section 
+      className="section testimonials-section"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       <div className="container">
         <div className="section-heading" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px' }}>
           <div>
             <Reveal>
-              <SectionLabel>CLIENT TESTIMONIALS & TRUST</SectionLabel>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '8px' }}>
+                <SectionLabel>CLIENT TESTIMONIALS & TRUST</SectionLabel>
+                <span className="testimonial-verified-pill">
+                  <span className="testimonial-beacon-dot" />
+                  AUTHENTICATED MILESTONES
+                </span>
+              </div>
               <h2 style={{ fontSize: '52px', margin: '14px 0 0 0' }}>
                 Endorsed by clients.<br />
                 <em>Defined by excellence.</em>
@@ -479,69 +495,109 @@ export function LuxuryTestimonialsSection() {
               </p>
             </Reveal>
           </div>
+
+          {/* QUICK CATEGORY SWITCHER PILLS */}
+          <Reveal>
+            <div className="testimonial-category-pills" role="tablist" aria-label="Testimonial Categories">
+              {testimonials.map((t, idx) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeIndex === idx}
+                  onClick={() => setActiveIndex(idx)}
+                  className={`testimonial-cat-btn ${activeIndex === idx ? 'is-active' : ''}`}
+                >
+                  <span className="cat-num">0{idx + 1}</span>
+                  <span className="cat-name">{t.projectType}</span>
+                </button>
+              ))}
+            </div>
+          </Reveal>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', marginTop: '40px', alignItems: 'stretch' }}>
-          {testimonials.map((item, idx) => {
-            const isActive = activeIndex === idx;
-            return (
-              <Reveal key={item.author} className={`delay-${(idx + 1) * 150}`} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <div 
-                  onClick={() => setActiveIndex(idx)}
-                  className={`luxury-testimonial-card luxury-framed ${isActive ? 'is-active' : ''}`}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      setActiveIndex(idx);
-                    }
-                  }}
-                  aria-pressed={isActive}
-                  style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}
+        {/* UNIQUE 3D TESTIMONIAL CARDS STAGE */}
+        <div className="luxury-testimonial-stage" style={{ marginTop: '40px' }}>
+          <div className="testimonial-cards-grid">
+            {testimonials.map((item, idx) => {
+              const isActive = activeIndex === idx;
+              return (
+                <div
+                  key={item.id}
+                  className={`testimonial-card-wrapper ${isActive ? 'is-active-wrapper' : 'is-flanking-wrapper'}`}
                 >
-                  <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                      <div className="star-rating" style={{ margin: 0 }}>
-                        {[...Array(item.rating)].map((_, i) => (
-                          <Star key={i} size={16} fill="currentColor" stroke="none" />
-                        ))}
+                  <Pointer3DCard 
+                    onClick={() => setActiveIndex(idx)}
+                    className={`luxury-testimonial-card luxury-framed ${isActive ? 'is-active testimonial-active-glow' : 'is-inactive-companion'}`}
+                    role="button"
+                    tabIndex={0}
+                    maxTilt={isActive ? 8 : 12}
+                    maxMove={isActive ? 10 : 14}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setActiveIndex(idx);
+                      }
+                    }}
+                    aria-pressed={isActive}
+                    style={{ height: '100%' }}
+                  >
+                    <div>
+                      {/* Top Row: Stars + Project Type */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', transform: 'translateZ(20px)' }}>
+                        <div className="star-rating" style={{ margin: 0 }}>
+                          {[...Array(item.rating)].map((_, i) => (
+                            <Star 
+                              key={i} 
+                              size={16} 
+                              fill="currentColor" 
+                              stroke="none" 
+                              className="star-shimmer"
+                              style={{ animationDelay: `${i * 0.12}s` }}
+                            />
+                          ))}
+                        </div>
+                        <span className="testimonial-type-badge">
+                          {item.projectType}
+                        </span>
                       </div>
-                      <span style={{ 
-                        fontSize: '11px', 
-                        fontWeight: 700, 
-                        letterSpacing: '0.08em', 
-                        textTransform: 'uppercase',
-                        padding: '3px 10px',
-                        borderRadius: '20px',
-                        background: isActive ? 'rgba(180, 83, 9, 0.12)' : 'rgba(212, 175, 55, 0.12)',
-                        border: `1px solid ${isActive ? 'rgba(180, 83, 9, 0.35)' : 'rgba(212, 175, 55, 0.35)'}`,
-                        color: isActive ? '#92400e' : 'var(--accent)'
-                      }}>
-                        {item.projectType}
-                      </span>
+
+                      {/* Watermark Quote Character */}
+                      <div className="quote-mark-watermark" aria-hidden="true">“</div>
+
+                      {/* Quote Text */}
+                      <p className="testimonial-quote-body" style={{ transform: 'translateZ(22px)' }}>
+                        “{item.quote}”
+                      </p>
                     </div>
 
-                    <div className="quote-mark-gold">“</div>
-                    <p style={{ fontSize: '15px', lineHeight: '1.8', fontStyle: 'italic', marginBottom: '24px', textAlign: 'justify', textJustify: 'inter-word', flex: 1 }}>
-                      {item.quote}
-                    </p>
-                  </div>
-                  <div className="testimonial-footer" style={{ borderTop: '1px solid rgba(212, 175, 55, 0.2)', paddingTop: '16px', marginTop: 'auto' }}>
-                    <strong style={{ display: 'block', fontSize: '16px', fontFamily: 'var(--font-display)', letterSpacing: '0.04em' }}>
-                      {item.author}
-                    </strong>
-                    <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                      {item.location}
-                    </span>
-                  </div>
+                    {/* Footer Row: Monogram Avatar + Author Info + Stats */}
+                    <div className="testimonial-footer-modern" style={{ transform: 'translateZ(24px)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                        <div className="client-avatar-monogram">
+                          <span>{item.monogram}</span>
+                        </div>
+                        <div>
+                          <strong className="client-author-name">
+                            {item.author}
+                          </strong>
+                          <span className="client-role-location">
+                            {item.location} • {item.year}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="client-stats-chip">
+                        {item.stats}
+                      </div>
+                    </div>
+                  </Pointer3DCard>
                 </div>
-              </Reveal>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
-        {/* CONTROLS BAR: ARROW LEFT + DOT INDICATORS + ARROW RIGHT */}
+        {/* CONTROLS BAR: ARROW LEFT + DOT INDICATORS + COUNTER + ARROW RIGHT */}
         <Reveal>
           <div className="testimonial-controls-bar" aria-label="Testimonials Navigation">
             <button 
@@ -554,7 +610,7 @@ export function LuxuryTestimonialsSection() {
               <ChevronLeft size={20} />
             </button>
 
-            <div className="testimonial-dots">
+            <div className="testimonial-dots-track">
               {testimonials.map((_, idx) => (
                 <button
                   key={idx}
@@ -562,7 +618,9 @@ export function LuxuryTestimonialsSection() {
                   onClick={() => setActiveIndex(idx)}
                   className={`testimonial-dot ${activeIndex === idx ? 'is-active' : ''}`}
                   aria-label={`Go to testimonial ${idx + 1}`}
-                />
+                >
+                  <span className="dot-inner" />
+                </button>
               ))}
             </div>
 
@@ -575,6 +633,10 @@ export function LuxuryTestimonialsSection() {
             >
               <ChevronRight size={20} />
             </button>
+
+            <span className="testimonial-counter-pill">
+              0{activeIndex + 1} / 0{testimonials.length}
+            </span>
           </div>
         </Reveal>
       </div>
@@ -696,7 +758,7 @@ export function ServiceList({ preview = false }: { preview?: boolean }) {
                 <ArrowUpRight className="text-accent" />
               </Button>
               {open === i && (
-                <div className="service-detail p-6 bg-[#0c1424] border border-accent/20 rounded-b-lg">
+                <div className="service-detail p-6 bg-secondary border border-accent/20 rounded-b-lg">
                   <p className="text-muted-foreground leading-relaxed text-justify" style={{ textAlign: 'justify', textJustify: 'inter-word' }}>{service[1]}</p>
                   {!preview && (
                     <img

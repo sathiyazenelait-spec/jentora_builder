@@ -35,7 +35,7 @@ function About() {
       />
 
       {/* LUXURY ACCREDITATION & CONTACT ANNOUNCEMENT BAR */}
-      <div className="border-b border-accent/20 bg-gradient-to-r from-[#05080e] via-[#0e1626] to-[#05080e] py-3 text-xs relative z-10 shadow-lg">
+      <div className="about-announcement-bar border-b border-accent/20 py-3 text-xs relative z-10 shadow-lg">
         <div className="container flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-3">
             <span className="text-foreground font-medium">20 Years of Engineering & Architectural Excellence</span>

@@ -307,6 +307,47 @@ function Contact() {
                         </div>
                       </div>
 
+                      {/* GOOGLE MAPS IFRAME RIGHT AFTER PROJECT CATEGORY */}
+                      <div className="contact-map-field" style={{ marginTop: '22px', marginBottom: '18px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                          <label className="contact-label" style={{ marginBottom: 0 }}>
+                            OUR HEAD OFFICE LOCATION (CHENNAI)
+                          </label>
+                          <a
+                            href={company.googleMapsUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ fontSize: '12px', color: 'var(--accent)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.06em', textDecoration: 'none' }}
+                            className="hover:underline"
+                          >
+                            OPEN IN MAPS ↗
+                          </a>
+                        </div>
+                        <div
+                          className="contact-map-frame luxury-framed"
+                          style={{
+                            borderRadius: '12px',
+                            overflow: 'hidden',
+                            border: '1.5px solid rgba(212, 175, 55, 0.45)',
+                            height: '240px',
+                            width: '100%',
+                            position: 'relative',
+                            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)'
+                          }}
+                        >
+                          <iframe
+                            title="Jentora Builder Head Office Location - Anna Nagar Chennai"
+                            width="100%"
+                            height="100%"
+                            style={{ border: 0, display: 'block' }}
+                            loading="lazy"
+                            allowFullScreen
+                            referrerPolicy="no-referrer-when-downgrade"
+                            src="https://maps.google.com/maps?q=Plot+No.85,+4th+Avenue+Road,+Shanthi+Colony,+Anna+Nagar,+Chennai+600040&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                          />
+                        </div>
+                      </div>
+
                       <div className="contact-form-note">
                         <ShieldCheck size={16} style={{ color: 'var(--accent)', flexShrink: 0 }} />
                         <span>Direct enquiry to Jentora Builder Private Limited. All project data is held strictly confidential.</span>

@@ -13,7 +13,9 @@ import {
   Instagram,
   Linkedin,
   Youtube,
-  ExternalLink
+  ExternalLink,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
@@ -29,6 +31,33 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   const [legal, setLegal] = useState<string | null>(null);
   const firstLink = useRef<HTMLAnchorElement>(null);
   const menuToggle = useRef<HTMLButtonElement>(null);
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('jentora-theme') as 'light' | 'dark' | null;
+      if (saved) return saved;
+    }
+    return 'light';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    if (theme === 'light') {
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
+      document.body.classList.add('light-theme');
+      document.body.classList.remove('dark-theme');
+    } else {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+      document.body.classList.add('dark-theme');
+      document.body.classList.remove('light-theme');
+    }
+    localStorage.setItem('jentora-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -91,12 +120,35 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                 </Link>
               ))}
             </nav>
-            <Button asChild variant="editorial" className="nav-cta light-sweep">
-              <Link to="/contact">
-                START A CONVERSATION
-                <ArrowUpRight />
-              </Link>
-            </Button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="theme-toggle-btn light-sweep"
+                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+                title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+              >
+                <span className="theme-toggle-inner">
+                  {theme === 'light' ? (
+                    <>
+                      <Sun size={15} style={{ color: '#d4af37' }} />
+                      <span className="theme-toggle-label">LIGHT</span>
+                    </>
+                  ) : (
+                    <>
+                      <Moon size={15} style={{ color: '#f6e6b4' }} />
+                      <span className="theme-toggle-label">DARK</span>
+                    </>
+                  )}
+                </span>
+              </button>
+              <Button asChild variant="editorial" className="nav-cta light-sweep">
+                <Link to="/contact">
+                  START A CONVERSATION
+                  <ArrowUpRight />
+                </Link>
+              </Button>
+            </div>
             <Button
               ref={menuToggle}
               className="menu-button"
@@ -116,20 +168,32 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       {menu && (
         <div className="mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation">
           <div className="mobile-menu-header">
-            <Link to="/" aria-label="Jentora home" onClick={() => setMenu(false)}>
-              <img className="logo" src={logo} alt="Jentora" />
+            <Link to="/" aria-label="Jentora home" className="logo-wrap" onClick={() => setMenu(false)}>
+              <img className="logo" src={logo} alt="Jentora" width={110} height={73} />
             </Link>
-            <Button
-              variant="line"
-              size="icon"
-              aria-label="Close navigation"
-              onClick={() => {
-                setMenu(false);
-                menuToggle.current?.focus();
-              }}
-            >
-              <X />
-            </Button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="theme-toggle-btn"
+                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+              >
+                <span className="theme-toggle-inner">
+                  {theme === 'light' ? <Sun size={15} style={{ color: '#d4af37' }} /> : <Moon size={15} style={{ color: '#f6e6b4' }} />}
+                </span>
+              </button>
+              <Button
+                variant="line"
+                size="icon"
+                aria-label="Close navigation"
+                onClick={() => {
+                  setMenu(false);
+                  menuToggle.current?.focus();
+                }}
+              >
+                <X />
+              </Button>
+            </div>
           </div>
           <nav>
             {navigation.map((n, i) => (
@@ -198,14 +262,14 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                     alignItems: 'center',
                     justifyContent: 'center',
                     background: '#070a12',
-                    padding: '8px 24px',
+                    padding: '10px 32px',
                     borderRadius: '9999px',
-                    border: '1px solid rgba(212, 175, 55, 0.45)',
-                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.18)',
+                    border: '1.5px solid rgba(212, 175, 55, 0.55)',
+                    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25)',
                     transition: 'all 0.3s ease',
                   }}
                 >
-                  <img className="logo" src={logo} alt="Jentora" style={{ width: '90px', height: '36px', objectFit: 'contain', display: 'block' }} />
+                  <img className="logo" src={logo} alt="Jentora" style={{ width: '135px', height: '54px', objectFit: 'contain', display: 'block' }} />
                 </div>
               </Link>
               <p style={{ fontSize: '13px', color: '#92400e', letterSpacing: '0.12em', fontWeight: '700' }}>
@@ -377,7 +441,20 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               <div className="powered-by" style={{ marginTop: '16px', alignItems: 'flex-start' }}>
                 <span style={{ fontSize: '12px', letterSpacing: '0.12em', color: '#92400e', fontWeight: '700' }}>POWERED BY</span>
                 <a href="https://zenelaitinfotech.com/" target="_blank" rel="noopener noreferrer">
-                  <img style={{ height: '42px', background: '#ffffff', padding: '4px 10px', borderRadius: '5px', border: '1px solid rgba(180,83,9,0.2)' }} src={zenelaitLogo} alt="Zenelait Innotech" />
+                  <img
+                    style={{
+                      height: '63px',
+                      background: '#ffffff',
+                      padding: '6px 14px',
+                      borderRadius: '8px',
+                      border: '1px solid rgba(180, 83, 9, 0.25)',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+                      display: 'block',
+                      objectFit: 'contain'
+                    }}
+                    src={zenelaitLogo}
+                    alt="Zenelait Innotech"
+                  />
                 </a>
               </div>
             </div>
