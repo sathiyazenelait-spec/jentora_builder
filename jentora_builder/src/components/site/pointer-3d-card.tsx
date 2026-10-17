@@ -48,6 +48,11 @@ export function Pointer3DCard({
       const spotX = Math.round(((e.clientX - rect.left) / rect.width) * 100);
       const spotY = Math.round(((e.clientY - rect.top) / rect.height) * 100);
 
+      if (cardRef.current) {
+        const transformVal = `perspective(1200px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translate3d(${tx.toFixed(2)}px, ${ty.toFixed(2)}px, 20px) scale3d(1.028, 1.028, 1.028)`;
+        cardRef.current.style.setProperty('transform', transformVal, 'important');
+      }
+
       setState({
         active: true,
         rx,
@@ -65,6 +70,13 @@ export function Pointer3DCard({
 
   const handleMouseLeave = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
+      if (cardRef.current) {
+        cardRef.current.style.setProperty(
+          'transform',
+          'perspective(1200px) rotateX(0deg) rotateY(0deg) translate3d(0px, 0px, 0px) scale3d(1, 1, 1)',
+          'important'
+        );
+      }
       setState({
         active: false,
         rx: 0,

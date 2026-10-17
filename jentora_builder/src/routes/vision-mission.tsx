@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { images, visionData, missionData, missionPoints, companyCommitment, pageHead } from '@/data/company';
 import { InnerHero, SectionLabel, Philosophy, ContactLink } from '@/components/site/sections';
 import { Reveal } from '@/components/site/reveal';
+import { Pointer3DCard } from '@/components/site/pointer-3d-card';
 
 export const Route = createFileRoute('/vision-mission')({
   head: () =>
@@ -33,7 +34,7 @@ function Vision() {
         <div className="container intro-grid">
           <Reveal>
             <SectionLabel>01 / OUR VISION</SectionLabel>
-            <h2 className="flip-in">Creating landmarks<br /><em>that stand the test of time.</em></h2>
+            <h2 className="flip-in text-2xl">Creating landmarks <em>that stand the test of time.</em></h2>
             <div className="vision-full-text" style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '24px' }}>
               <p style={{ fontSize: '15px', lineHeight: '1.8', color: 'var(--foreground)' }} className="p-4 rounded-lg bg-background border border-border light-sweep">
                 {visionData.statement}
@@ -52,12 +53,33 @@ function Vision() {
       {/* OUR MISSION */}
       <section className="section projects-section">
         <div className="container mission-grid">
-          <div>
-            <SectionLabel>02 / OUR MISSION</SectionLabel>
-            <h2 className="flip-in">Our mission.<br /><em>In action.</em></h2>
-            <p className="subtle" style={{ fontSize: '15px', lineHeight: '1.7', marginTop: '16px', color: 'var(--foreground)' }}>
-              {missionData.intro}
-            </p>
+          <div className="mission-left-col">
+            <Reveal>
+              <SectionLabel>02 / OUR MISSION</SectionLabel>
+              <h2 className="flip-in">Our mission.<br /><em>In action.</em></h2>
+              <p className="subtle" style={{ fontSize: '15px', lineHeight: '1.7', marginTop: '16px', color: 'var(--foreground)' }}>
+                {missionData.intro}
+              </p>
+
+              <Pointer3DCard 
+                className="mission-image-card luxury-framed light-sweep" 
+                maxTilt={8} 
+                maxMove={10}
+              >
+                <div className="mission-image-container">
+                  <img 
+                    src={images.apartment} 
+                    alt="Jentora Architectural Landmark" 
+                    loading="lazy" 
+                    className="mission-image" 
+                  />
+                  <div className="mission-image-badge">
+                    <span className="mission-badge-dot">✦</span>
+                    <span>20+ YEARS OF EXCELLENCE</span>
+                  </div>
+                </div>
+              </Pointer3DCard>
+            </Reveal>
           </div>
           <div className="mission-points-list">
             {missionPoints.map((item, i) => {
@@ -105,7 +127,7 @@ function Vision() {
             <h2 className="flip-in" style={{ fontSize: '48px', lineHeight: '1.2', marginTop: '36px', color: 'var(--foreground)' }}>
               {companyCommitment.tagline}
             </h2>
-            <p className="light-sweep p-6 rounded-lg bg-background border border-border" style={{ marginTop: '24px', fontSize: '16px', color: 'var(--muted-foreground)', maxWidth: '800px', lineHeight: '1.7' }}>
+            <p className="light-sweep commitment-statement-box p-6 rounded-lg bg-background border border-border" style={{ marginTop: '24px', fontSize: '16px', color: 'var(--muted-foreground)', maxWidth: '800px', lineHeight: '1.7' }}>
               {companyCommitment.statement}
             </p>
           </Reveal>

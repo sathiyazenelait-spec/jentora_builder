@@ -82,10 +82,14 @@ export function Philosophy() {
     <section className="philosophy">
       <div className="container">
         <SectionLabel>THE JENTORA PHILOSOPHY</SectionLabel>
-        <div className="philosophy-list">
+        <div className="philosophy-list" style={{ perspective: '1200px' }}>
           {philosophyDetails.map((item, i) => (
             <Reveal key={item.title} className={`philosophy-card-reveal delay-${(i + 1) * 100}`}>
-              <div className="philosophy-item luxury-framed light-sweep">
+              <Pointer3DCard
+                className="philosophy-item luxury-framed light-sweep philosophy-card-3d"
+                maxTilt={12}
+                maxMove={10}
+              >
                 <div className="philosophy-card-header">
                   <span className="philosophy-num-badge">
                     {item.num}
@@ -123,7 +127,7 @@ export function Philosophy() {
                     </Link>
                   </div>
                 </div>
-              </div>
+              </Pointer3DCard>
             </Reveal>
           ))}
         </div>
@@ -134,31 +138,51 @@ export function Philosophy() {
 
 export function Stats() {
   return (
-    <div className="stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '28px', marginTop: '36px', paddingTop: '28px', borderTop: '1px solid var(--border)' }}>
-      <div className="stat sparkle">
-        <strong style={{ fontSize: '52px', fontFamily: 'var(--font-display)', fontWeight: '400', lineHeight: 1 }}>
-          20<span style={{ color: 'var(--accent)' }}>+</span>
-        </strong>
-        <span style={{ fontSize: '13px', letterSpacing: '0.05em', color: 'var(--muted-foreground)', display: 'block', marginTop: '8px' }}>
-          YEARS INDUSTRY EXPERIENCE
-        </span>
-      </div>
-      <div className="stat sparkle" style={{ animationDelay: '0.4s' }}>
-        <strong style={{ fontSize: '52px', fontFamily: 'var(--font-display)', fontWeight: '400', lineHeight: 1 }}>
-          157
-        </strong>
-        <span style={{ fontSize: '13px', letterSpacing: '0.05em', color: 'var(--muted-foreground)', display: 'block', marginTop: '8px' }}>
-          COMPLETED LANDMARKS
-        </span>
-      </div>
-      <div className="stat sparkle" style={{ animationDelay: '0.8s' }}>
-        <strong style={{ fontSize: '52px', fontFamily: 'var(--font-display)', fontWeight: '400', lineHeight: 1 }}>
-          02
-        </strong>
-        <span style={{ fontSize: '13px', letterSpacing: '0.05em', color: 'var(--muted-foreground)', display: 'block', marginTop: '8px' }}>
-          ACTIVE REGIONS (CHENNAI · COIMBATORE)
-        </span>
-      </div>
+    <div className="stats-3d-grid">
+      <Pointer3DCard
+        className="stat-card-3d luxury-framed"
+        maxTilt={14}
+        maxMove={12}
+      >
+        <div className="stat-card-content">
+          <strong className="stat-card-number">
+            20<span className="stat-card-plus">+</span>
+          </strong>
+          <span className="stat-card-label">
+            YEARS INDUSTRY EXPERIENCE
+          </span>
+        </div>
+      </Pointer3DCard>
+
+      <Pointer3DCard
+        className="stat-card-3d luxury-framed"
+        maxTilt={14}
+        maxMove={12}
+      >
+        <div className="stat-card-content">
+          <strong className="stat-card-number">
+            157
+          </strong>
+          <span className="stat-card-label">
+            COMPLETED LANDMARKS
+          </span>
+        </div>
+      </Pointer3DCard>
+
+      <Pointer3DCard
+        className="stat-card-3d luxury-framed"
+        maxTilt={14}
+        maxMove={12}
+      >
+        <div className="stat-card-content">
+          <strong className="stat-card-number">
+            02
+          </strong>
+          <span className="stat-card-label">
+            ACTIVE REGIONS (CHENNAI · COIMBATORE)
+          </span>
+        </div>
+      </Pointer3DCard>
     </div>
   );
 }
@@ -244,8 +268,8 @@ export function UniqueSellingPointsSection() {
           {uniqueSellingPoints.map((usp, i) => (
             <Reveal key={usp.title} className={`delay-${(i % 4 + 1) * 100}`} style={{ height: '100%' }}>
               <Pointer3DCard
-                className="usp-card luxury-framed light-sweep smooth-float-card"
-                maxTilt={12}
+                className="usp-card luxury-framed light-sweep"
+                maxTilt={14}
                 maxMove={14}
                 style={{
                   padding: '34px 28px',
@@ -254,16 +278,16 @@ export function UniqueSellingPointsSection() {
                 }}
               >
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px', transform: 'translateZ(20px)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px', transform: 'translateZ(24px)' }}>
                     <span className="morph inline-flex items-center justify-center w-9 h-9 text-sm font-semibold text-accent border border-accent/30 bg-accent/5 rounded-full">
                       {usp.number}
                     </span>
                     <Sparkles size={18} className="text-accent hover-wobble" />
                   </div>
-                  <h3 style={{ fontSize: '26px', fontFamily: 'var(--font-display)', margin: '0 0 12px', transform: 'translateZ(26px)' }}>
+                  <h3 style={{ fontSize: '26px', fontFamily: 'var(--font-display)', margin: '0 0 12px', transform: 'translateZ(30px)' }}>
                     {usp.title}
                   </h3>
-                  <p style={{ fontSize: '15px', lineHeight: '1.75', color: 'var(--muted-foreground)', transform: 'translateZ(16px)' }}>
+                  <p style={{ fontSize: '15px', lineHeight: '1.75', color: 'var(--muted-foreground)', transform: 'translateZ(18px)' }}>
                     {usp.desc}
                   </p>
                 </div>
@@ -279,8 +303,8 @@ export function UniqueSellingPointsSection() {
 function QualitySafetyCard({ item, index }: { item: { title: string; desc: string }; index: number }) {
   return (
     <Pointer3DCard
-      className="qa-card luxury-framed light-sweep smooth-float-card"
-      maxTilt={12}
+      className="qa-card luxury-framed light-sweep"
+      maxTilt={14}
       maxMove={14}
       style={{
         padding: '30px 24px',
@@ -290,16 +314,16 @@ function QualitySafetyCard({ item, index }: { item: { title: string; desc: strin
       }}
     >
       <div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px', transform: 'translateZ(20px)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px', transform: 'translateZ(24px)' }}>
           <span className="morph inline-block px-2.5 py-0.5 text-xs text-accent border border-accent/40 font-semibold rounded-full">
             0{index + 1}
           </span>
           <CheckCircle2 size={20} className="text-accent hover-wobble" />
         </div>
-        <h3 style={{ fontSize: '22px', fontFamily: 'var(--font-display)', marginBottom: '12px', textAlign: 'center', transform: 'translateZ(24px)' }}>
+        <h3 style={{ fontSize: '22px', fontFamily: 'var(--font-display)', marginBottom: '12px', textAlign: 'center', transform: 'translateZ(30px)' }}>
           {item.title}
         </h3>
-        <p style={{ fontSize: '14px', lineHeight: '1.75', color: 'var(--muted-foreground)', textAlign: 'center', transform: 'translateZ(16px)' }}>
+        <p style={{ fontSize: '14px', lineHeight: '1.75', color: 'var(--muted-foreground)', textAlign: 'center', transform: 'translateZ(18px)' }}>
           {item.desc}
         </p>
       </div>
@@ -444,6 +468,30 @@ export function LuxuryTestimonialsSection() {
       monogram: 'PV',
       year: '2025 Handover',
       stats: 'Custom Italian Marble • LEED Rated',
+    },
+    {
+      id: 'ecr-coastal-residence',
+      quote: 'Constructing our sea-facing villa required specialized saline-resistant civil engineering. Jentora’s deep foundation work, lab-verified steel, and finish craftsmanship surpassed all expectations.',
+      author: 'Dr. Arvind Sridhar & Family',
+      role: 'Private Coastal Client',
+      location: 'ECR, Chennai',
+      projectType: 'Coastal Luxury Villa',
+      rating: 5,
+      monogram: 'AS',
+      year: '2025 Handover',
+      stats: '7,400 Sq.Ft • Saline-Resistant RCC',
+    },
+    {
+      id: 'saravanampatti-commercial',
+      quote: 'Jentora managed the turnkey structural expansion of our commercial corporate facility in Coimbatore. Strict adherence to statutory norms, zero-incident safety, and precision delivery from day one.',
+      author: 'Karthik Ranganathan',
+      role: 'Infrastructure Director',
+      location: 'Saravanampatti, Coimbatore',
+      projectType: 'Commercial Turnkey',
+      rating: 5,
+      monogram: 'KR',
+      year: '2024 Handover',
+      stats: '34,000 Sq.Ft • Structural Steel & Glass',
     },
   ];
 
@@ -649,21 +697,21 @@ export function VipConsultationBanner() {
     <section className="section" style={{ padding: '80px 0' }}>
       <div className="container">
         <Reveal>
-          <div className="luxury-vip-card luxury-framed">
+          <Pointer3DCard className="luxury-vip-card luxury-framed light-sweep" maxTilt={10} maxMove={12}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '40px', alignItems: 'center' }}>
               <div>
-                <span className="eyebrow" style={{ color: 'var(--accent)', marginBottom: '12px' }}>
+                <span className="eyebrow" style={{ color: 'var(--accent)', marginBottom: '12px', display: 'inline-block', transform: 'translateZ(22px)' }}>
                   ✦ PRIVATE ARCHITECTURAL CONSULTATION
                 </span>
-                <h2 style={{ fontSize: '46px', lineHeight: '1.1', color: '#ffffff', marginBottom: '16px' }}>
+                <h2 style={{ fontSize: '46px', lineHeight: '1.1', color: '#ffffff', marginBottom: '16px', transform: 'translateZ(30px)' }}>
                   Ready to construct your next<br />
                   <em className="gold-shimmer-text">landmark development?</em>
                 </h2>
-                <p style={{ fontSize: '14px', color: '#cbd5e1', lineHeight: '1.7', maxWidth: '520px' }}>
+                <p style={{ fontSize: '14px', color: '#cbd5e1', lineHeight: '1.7', maxWidth: '520px', transform: 'translateZ(18px)' }}>
                   Speak directly with our Managing Director & Principal Engineers. We provide complimentary structural feasibility reviews, preliminary architectural estimates, and customized stage-linked payment planning.
                 </p>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', justifyContent: 'center', transform: 'translateZ(26px)' }}>
                 <Button asChild variant="editorial" className="light-sweep" style={{ height: '56px', padding: '0 36px', fontSize: '13px', width: '100%', maxWidth: '420px', justifyContent: 'center' }}>
                   <Link to="/contact">
                     REQUEST DIRECT PROJECT CONSULTATION <ArrowUpRight />
@@ -680,7 +728,7 @@ export function VipConsultationBanner() {
                 </div>
               </div>
             </div>
-          </div>
+          </Pointer3DCard>
         </Reveal>
       </div>
     </section>
@@ -818,18 +866,43 @@ export function InnerHero({
 
 export function Approach() {
   return (
-    <div className="approach">
+    <div className="approach" style={{ perspective: '1200px' }}>
       {[
         ['01', 'A considered beginning', 'Architectural planning, feasibility analysis, regulatory approvals, and sustainable master planning.'],
         ['02', 'Precision in the process', 'Civil structural engineering, rigorous lab material testing, multi-tier QA audits, and milestone management.'],
         ['03', 'Perfection in the finish', 'High-end interior turnkey craftsmanship, rigorous final safety inspection, and guaranteed milestone handover.'],
-      ].map(([n, t, d]) => (
-        <Reveal key={n}>
-          <div className="approach-card luxury-framed h-full" style={{ background: 'rgba(14, 22, 38, 0.7)', border: '1px solid rgba(212, 175, 55, 0.25)', borderRadius: '16px', padding: '32px' }}>
-            <span className="text-accent font-bold text-lg font-display mb-2">{n}</span>
-            <h3 className="text-2xl font-display text-foreground mb-3">{t}</h3>
-            <p className="text-muted-foreground text-xs leading-relaxed">{d}</p>
-          </div>
+      ].map(([n, t, d], i) => (
+        <Reveal key={n} className={`delay-${(i + 1) * 100}`} style={{ height: '100%' }}>
+          <Pointer3DCard
+            className="approach-card luxury-framed light-sweep h-full"
+            maxTilt={14}
+            maxMove={14}
+            style={{
+              padding: '34px 28px',
+              borderRadius: '16px',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px', transform: 'translateZ(24px)' }}>
+                <span className="approach-number morph inline-block px-3 py-1 text-xs text-accent border border-accent/40 font-bold rounded-full">
+                  {n}
+                </span>
+                <span style={{ fontSize: '12px', letterSpacing: '0.12em', color: 'var(--accent)', opacity: 0.8, fontWeight: 700 }}>
+                  PHASE {n}
+                </span>
+              </div>
+              <h3 className="approach-title text-2xl font-display text-foreground mb-3" style={{ transform: 'translateZ(30px)' }}>
+                {t}
+              </h3>
+              <p className="approach-desc text-muted-foreground text-xs leading-relaxed" style={{ transform: 'translateZ(18px)' }}>
+                {d}
+              </p>
+            </div>
+          </Pointer3DCard>
         </Reveal>
       ))}
     </div>

@@ -66,9 +66,8 @@ function About() {
         <div className="container intro-grid">
           <Reveal>
             <SectionLabel>OUR STORY & PEDIGREE</SectionLabel>
-            <h2>
-              New beginnings.<br />
-              <em>Lasting foundations.</em>
+            <h2 className="about-headline-single" style={{ fontSize: 'clamp(36px, 4.4vw, 64px)', lineHeight: '1.15', margin: '20px 0 24px 0', whiteSpace: 'nowrap' }}>
+              New beginnings. <em>Lasting foundations.</em>
             </h2>
             <p className="text-justify" style={{ textAlign: 'justify', textJustify: 'inter-word', lineHeight: '1.8' }}>
               {company.introduction}

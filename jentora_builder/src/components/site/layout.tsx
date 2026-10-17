@@ -128,18 +128,8 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                 aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
                 title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
               >
-                <span className="theme-toggle-inner">
-                  {theme === 'light' ? (
-                    <>
-                      <Sun size={15} style={{ color: '#d4af37' }} />
-                      <span className="theme-toggle-label">LIGHT</span>
-                    </>
-                  ) : (
-                    <>
-                      <Moon size={15} style={{ color: '#f6e6b4' }} />
-                      <span className="theme-toggle-label">DARK</span>
-                    </>
-                  )}
+                <span className="theme-toggle-emoji" role="img" aria-label={theme === 'light' ? 'Light theme' : 'Dark theme'}>
+                  {theme === 'light' ? '☀️' : '🌙'}
                 </span>
               </button>
               <Button asChild variant="editorial" className="nav-cta light-sweep">
@@ -177,9 +167,10 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                 onClick={toggleTheme}
                 className="theme-toggle-btn"
                 aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+                title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
               >
-                <span className="theme-toggle-inner">
-                  {theme === 'light' ? <Sun size={15} style={{ color: '#d4af37' }} /> : <Moon size={15} style={{ color: '#f6e6b4' }} />}
+                <span className="theme-toggle-emoji" role="img" aria-label={theme === 'light' ? 'Light theme' : 'Dark theme'}>
+                  {theme === 'light' ? '☀️' : '🌙'}
                 </span>
               </button>
               <Button

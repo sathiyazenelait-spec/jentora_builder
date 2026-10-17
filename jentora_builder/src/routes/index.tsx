@@ -107,14 +107,20 @@ function Home() {
         <div className="container intro-grid">
           <Reveal>
             <SectionLabel>01 / THE JENTORA PROMISE</SectionLabel>
-            <h2 className="flip-in">
-              We don’t just build structures.<br />
-              <em>We create landmarks of trust.</em>
+            <h2 className="flip-in jentora-promise-heading">
+              We don’t just build structures. <em>We create landmarks of trust.</em>
             </h2>
             <p className="text-justify" style={{ textAlign: 'justify', textJustify: 'inter-word', lineHeight: '1.8' }}>
               {company.introduction}
             </p>
-            <TextLink to="/about">DISCOVER JENTORA</TextLink>
+            <div style={{ marginTop: '26px', marginBottom: '10px' }}>
+              <Button asChild className="discover-jentora-btn light-sweep">
+                <Link to="/about">
+                  DISCOVER JENTORA
+                  <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </Button>
+            </div>
             <Stats />
           </Reveal>
           <Reveal className="intro-image light-sweep luxury-framed">
@@ -145,9 +151,8 @@ function Home() {
             <div style={{ position: 'sticky', top: '110px' }}>
               <Reveal>
                 <SectionLabel>02 / OUR EXPERTISE & DISCIPLINES</SectionLabel>
-                <h2 className="flip-in" style={{ fontSize: '56px', lineHeight: '1.05', margin: '20px 0' }}>
-                  From vision<br />
-                  to <em>reality.</em>
+                <h2 className="flip-in expertise-headline" style={{ fontSize: 'clamp(32px, 3.6vw, 56px)', lineHeight: '1.1', margin: '20px 0' }}>
+                  From vision to <em>reality.</em>
                 </h2>
                 <p className="expertise-intro-desc" style={{ fontSize: '16px', lineHeight: '1.8', marginBottom: '28px' }}>
                   A thoughtful approach. A precise execution. We unite 20 years of civil engineering mastery, rigorous lab-tested materials, and end-to-end transparency to construct landmarks that stand the test of time.
@@ -166,15 +171,16 @@ function Home() {
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
                   <Button asChild variant="editorial" className="light-sweep">
                     <Link to="/services" className="hover-wobble">
                       VIEW ALL 9 SERVICES <ArrowRight />
                     </Link>
                   </Button>
-                  <Button asChild variant="minimal">
-                    <Link to="/contact">
-                      GET A QUOTE <ArrowUpRight />
+                  <Button asChild className="get-a-quote-btn light-sweep">
+                    <Link to="/contact" className="get-a-quote-inner">
+                      <span>GET A QUOTE</span>
+                      <ArrowUpRight size={15} className="quote-arrow-icon" />
                     </Link>
                   </Button>
                 </div>
@@ -182,7 +188,7 @@ function Home() {
             </div>
 
             {/* RIGHT SERVICES CARDS COLUMN */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', perspective: '1200px' }}>
               {[
                 {
                   num: '01',
@@ -216,8 +222,12 @@ function Home() {
                 },
               ].map((service, idx) => (
                 <Reveal key={service.num} className={`delay-${(idx + 1) * 100}`}>
-                  <div className="expertise-service-card luxury-framed light-sweep">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <Pointer3DCard 
+                    className="expertise-service-card luxury-framed light-sweep"
+                    maxTilt={12}
+                    maxMove={10}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', transform: 'translateZ(20px)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <span className="expertise-service-num" style={{ fontSize: '13px', fontWeight: '700', padding: '4px 12px', borderRadius: '50px' }}>
                           {service.num}
@@ -231,14 +241,14 @@ function Home() {
                       </Link>
                     </div>
 
-                    <h3 className="expertise-service-title" style={{ fontSize: '28px', fontFamily: 'var(--font-display)', margin: '0 0 10px 0' }}>
+                    <h3 className="expertise-service-title" style={{ fontSize: '28px', fontFamily: 'var(--font-display)', margin: '0 0 10px 0', transform: 'translateZ(26px)' }}>
                       {service.title}
                     </h3>
 
-                    <p className="expertise-service-desc text-justify" style={{ fontSize: '16px', lineHeight: '1.75', margin: 0, textAlign: 'justify', textJustify: 'inter-word' }}>
+                    <p className="expertise-service-desc text-justify" style={{ fontSize: '16px', lineHeight: '1.75', margin: 0, textAlign: 'justify', textJustify: 'inter-word', transform: 'translateZ(16px)' }}>
                       {service.desc}
                     </p>
-                  </div>
+                  </Pointer3DCard>
                 </Reveal>
               ))}
             </div>
@@ -332,12 +342,12 @@ function Home() {
       </section>
 
       {/* SECTION 05: LOOKING AHEAD - VISION & MISSION DUAL SHOWCASE */}
-      <section className="section" style={{ background: 'linear-gradient(180deg, #070a12 0%, #0c1424 50%, #070a12 100%)', padding: '120px 0' }}>
+      <section className="section looking-ahead-section" style={{ background: 'linear-gradient(180deg, #070a12 0%, #0c1424 50%, #070a12 100%)', padding: '120px 0' }}>
         <div className="container">
           <div className="section-heading" style={{ marginBottom: '64px' }}>
             <Reveal>
               <SectionLabel>05 / LOOKING AHEAD</SectionLabel>
-              <h2 className="flip-in" style={{ fontSize: '56px' }}>
+              <h2 className="flip-in looking-ahead-title" style={{ fontSize: '56px' }}>
                 The guiding principles of<br />
                 <em>our architectural future.</em>
               </h2>
@@ -353,16 +363,13 @@ function Home() {
             {/* VISION CARD */}
             <Reveal className="delay-100" style={{ height: '100%' }}>
               <Pointer3DCard
-                className="vision-card luxury-framed light-sweep smooth-float-card"
-                maxTilt={10}
-                maxMove={12}
+                className="vision-card luxury-framed light-sweep"
+                maxTilt={12}
+                maxMove={14}
                 style={{
-                  background: 'rgba(14, 22, 38, 0.75)',
-                  border: '1px solid rgba(212, 175, 55, 0.28)',
                   borderRadius: '16px',
                   padding: '48px 40px',
                   height: '100%',
-                  backdropFilter: 'blur(16px)',
                   position: 'relative',
                   overflow: 'hidden',
                 }}
@@ -408,16 +415,13 @@ function Home() {
             {/* MISSION CARD */}
             <Reveal className="delay-200" style={{ height: '100%' }}>
               <Pointer3DCard
-                className="mission-card luxury-framed light-sweep smooth-float-card"
-                maxTilt={10}
-                maxMove={12}
+                className="mission-card luxury-framed light-sweep"
+                maxTilt={12}
+                maxMove={14}
                 style={{
-                  background: 'rgba(14, 22, 38, 0.75)',
-                  border: '1px solid rgba(212, 175, 55, 0.28)',
                   borderRadius: '16px',
                   padding: '48px 40px',
                   height: '100%',
-                  backdropFilter: 'blur(16px)',
                   position: 'relative',
                   overflow: 'hidden',
                 }}

@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { pageHead, serviceItems, images } from '@/data/company';
 import { Reveal } from '@/components/site/reveal';
 import { LuxuryTrustStrip, VipConsultationBanner } from '@/components/site/sections';
+import { Pointer3DCard } from '@/components/site/pointer-3d-card';
 import { ArrowRight, ShieldCheck, Compass, Lightbulb, FileText, Leaf, TrendingUp } from 'lucide-react';
 import heroBg from '@/assets/service-hero-bg.jpg';
 import ctaBg from '@/assets/service-cta-bg.jpg';
@@ -84,7 +85,7 @@ function Services() {
           <div className="commitment-right-content">
             <Reveal>
               <span className="commitment-subtitle">WHY CHOOSE JENTORA</span>
-              <h2 className="commitment-title">
+              <h2 className="commitment-title" style={{ color: '#ffffff' }}>
                 More Than Construction.<br />It’s a <span className="gold-shimmer-text">Commitment.</span>
               </h2>
 
@@ -97,8 +98,8 @@ function Services() {
                         <Icon size={20} strokeWidth={1.5} />
                       </div>
                       <div className="commitment-card-text">
-                        <h4>{item.title}</h4>
-                        <p>{item.desc}</p>
+                        <h4 style={{ color: '#ffffff' }}>{item.title}</h4>
+                        <p style={{ color: 'rgba(255, 255, 255, 0.85)' }}>{item.desc}</p>
                       </div>
                     </div>
                   );
@@ -135,14 +136,18 @@ function Services() {
                       <span className="service-zigzag-badge">✦ {item.number}</span>
                     </div>
 
-                    <div className="service-zigzag-content">
+                    <Pointer3DCard 
+                      className="service-zigzag-content luxury-framed light-sweep"
+                      maxTilt={10}
+                      maxMove={12}
+                    >
                       <span className="service-zigzag-num">{item.number}</span>
                       <h3 className="service-zigzag-title">{item.title}</h3>
                       <p className="service-zigzag-desc text-justify" style={{ textAlign: 'justify', textJustify: 'inter-word' }}>{item.desc}</p>
                       <Link to="/contact" className="service-zigzag-link hover-wobble">
                         EXPLORE SERVICE <ArrowRight size={14} className="text-accent" />
                       </Link>
-                    </div>
+                    </Pointer3DCard>
                   </div>
                 </Reveal>
               );
