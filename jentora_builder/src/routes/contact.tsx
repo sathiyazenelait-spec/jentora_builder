@@ -336,14 +336,14 @@ function Contact() {
                           }}
                         >
                           <iframe
-                            title="Jentora Builder Head Office Location - Anna Nagar Chennai"
+                            title="Jentora Builder Private Limited Location"
+                            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d31090.06255432537!2d80.205851!3d13.08284!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265400136cad7%3A0x33538c1a7c98db7f!2sJentora%20Builder%20Private%20Limited!5e0!3m2!1sen!2sin!4v1792478711473!5m2!1sen!2sin"
                             width="100%"
                             height="100%"
                             style={{ border: 0, display: 'block' }}
-                            loading="lazy"
                             allowFullScreen
-                            referrerPolicy="no-referrer-when-downgrade"
-                            src="https://maps.google.com/maps?q=Plot+No.85,+4th+Avenue+Road,+Shanthi+Colony,+Anna+Nagar,+Chennai+600040&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                            loading="lazy"
+                            referrerPolicy="strict-origin-when-cross-origin"
                           />
                         </div>
                       </div>

@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { pageHead, serviceItems, images } from '@/data/company';
 import { Reveal } from '@/components/site/reveal';
 import { LuxuryTrustStrip, VipConsultationBanner } from '@/components/site/sections';
+import { openStartConversation } from '@/components/site/start-conversation-modal';
 import { Pointer3DCard } from '@/components/site/pointer-3d-card';
 import { ArrowRight, ShieldCheck, Compass, Lightbulb, FileText, Leaf, TrendingUp } from 'lucide-react';
 import heroBg from '@/assets/service-hero-bg.jpg';
@@ -173,9 +174,14 @@ function Services() {
             </h2>
           </Reveal>
           <Reveal>
-            <Link to="/contact" className="service-cta-btn light-sweep">
+            <button 
+              type="button" 
+              onClick={() => openStartConversation('Comprehensive Construction')}
+              className="service-cta-btn light-sweep cursor-pointer border-0"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+            >
               START A CONVERSATION <ArrowRight size={16} />
-            </Link>
+            </button>
           </Reveal>
         </div>
       </section>

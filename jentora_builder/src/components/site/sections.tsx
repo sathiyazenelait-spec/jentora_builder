@@ -32,6 +32,7 @@ import {
 } from '@/data/company';
 import { Reveal } from './reveal';
 import { Pointer3DCard } from './pointer-3d-card';
+import { openStartConversation } from './start-conversation-modal';
 
 export function SectionLabel({ children }: { children: ReactNode }) {
   return <div className="eyebrow flip-in">{children}</div>;
@@ -39,10 +40,15 @@ export function SectionLabel({ children }: { children: ReactNode }) {
 
 export function ContactLink({ light = false }: { light?: boolean }) {
   return (
-    <Button asChild variant={light ? 'line' : 'editorial'} className="light-sweep">
-      <Link to="/contact" className="hover-wobble">
+    <Button 
+      type="button" 
+      variant={light ? 'line' : 'editorial'} 
+      className="light-sweep cursor-pointer"
+      onClick={() => openStartConversation()}
+    >
+      <span className="hover-wobble flex items-center gap-1.5">
         START A CONVERSATION <ArrowUpRight className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-      </Link>
+      </span>
     </Button>
   );
 }
@@ -252,48 +258,248 @@ export function UniqueSellingPointsSection() {
         <div className="section-heading">
           <Reveal>
             <SectionLabel>OUR UNIQUE VALUE</SectionLabel>
-            <h2 style={{ fontSize: '52px' }}>
+            <h2 style={{ fontSize: 'clamp(32px, 4.5vw, 54px)', lineHeight: '1.1' }}>
               Why discerning clients<br />
               <em>choose Jentora.</em>
             </h2>
           </Reveal>
           <Reveal>
-            <p className="subtle" style={{ maxWidth: '440px', fontSize: '16px', lineHeight: '1.75' }}>
-              From initial architectural schematics to transparent milestone-linked payment schedules, we combine personalized client care with rigorous structural engineering.
+            <p className="subtle" style={{ maxWidth: '480px', fontSize: '15px', lineHeight: '1.75' }}>
+              From initial architectural schematics to transparent milestone-linked payment schedules, we merge personalized luxury craftsmanship with rigorous civil structural engineering across Chennai & Coimbatore.
             </p>
           </Reveal>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginTop: '40px', perspective: '1200px' }}>
-          {uniqueSellingPoints.map((usp, i) => (
-            <Reveal key={usp.title} className={`delay-${(i % 4 + 1) * 100}`} style={{ height: '100%' }}>
-              <Pointer3DCard
-                className="usp-card luxury-framed light-sweep"
-                maxTilt={14}
-                maxMove={14}
+        {/* MERGED IMAGE-GRID BENTO SHOWCASE */}
+        <div className="unique-value-merged-grid" style={{ marginTop: '45px' }}>
+          {/* CARD 01 - HERO SHOWCASE (VILLAS / CLIENT-CENTRIC) */}
+          <div className="usp-bento-hero">
+            <Reveal style={{ width: '100%', height: '100%' }}>
+              <div
+                className="usp-merged-card luxury-framed light-sweep group"
                 style={{
-                  padding: '34px 28px',
-                  height: '100%',
-                  borderRadius: '16px',
+                  minHeight: '480px',
                 }}
               >
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px', transform: 'translateZ(24px)' }}>
-                    <span className="morph inline-flex items-center justify-center w-9 h-9 text-sm font-semibold text-accent border border-accent/30 bg-accent/5 rounded-full">
-                      {usp.number}
+                {/* FULL BLEED BACKGROUND IMAGE */}
+                <img
+                  src={images.villas}
+                  alt="Client-Centric Architectural Living"
+                  className="usp-merged-bg-img"
+                />
+                <div className="usp-merged-overlay" />
+
+                <div className="usp-merged-content">
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+                    <span className="morph inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-accent border border-accent/40 bg-black/60 backdrop-blur-md rounded-full">
+                      <Sparkles size={13} /> 01 / CLIENT-CENTRIC LUXURY
                     </span>
-                    <Sparkles size={18} className="text-accent hover-wobble" />
+                    <span className="px-3 py-1 text-xs font-semibold text-white/90 bg-accent/20 border border-accent/30 rounded-full backdrop-blur-md">
+                      20+ Years Trust
+                    </span>
                   </div>
-                  <h3 style={{ fontSize: '26px', fontFamily: 'var(--font-display)', margin: '0 0 12px', transform: 'translateZ(30px)' }}>
-                    {usp.title}
+
+                  <h3 style={{ fontSize: 'clamp(26px, 3.2vw, 36px)', fontFamily: 'var(--font-sans)', fontWeight: 700, margin: '0 0 12px', color: '#ffffff', lineHeight: '1.15' }}>
+                    Client-Centric Approach
                   </h3>
-                  <p style={{ fontSize: '15px', lineHeight: '1.75', color: 'var(--muted-foreground)', transform: 'translateZ(18px)' }}>
-                    {usp.desc}
+                  <p style={{ fontSize: '15px', lineHeight: '1.7', color: '#e2e8f0', maxWidth: '620px', marginBottom: '20px' }}>
+                    Your aspirations are our guiding blueprint. We prioritize transparent consultation, flexible modifications, and dedicated project managers throughout your entire building journey.
                   </p>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'center', marginBottom: '22px' }}>
+                    {['Dedicated Project Director', 'Tailored Architectural Blueprints', 'Daily Milestone Photo Logs'].map((tag) => (
+                      <span key={tag} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 600, color: '#ffffff', background: 'rgba(0, 0, 0, 0.65)', border: '1px solid rgba(212, 175, 55, 0.4)', padding: '6px 12px', borderRadius: '8px', backdropFilter: 'blur(8px)' }}>
+                        <CheckCircle2 size={13} style={{ color: 'var(--accent)' }} /> {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div>
+                    <Button
+                      type="button"
+                      variant="editorial"
+                      className="light-sweep cursor-pointer"
+                      onClick={() => openStartConversation('Luxury Villa')}
+                      style={{ fontSize: '12px', padding: '0 24px', height: '46px' }}
+                    >
+                      START A CONVERSATION <ArrowUpRight size={15} className="ml-1" />
+                    </Button>
+                  </div>
                 </div>
-              </Pointer3DCard>
+              </div>
             </Reveal>
-          ))}
+          </div>
+
+          {/* CARD 02 - STRATEGIC POSITIONING (COMMERCIAL LANDMARK) */}
+          <div className="usp-bento-side">
+            <Reveal style={{ width: '100%', height: '100%' }}>
+              <div
+                className="usp-merged-card luxury-framed light-sweep group"
+                style={{
+                  minHeight: '480px',
+                }}
+              >
+                <img
+                  src={images.serviceCommercial}
+                  alt="Strategic Market Commercial Landmark"
+                  className="usp-merged-bg-img"
+                />
+                <div className="usp-merged-overlay" />
+
+                <div className="usp-merged-content">
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                    <span className="morph inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-accent border border-accent/40 bg-black/60 backdrop-blur-md rounded-full">
+                      <Building2 size={13} /> 02 / CAPITAL APPRECIATION
+                    </span>
+                    <span className="px-2.5 py-0.5 text-xs font-semibold text-accent border border-accent/30 rounded-full bg-black/60">
+                      Grade-A
+                    </span>
+                  </div>
+
+                  <h3 style={{ fontSize: 'clamp(24px, 2.6vw, 30px)', fontFamily: 'var(--font-sans)', fontWeight: 700, margin: '0 0 10px', color: '#ffffff', lineHeight: '1.2' }}>
+                    Strategic Market Positioning
+                  </h3>
+                  <p style={{ fontSize: '14px', lineHeight: '1.7', color: '#e2e8f0', marginBottom: '20px' }}>
+                    Uncompromising standard of premium quality, transparent pricing, and unmatched engineering precision that deliver enduring capital appreciation.
+                  </p>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingTop: '14px', borderTop: '1px solid rgba(255, 255, 255, 0.2)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: '#ffffff', fontWeight: 500 }}>
+                      <ShieldCheck size={16} style={{ color: 'var(--accent)' }} /> 100% Structural Quality Assurance
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: '#ffffff', fontWeight: 500 }}>
+                      <Award size={16} style={{ color: 'var(--accent)' }} /> ISO-Standard Construction Practices
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* CARD 03 - INNOVATION & ADAPTABILITY (BLUEPRINT / ENGINEERING) */}
+          <div className="usp-bento-third">
+            <Reveal style={{ width: '100%', height: '100%' }}>
+              <div
+                className="usp-merged-card luxury-framed light-sweep group"
+                style={{
+                  minHeight: '450px',
+                }}
+              >
+                <img
+                  src={images.serviceBlueprint}
+                  alt="Architectural Innovation and Blueprint Engineering"
+                  className="usp-merged-bg-img"
+                />
+                <div className="usp-merged-overlay" />
+
+                <div className="usp-merged-content">
+                  <span className="morph inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-accent border border-accent/40 bg-black/60 backdrop-blur-md rounded-full mb-3">
+                    <Sparkles size={13} /> 03 / FUTURE-READY TECH
+                  </span>
+                  <h3 style={{ fontSize: '23px', fontFamily: 'var(--font-sans)', fontWeight: 700, margin: '0 0 10px', color: '#ffffff' }}>
+                    Innovation & Adaptability
+                  </h3>
+                  <p style={{ fontSize: '14px', lineHeight: '1.65', color: '#e2e8f0', marginBottom: '16px' }}>
+                    Modern construction practices, green building techniques, energy-efficient designs, and future-ready architectural methodologies.
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                    <span style={{ fontSize: '11px', background: 'rgba(0,0,0,0.65)', border: '1px solid rgba(212, 175, 55, 0.4)', padding: '5px 10px', borderRadius: '6px', color: '#ffffff', fontWeight: 500 }}>
+                      3D BIM Planning
+                    </span>
+                    <span style={{ fontSize: '11px', background: 'rgba(0,0,0,0.65)', border: '1px solid rgba(212, 175, 55, 0.4)', padding: '5px 10px', borderRadius: '6px', color: '#ffffff', fontWeight: 500 }}>
+                      Green Building Standards
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* CARD 04 - COMMUNITY INTEGRATION (APARTMENT RESIDENTIAL) */}
+          <div className="usp-bento-third">
+            <Reveal style={{ width: '100%', height: '100%' }}>
+              <div
+                className="usp-merged-card luxury-framed light-sweep group"
+                style={{
+                  minHeight: '450px',
+                }}
+              >
+                <img
+                  src={images.apartment}
+                  alt="Community Integration and Iconic Landmarks"
+                  className="usp-merged-bg-img"
+                />
+                <div className="usp-merged-overlay" />
+
+                <div className="usp-merged-content">
+                  <span className="morph inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-accent border border-accent/40 bg-black/60 backdrop-blur-md rounded-full mb-3">
+                    <Building2 size={13} /> 04 / CIVIC HARMONY
+                  </span>
+                  <h3 style={{ fontSize: '23px', fontFamily: 'var(--font-sans)', fontWeight: 700, margin: '0 0 10px', color: '#ffffff' }}>
+                    Community Integration
+                  </h3>
+                  <p style={{ fontSize: '14px', lineHeight: '1.65', color: '#e2e8f0', marginBottom: '16px' }}>
+                    Creating iconic developments that harmonize with their environment, enrich neighborhood value, and foster vibrant, connected communities.
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                    <span style={{ fontSize: '11px', background: 'rgba(0,0,0,0.65)', border: '1px solid rgba(212, 175, 55, 0.4)', padding: '5px 10px', borderRadius: '6px', color: '#ffffff', fontWeight: 500 }}>
+                      Neighborhood Landmarks
+                    </span>
+                    <span style={{ fontSize: '11px', background: 'rgba(0,0,0,0.65)', border: '1px solid rgba(212, 175, 55, 0.4)', padding: '5px 10px', borderRadius: '6px', color: '#ffffff', fontWeight: 500 }}>
+                      Environmental Synergy
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* CARD 05 - FLEXIBLE PAYMENT PLANS (INTERIOR & TRANSPARENCY) */}
+          <div className="usp-bento-third">
+            <Reveal style={{ width: '100%', height: '100%' }}>
+              <div
+                className="usp-merged-card luxury-framed light-sweep group"
+                style={{
+                  minHeight: '450px',
+                }}
+              >
+                <img
+                  src={images.interior}
+                  alt="Flexible Milestone Payment Plans"
+                  className="usp-merged-bg-img"
+                />
+                <div className="usp-merged-overlay" />
+
+                <div className="usp-merged-content">
+                  <span className="morph inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-accent border border-accent/40 bg-black/60 backdrop-blur-md rounded-full mb-3">
+                    <FileCheck size={13} /> 05 / FINANCIAL PEACE
+                  </span>
+                  <h3 style={{ fontSize: '23px', fontFamily: 'var(--font-sans)', fontWeight: 700, margin: '0 0 10px', color: '#ffffff' }}>
+                    Flexible Payment Plans
+                  </h3>
+                  <p style={{ fontSize: '14px', lineHeight: '1.65', color: '#e2e8f0', marginBottom: '16px' }}>
+                    Transparent, stage-linked construction payment schedules tailored to help you plan finances smoothly without hidden costs.
+                  </p>
+
+                  {/* VISUAL STAGE MILESTONE BAR */}
+                  <div style={{ background: 'rgba(0,0,0,0.7)', border: '1px solid rgba(212, 175, 55, 0.45)', borderRadius: '10px', padding: '10px 14px', backdropFilter: 'blur(10px)' }}>
+                    <div style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent)', fontWeight: 700, marginBottom: '6px' }}>
+                      Stage-Linked Transparency
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#f1f5f9', fontWeight: 600 }}>
+                      <span>Plinth</span>
+                      <span style={{ color: 'var(--accent)' }}>→</span>
+                      <span>Structure</span>
+                      <span style={{ color: 'var(--accent)' }}>→</span>
+                      <span>Brickwork</span>
+                      <span style={{ color: 'var(--accent)' }}>→</span>
+                      <span>Finish</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </div>
     </section>
@@ -564,44 +770,98 @@ export function LuxuryTestimonialsSection() {
           </Reveal>
         </div>
 
-        {/* UNIQUE 3D TESTIMONIAL CARDS STAGE */}
-        <div className="luxury-testimonial-stage" style={{ marginTop: '40px' }}>
-          <div className="testimonial-cards-grid">
-            {testimonials.map((item, idx) => {
-              const isActive = activeIndex === idx;
+        {/* UNIQUE 3D TESTIMONIAL CARDS STAGE WITH > BUTTON */}
+        <div className="luxury-testimonial-stage" style={{ marginTop: '40px', position: 'relative' }}>
+          
+          {/* FLOATING PREV / NEXT BUTTONS AT STAGE SIDES */}
+          <button
+            type="button"
+            onClick={handlePrev}
+            className="testimonial-stage-nav-btn prev-btn light-sweep"
+            aria-label="Previous Testimonial Card"
+            title="Previous Testimonial Card"
+            style={{
+              position: 'absolute',
+              left: '-20px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: 30,
+              width: '46px',
+              height: '46px',
+              borderRadius: '50%',
+              background: 'rgba(255, 255, 255, 0.95)',
+              border: '2px solid rgba(212, 175, 55, 0.7)',
+              color: '#090d16',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
+              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          >
+            <ChevronLeft size={22} />
+          </button>
+
+          <button
+            type="button"
+            onClick={handleNext}
+            className="testimonial-stage-nav-btn next-btn light-sweep"
+            aria-label="Next Testimonial Card"
+            title="Next Testimonial Card"
+            style={{
+              position: 'absolute',
+              right: '-20px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: 30,
+              width: '46px',
+              height: '46px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #d4af37 0%, #e5c07b 50%, #b8860b 100%)',
+              border: '2px solid rgba(255, 255, 255, 0.9)',
+              color: '#090d16',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              boxShadow: '0 8px 25px rgba(212, 175, 55, 0.5)',
+              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          >
+            <ChevronRight size={24} />
+          </button>
+
+          {/* ACTIVE TESTIMONIAL CARD DISPLAY WITH > BUTTON */}
+          <div key={activeIndex} className="fade-float-center" style={{ maxWidth: '880px', margin: '0 auto' }}>
+            {(() => {
+              const item = testimonials[activeIndex];
+              if (!item) return null;
               return (
-                <div
-                  key={item.id}
-                  className={`testimonial-card-wrapper ${isActive ? 'is-active-wrapper' : 'is-flanking-wrapper'}`}
+                <Pointer3DCard 
+                  className="luxury-testimonial-card is-active luxury-framed light-sweep"
+                  maxTilt={8}
+                  maxMove={10}
+                  style={{
+                    padding: '44px 38px',
+                    borderRadius: '20px',
+                    position: 'relative',
+                    minHeight: '360px',
+                  }}
                 >
-                  <Pointer3DCard 
-                    onClick={() => setActiveIndex(idx)}
-                    className={`luxury-testimonial-card luxury-framed ${isActive ? 'is-active testimonial-active-glow' : 'is-inactive-companion'}`}
-                    role="button"
-                    tabIndex={0}
-                    maxTilt={isActive ? 8 : 12}
-                    maxMove={isActive ? 10 : 14}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        setActiveIndex(idx);
-                      }
-                    }}
-                    aria-pressed={isActive}
-                    style={{ height: '100%' }}
-                  >
-                    <div>
-                      {/* Top Row: Stars + Project Type */}
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', transform: 'translateZ(20px)' }}>
+                  <div>
+                    {/* Top Row: Stars + Project Type + NEXT CARD > BUTTON */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px', marginBottom: '22px', transform: 'translateZ(20px)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                         <div className="star-rating" style={{ margin: 0 }}>
                           {[...Array(item.rating)].map((_, i) => (
                             <Star 
                               key={i} 
-                              size={16} 
+                              size={18} 
                               fill="currentColor" 
                               stroke="none" 
                               className="star-shimmer"
-                              style={{ animationDelay: `${i * 0.12}s` }}
+                              style={{ animationDelay: `${i * 0.12}s`, color: '#d4af37' }}
                             />
                           ))}
                         </div>
@@ -610,38 +870,69 @@ export function LuxuryTestimonialsSection() {
                         </span>
                       </div>
 
-                      {/* Watermark Quote Character */}
-                      <div className="quote-mark-watermark" aria-hidden="true">“</div>
-
-                      {/* Quote Text */}
-                      <p className="testimonial-quote-body" style={{ transform: 'translateZ(22px)' }}>
-                        “{item.quote}”
-                      </p>
+                      {/* EXPLICIT NEXT CARD > BUTTON */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleNext();
+                        }}
+                        className="card-next-pill-btn light-sweep"
+                        aria-label="Next Testimonial Card"
+                        title="Click to view next testimonial card"
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          padding: '8px 18px',
+                          borderRadius: '50px',
+                          background: 'linear-gradient(135deg, #d4af37 0%, #b8860b 100%)',
+                          color: '#090d16',
+                          fontWeight: '700',
+                          fontSize: '12px',
+                          letterSpacing: '0.08em',
+                          border: 'none',
+                          cursor: 'pointer',
+                          boxShadow: '0 4px 15px rgba(212, 175, 55, 0.45)',
+                          transition: 'all 0.3s ease',
+                        }}
+                      >
+                        <span>NEXT CARD</span>
+                        <ChevronRight size={16} />
+                      </button>
                     </div>
 
-                    {/* Footer Row: Monogram Avatar + Author Info + Stats */}
-                    <div className="testimonial-footer-modern" style={{ transform: 'translateZ(24px)' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                        <div className="client-avatar-monogram">
-                          <span>{item.monogram}</span>
-                        </div>
-                        <div>
-                          <strong className="client-author-name">
-                            {item.author}
-                          </strong>
-                          <span className="client-role-location">
-                            {item.location} • {item.year}
-                          </span>
-                        </div>
+                    {/* Watermark Quote Character */}
+                    <div className="quote-mark-watermark" aria-hidden="true" style={{ top: '30px', right: '40px' }}>“</div>
+
+                    {/* Quote Text */}
+                    <p className="testimonial-quote-body" style={{ fontSize: '20px', lineHeight: '1.75', fontStyle: 'italic', transform: 'translateZ(22px)', marginBottom: '32px' }}>
+                      “{item.quote}”
+                    </p>
+                  </div>
+
+                  {/* Footer Row: Monogram Avatar + Author Info + Stats */}
+                  <div className="testimonial-footer-modern" style={{ transform: 'translateZ(24px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', borderTop: '1px solid rgba(212, 175, 55, 0.3)', paddingTop: '20px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                      <div className="client-avatar-monogram" style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'linear-gradient(135deg, #d4af37 0%, #996515 100%)', color: '#090d16', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800', fontSize: '16px' }}>
+                        <span>{item.monogram}</span>
                       </div>
-                      <div className="client-stats-chip">
-                        {item.stats}
+                      <div>
+                        <strong className="client-author-name" style={{ fontSize: '18px', display: 'block', color: 'var(--foreground)' }}>
+                          {item.author}
+                        </strong>
+                        <span className="client-role-location" style={{ fontSize: '13px', color: 'var(--muted-foreground)' }}>
+                          {item.location} • {item.year}
+                        </span>
                       </div>
                     </div>
-                  </Pointer3DCard>
-                </div>
+                    <div className="client-stats-chip" style={{ padding: '6px 14px', borderRadius: '50px', background: 'rgba(212, 175, 55, 0.15)', border: '1px solid rgba(212, 175, 55, 0.4)', fontSize: '13px', color: '#92400e', fontWeight: '600' }}>
+                      {item.stats}
+                    </div>
+                  </div>
+                </Pointer3DCard>
               );
-            })}
+            })()}
           </div>
         </div>
 
@@ -712,16 +1003,23 @@ export function VipConsultationBanner() {
                 </p>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', justifyContent: 'center', transform: 'translateZ(26px)' }}>
-                <Button asChild variant="editorial" className="light-sweep" style={{ height: '56px', padding: '0 36px', fontSize: '13px', width: '100%', maxWidth: '420px', justifyContent: 'center' }}>
-                  <Link to="/contact">
-                    REQUEST DIRECT PROJECT CONSULTATION <ArrowUpRight />
-                  </Link>
+                <Button 
+                  type="button" 
+                  variant="editorial" 
+                  className="light-sweep cursor-pointer" 
+                  style={{ height: '56px', padding: '0 36px', fontSize: '13px', width: '100%', maxWidth: '420px', justifyContent: 'center' }}
+                  onClick={() => openStartConversation()}
+                >
+                  START A CONVERSATION <ArrowUpRight className="ml-1.5" />
                 </Button>
                 <div style={{ display: 'flex', gap: '20px', alignItems: 'center', justifyContent: 'center', width: '100%', flexWrap: 'wrap' }}>
-                  <a href="tel:+919444434196" style={{ display: 'inline-flex', alignItems: 'center', gap: '9px', fontSize: '15px', color: 'var(--accent)', fontWeight: '700' }} className="hover:underline">
+                  <a 
+                    href="tel:+919444434196" 
+                    className="vip-consultation-phone hover:underline"
+                  >
                     <PhoneCall size={18} /> +91 94444 34196
                   </a>
-                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>|</span>
+                  <span className="vip-consultation-divider">|</span>
                   <a href={company.whatsappUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '9px', fontSize: '15px', color: '#25D366', fontWeight: '700' }} className="hover:underline">
                     <MessageCircle size={18} /> WhatsApp Direct Line
                   </a>

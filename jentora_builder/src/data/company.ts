@@ -7,7 +7,17 @@ import serviceIndustrial from '@/assets/service-industrial.jpg';
 import serviceCivil from '@/assets/service-civil.jpg';
 import serviceBlueprint from '@/assets/service-blueprint.jpg';
 import serviceManager from '@/assets/service-manager.jpg';
-export const images = { hero, apartment, interior, villas };
+export const images = { 
+  hero, 
+  apartment, 
+  interior, 
+  villas,
+  serviceCommercial,
+  serviceIndustrial,
+  serviceCivil,
+  serviceBlueprint,
+  serviceManager
+};
 
 export const company = { 
   name: 'Jentora Builder Private Limited', 

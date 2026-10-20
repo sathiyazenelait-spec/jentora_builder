@@ -119,17 +119,48 @@ function Vision() {
         </div>
       </section>
 
-      {/* OUR COMMITMENT */}
-      <section style={{ background: 'var(--secondary)', color: 'var(--foreground)', padding: '100px 0', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
-        <div className="container">
+      {/* 03 / OUR COMMITMENT WITH ARCHITECTURAL IMAGE BACKGROUND */}
+      <section 
+        className="commitment-bg-section relative overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(rgba(7, 10, 18, 0.78), rgba(9, 14, 26, 0.88)), url(${images.villas})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          backgroundAttachment: 'fixed',
+          padding: '130px 0',
+          borderTop: '2px solid rgba(212, 175, 55, 0.45)',
+          borderBottom: '2px solid rgba(212, 175, 55, 0.45)',
+          color: '#ffffff',
+          boxShadow: 'inset 0 0 90px rgba(0, 0, 0, 0.8)',
+          position: 'relative',
+        }}
+      >
+        <div className="container relative z-10">
           <SectionLabel>03 / OUR COMMITMENT</SectionLabel>
           <Reveal>
-            <h2 className="flip-in" style={{ fontSize: '48px', lineHeight: '1.2', marginTop: '36px', color: 'var(--foreground)' }}>
-              {companyCommitment.tagline}
+            <h2 className="flip-in" style={{ fontSize: 'clamp(36px, 4.8vw, 62px)', lineHeight: '1.2', marginTop: '28px', color: '#ffffff', textShadow: '0 4px 25px rgba(0,0,0,0.7)' }}>
+              Passion in every idea.<br />
+              <em className="gold-shimmer-text" style={{ fontStyle: 'italic', display: 'inline-block' }}>Precision in every detail.</em><br />
+              Perfection in every project.
             </h2>
-            <p className="light-sweep commitment-statement-box p-6 rounded-lg bg-background border border-border" style={{ marginTop: '24px', fontSize: '16px', color: 'var(--muted-foreground)', maxWidth: '800px', lineHeight: '1.7' }}>
+            <div 
+              className="commitment-statement-box light-sweep" 
+              style={{ 
+                marginTop: '32px', 
+                fontSize: '17px', 
+                color: '#e2e8f0', 
+                maxWidth: '840px', 
+                lineHeight: '1.8',
+                background: 'rgba(10, 16, 29, 0.75)',
+                backdropFilter: 'blur(16px)',
+                border: '1.5px solid rgba(212, 175, 55, 0.45)',
+                borderRadius: '16px',
+                padding: '32px 36px',
+                boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4)'
+              }}
+            >
               {companyCommitment.statement}
-            </p>
+            </div>
           </Reveal>
         </div>
       </section>

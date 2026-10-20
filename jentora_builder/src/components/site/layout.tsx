@@ -15,7 +15,9 @@ import {
   Youtube,
   ExternalLink,
   Sun,
-  Moon
+  Moon,
+  Award,
+  ShieldCheck
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
@@ -23,6 +25,7 @@ import logo from '@/assets/jentora-logo.png';
 import zenelaitLogo from '@/assets/zenelait-logo.png';
 import { company, navigation, services, socialLinks } from '@/data/company';
 import { ContactLink } from './sections';
+import { StartConversationModal, openStartConversation } from './start-conversation-modal';
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
@@ -132,11 +135,14 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                   {theme === 'light' ? '☀️' : '🌙'}
                 </span>
               </button>
-              <Button asChild variant="editorial" className="nav-cta light-sweep">
-                <Link to="/contact">
-                  START A CONVERSATION
-                  <ArrowUpRight />
-                </Link>
+              <Button 
+                type="button"
+                variant="editorial" 
+                className="nav-cta light-sweep hover-wobble cursor-pointer"
+                onClick={() => openStartConversation()}
+              >
+                START A CONVERSATION
+                <ArrowUpRight className="ml-1.5" />
               </Button>
             </div>
             <Button
@@ -194,7 +200,21 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               </Link>
             ))}
           </nav>
-          <div className="mt-8 pt-6 border-t border-white/15 text-xs text-secondary/80 flex flex-col gap-2">
+          <div className="mt-6 flex flex-col gap-3">
+            <Button
+              type="button"
+              variant="editorial"
+              className="w-full light-sweep hover-wobble cursor-pointer"
+              onClick={() => {
+                setMenu(false);
+                openStartConversation();
+              }}
+            >
+              START A CONVERSATION
+              <ArrowUpRight className="ml-2" />
+            </Button>
+          </div>
+          <div className="mt-6 pt-6 border-t border-white/15 text-xs text-secondary/80 flex flex-col gap-2">
             <p className="font-semibold text-accent">JENTORA BUILDER PRIVATE LIMITED</p>
             <p>Chennai · Coimbatore</p>
             <a href="tel:+919444434196" className="hover:text-accent">+91 9444434196</a>
@@ -341,6 +361,12 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                   </li>
                 ))}
               </ul>
+              <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid rgba(212, 175, 55, 0.25)' }}>
+                <span className="footer-section-title" style={{ fontSize: '11px', marginBottom: '8px' }}>TURNKEY ASSURANCE</span>
+                <p style={{ fontSize: '13px', lineHeight: '1.6', color: '#475569' }}>
+                  End-to-end structural engineering, architectural blueprints, and handover guarantee across Tamil Nadu.
+                </p>
+              </div>
             </div>
 
             {/* COL 3: COMPANY & NAVIGATION */}
@@ -373,6 +399,9 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                   REQUEST PROJECT CONSULTATION <ArrowUpRight size={14} />
                 </Link>
               </div>
+              <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: '#92400e', fontWeight: '600' }}>
+                <ShieldCheck size={15} /> 100% Client Confidentiality & Safety
+              </div>
             </div>
 
             {/* COL 4: REGISTERED OFFICE & CONTACT */}
@@ -391,7 +420,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               {/* GOOGLE MAP IFRAME */}
               <div style={{ borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(212, 175, 55, 0.35)', marginTop: '6px', width: '100%', maxWidth: '320px' }}>
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7772.609857161226!2d80.2090326!3d13.079851!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265400136cad7%3A0x33538c1a7c98db7f!2sJentora%20Builder%20Private%20Limited!5e0!3m2!1sen!2sin!4v1791976692728!5m2!1sen!2sin"
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d31090.06255432537!2d80.205851!3d13.08284!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265400136cad7%3A0x33538c1a7c98db7f!2sJentora%20Builder%20Private%20Limited!5e0!3m2!1sen!2sin!4v1792478711473!5m2!1sen!2sin"
                   width="100%"
                   height="160"
                   style={{ border: 0, display: 'block' }}
@@ -450,13 +479,51 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               </div>
             </div>
           </div>
+
+          {/* HORIZONTAL ASSURANCE & HIGHLIGHTS RIBBON */}
+          <div
+            className="footer-assurance-ribbon"
+            style={{
+              marginTop: '45px',
+              padding: '20px 32px',
+              background: 'rgba(255, 255, 255, 0.88)',
+              border: '1.5px solid rgba(212, 175, 55, 0.45)',
+              borderRadius: '14px',
+              boxShadow: '0 8px 30px rgba(212, 175, 55, 0.14)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+              flexWrap: 'wrap',
+              gap: '24px',
+              fontSize: '13px',
+              fontWeight: '600',
+              color: '#090d16',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <ShieldCheck size={18} style={{ color: '#b45309' }} />
+              <span>100% Quality & Structural Verification</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <Clock size={18} style={{ color: '#b45309' }} />
+              <span>Zero-Delay Milestone Execution</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <MapPin size={18} style={{ color: '#b45309' }} />
+              <span>Prime Locations in Chennai & Coimbatore</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <Award size={18} style={{ color: '#b45309' }} />
+              <span>20 Years Architectural Pedigree</span>
+            </div>
+          </div>
         </div>
 
         {/* BOTTOM LEGAL STRIP */}
         <div className="footer-bottom">
-          <span style={{ whiteSpace: 'nowrap', flexShrink: 0 }}>© {new Date().getFullYear()} JENTORA BUILDER PVT LTD. ALL RIGHTS RESERVED.</span>
-          <span style={{ whiteSpace: 'nowrap', flexShrink: 0 }}>20 YEARS OF INDUSTRY EXPERIENCE</span>
-          <div className="flex items-center gap-5 whitespace-nowrap" style={{ flexShrink: 0 }}>
+          <span>© {new Date().getFullYear()} JENTORA BUILDER PVT LTD. ALL RIGHTS RESERVED.</span>
+          <span>20 YEARS OF INDUSTRY EXPERIENCE</span>
+          <div className="flex items-center gap-4 flex-wrap justify-center">
             <Button variant="minimal" className="h-auto text-[10px] font-semibold text-slate-700 hover:text-pink-600" onClick={() => setLegal('Privacy Policy')}>
               PRIVACY POLICY
             </Button>
@@ -530,6 +597,9 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           </DialogDescription>
         </DialogContent>
       </Dialog>
+
+      {/* GLOBAL START CONVERSATION MODAL (POPUP TO 9444434196) */}
+      <StartConversationModal />
 
       <CustomCursor />
       <div className="loader" aria-hidden="true">

@@ -66,7 +66,7 @@ function About() {
         <div className="container intro-grid">
           <Reveal>
             <SectionLabel>OUR STORY & PEDIGREE</SectionLabel>
-            <h2 className="about-headline-single" style={{ fontSize: 'clamp(36px, 4.4vw, 64px)', lineHeight: '1.15', margin: '20px 0 24px 0', whiteSpace: 'nowrap' }}>
+            <h2 className="about-headline-single" style={{ fontSize: 'clamp(32px, 4.4vw, 64px)', lineHeight: '1.15', margin: '20px 0 24px 0' }}>
               New beginnings. <em>Lasting foundations.</em>
             </h2>
             <p className="text-justify" style={{ textAlign: 'justify', textJustify: 'inter-word', lineHeight: '1.8' }}>
@@ -107,14 +107,35 @@ function About() {
       {/* VIP CONSULTATION CTA */}
       <VipConsultationBanner />
 
-      {/* CLOSING STATEMENT */}
-      <section className="statement">
+      {/* CLOSING STATEMENT WITH ARCHITECTURAL IMAGE BACKGROUND */}
+      <section 
+        className="statement statement-with-bg"
+        style={{
+          backgroundImage: `linear-gradient(rgba(7, 10, 18, 0.72), rgba(7, 10, 18, 0.82)), url(${images.hero})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 35%',
+          backgroundAttachment: 'fixed',
+          padding: '130px 24px',
+          borderTop: '2px solid rgba(212, 175, 55, 0.5)',
+          borderBottom: '2px solid rgba(212, 175, 55, 0.5)',
+          boxShadow: 'inset 0 0 100px rgba(0, 0, 0, 0.8)',
+          textAlign: 'center',
+          position: 'relative',
+        }}
+      >
         <Reveal>
-          <h2>
-            Building with Precision.<br />
-            Delivering with Trust.<br />
-            <em className="gold-shimmer-text">Creating Landmarks of Excellence.</em>
-          </h2>
+          <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
+            <span className="eyebrow" style={{ color: 'var(--accent)', letterSpacing: '0.18em', marginBottom: '18px', display: 'inline-block' }}>
+              ✦ ARCHITECTURAL LEGACY & CRAFTSMANSHIP
+            </span>
+            <h2 style={{ fontSize: 'clamp(36px, 5.2vw, 68px)', lineHeight: '1.2', color: '#ffffff', textShadow: '0 4px 25px rgba(0, 0, 0, 0.85)' }}>
+              Building with Precision.<br />
+              Delivering with Trust.<br />
+              <em className="gold-shimmer-text" style={{ fontStyle: 'italic', display: 'inline-block', marginTop: '8px' }}>
+                Creating Landmarks of Excellence.
+              </em>
+            </h2>
+          </div>
         </Reveal>
       </section>
     </>

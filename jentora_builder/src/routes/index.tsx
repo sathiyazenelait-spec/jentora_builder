@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { ArrowDown, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowDown, ArrowRight, ArrowUpRight, MapPin, Building2, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { images, projects, company, pageHead } from '@/data/company';
+import { images, projects, company, pageHead, type Project } from '@/data/company';
 import { 
   SectionLabel, 
   Philosophy, 
   Stats, 
-  ProjectItem, 
   ServiceList, 
   TextLink,
   UniqueSellingPointsSection,
@@ -17,6 +17,7 @@ import {
 } from '@/components/site/sections';
 import { Reveal } from '@/components/site/reveal';
 import { Pointer3DCard } from '@/components/site/pointer-3d-card';
+import { openStartConversation } from '@/components/site/start-conversation-modal';
 
 export const Route = createFileRoute('/')({
   head: () =>
@@ -63,10 +64,15 @@ function Home() {
                 EXPLORE OUR PROJECTS <ArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </Button>
-            <Button asChild variant="line" className="light-sweep">
-              <Link to="/contact" className="hover-wobble">
+            <Button 
+              type="button" 
+              variant="line" 
+              className="light-sweep cursor-pointer"
+              onClick={() => openStartConversation()}
+            >
+              <span className="hover-wobble flex items-center gap-1.5">
                 SCHEDULE CONSULTATION <ArrowUpRight className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-              </Link>
+              </span>
             </Button>
           </div>
 
@@ -177,18 +183,39 @@ function Home() {
                       VIEW ALL 9 SERVICES <ArrowRight />
                     </Link>
                   </Button>
-                  <Button asChild className="get-a-quote-btn light-sweep">
-                    <Link to="/contact" className="get-a-quote-inner">
+                  <Button 
+                    type="button" 
+                    className="get-a-quote-btn light-sweep cursor-pointer"
+                    onClick={() => openStartConversation()}
+                  >
+                    <span className="get-a-quote-inner">
                       <span>GET A QUOTE</span>
                       <ArrowUpRight size={15} className="quote-arrow-icon" />
-                    </Link>
+                    </span>
                   </Button>
                 </div>
               </Reveal>
             </div>
 
-            {/* RIGHT SERVICES CARDS COLUMN */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', perspective: '1200px' }}>
+            {/* RIGHT SERVICES CARDS COLUMN (INSIDE SCROLLABLE WITH CHAINLESS HOME SCROLL) */}
+            <div 
+              className="expertise-scroll-panel"
+              onWheel={(e) => {
+                const el = e.currentTarget;
+                const atBottom = el.scrollHeight - el.scrollTop <= el.clientHeight + 2;
+                const atTop = el.scrollTop <= 0;
+                if ((atBottom && e.deltaY > 0) || (atTop && e.deltaY < 0)) {
+                  el.style.overscrollBehaviorY = 'auto';
+                } else {
+                  el.style.overscrollBehaviorY = 'contain';
+                }
+              }}
+            >
+              <div className="expertise-scroll-indicator">
+                <span>✦ ALL 9 ARCHITECTURAL DISCIPLINES</span>
+                <span>SCROLL TO EXPLORE ↓</span>
+              </div>
+
               {[
                 {
                   num: '01',
@@ -210,22 +237,46 @@ function Home() {
                 },
                 {
                   num: '04',
+                  title: 'Industrial Construction',
+                  desc: 'Heavy-duty industrial warehouses, manufacturing facilities, logistics hubs, and pre-engineered steel buildings executed with supreme structural rigor and factory-grade safety compliance.',
+                  tag: 'Warehouses · PEB Structures · Factories',
+                },
+                {
+                  num: '05',
+                  title: 'Building Renovation & Restoration',
+                  desc: 'Modern structural retrofitting, architectural expansions, facade modernizations, and spatial re-engineering to revitalize vintage properties while safeguarding structural character.',
+                  tag: 'Structural Retrofit · Facade Modernization',
+                },
+                {
+                  num: '06',
                   title: 'Interior Design & Fit-Out',
                   desc: 'Turnkey luxury interiors, bespoke modular joinery, precision false-ceiling lighting, acoustic treatments, and custom materials curated for refined residential and executive commercial spaces.',
                   tag: 'Luxury Interiors · Modular Woodwork',
                 },
                 {
-                  num: '05',
-                  title: 'Architectural Planning & Engineering',
+                  num: '07',
+                  title: 'Civil & Structural Engineering',
+                  desc: 'Foundational soil stabilization, ultrasonic concrete testing, seismic compliance engineering, and multi-tier QA audits guaranteeing landmark strength built to endure for generations.',
+                  tag: 'Foundations · Seismic Engineering · Lab QA',
+                },
+                {
+                  num: '08',
+                  title: 'Architectural Planning & 3D BIM',
                   desc: 'Master site planning, 3D structural modeling, solar & wind microclimate optimization, and full structural validation ensuring 100% compliance with government building norms.',
-                  tag: '3D BIM · Structural Engineering · Regulatory Approvals',
+                  tag: '3D BIM · Master Planning · Approvals',
+                },
+                {
+                  num: '09',
+                  title: 'Project Management & Consultancy',
+                  desc: 'Daily photographic progress logs, rigorous cost accounting, material lab-testing stage gates, and transparent milestone-linked scheduling providing total peace of mind.',
+                  tag: 'Daily Photo Logs · Milestone Audits',
                 },
               ].map((service, idx) => (
-                <Reveal key={service.num} className={`delay-${(idx + 1) * 100}`}>
+                <div key={service.num}>
                   <Pointer3DCard 
                     className="expertise-service-card luxury-framed light-sweep"
-                    maxTilt={12}
-                    maxMove={10}
+                    maxTilt={10}
+                    maxMove={8}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', transform: 'translateZ(20px)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -241,41 +292,23 @@ function Home() {
                       </Link>
                     </div>
 
-                    <h3 className="expertise-service-title" style={{ fontSize: '28px', fontFamily: 'var(--font-display)', margin: '0 0 10px 0', transform: 'translateZ(26px)' }}>
+                    <h3 className="expertise-service-title" style={{ fontSize: '26px', fontFamily: 'var(--font-sans)', fontWeight: 700, margin: '0 0 10px 0', transform: 'translateZ(26px)' }}>
                       {service.title}
                     </h3>
 
-                    <p className="expertise-service-desc text-justify" style={{ fontSize: '16px', lineHeight: '1.75', margin: 0, textAlign: 'justify', textJustify: 'inter-word', transform: 'translateZ(16px)' }}>
+                    <p className="expertise-service-desc text-justify" style={{ fontSize: '15px', lineHeight: '1.75', margin: 0, textAlign: 'justify', textJustify: 'inter-word', transform: 'translateZ(16px)' }}>
                       {service.desc}
                     </p>
                   </Pointer3DCard>
-                </Reveal>
+                </div>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* SELECTED PROJECTS PORTFOLIO */}
-      <section className="section projects-section">
-        <div className="container">
-          <div className="section-heading">
-            <Reveal>
-              <SectionLabel>03 / SELECTED PROJECTS</SectionLabel>
-              <h2 className="flip-in">
-                Spaces that speak<br />
-                <em>for themselves.</em>
-              </h2>
-            </Reveal>
-            <TextLink to="/projects">VIEW ALL PROJECTS</TextLink>
-          </div>
-          <div className="portfolio">
-            {projects.map((project) => (
-              <ProjectItem key={project.id} project={project} />
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* 03 / ARCHITECTURAL LANDMARKS SHOWCASE (MODERN INTERACTIVE EDITORIAL LAYOUT) */}
+      <HomeProjectsShowcase projects={projects} />
 
       {/* CLIENT TESTIMONIALS */}
       <LuxuryTestimonialsSection />
@@ -468,6 +501,396 @@ function Home() {
         </div>
       </section>
     </>
+  );
+}
+
+function HomeProjectsShowcase({ projects }: { projects: Project[] }) {
+  const [activeCategory, setActiveCategory] = useState<'All' | 'Completed' | 'Under Construction'>('All');
+  
+  const filtered = projects.filter((p) => {
+    if (activeCategory === 'All') return true;
+    return p.status === activeCategory;
+  });
+
+  const spotlight = filtered.find(p => p.id === 'jentora-highland-prive') || filtered[0] || projects[0];
+  const companions = filtered.filter(p => p.id !== spotlight?.id);
+
+  return (
+    <section className="section home-projects-section" style={{ position: 'relative' }}>
+      <div className="container">
+        {/* HEADER & FILTER BAR */}
+        <div className="section-heading" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px', marginBottom: '40px' }}>
+          <div>
+            <Reveal>
+              <SectionLabel>03 / SELECTED LANDMARKS</SectionLabel>
+              <h2 className="flip-in" style={{ fontSize: 'clamp(36px, 4.8vw, 62px)', margin: '12px 0 0' }}>
+                Spaces that speak<br />
+                <em>for themselves.</em>
+              </h2>
+            </Reveal>
+            <Reveal>
+              <p className="subtle" style={{ maxWidth: '540px', fontSize: '15px', lineHeight: '1.7', marginTop: '14px' }}>
+                Explore our landmark residential complexes and gated communities across Chennai and Coimbatore.
+              </p>
+            </Reveal>
+          </div>
+
+          <Reveal>
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+              {(['All', 'Completed', 'Under Construction'] as const).map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setActiveCategory(cat)}
+                  style={{
+                    padding: '8px 18px',
+                    borderRadius: '50px',
+                    fontSize: '12px',
+                    fontWeight: '700',
+                    letterSpacing: '0.06em',
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    background: activeCategory === cat ? 'linear-gradient(135deg, #d4af37 0%, #b8860b 100%)' : 'rgba(212, 175, 55, 0.08)',
+                    color: activeCategory === cat ? '#090d16' : 'var(--foreground)',
+                    border: activeCategory === cat ? '1px solid #d4af37' : '1px solid rgba(212, 175, 55, 0.35)',
+                    boxShadow: activeCategory === cat ? '0 4px 15px rgba(212, 175, 55, 0.35)' : 'none',
+                  }}
+                  className="hover:scale-105"
+                >
+                  {cat === 'All' ? 'All Projects (04)' : cat === 'Completed' ? 'Completed (02)' : 'Under Construction (02)'}
+                </button>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+
+        {/* SPOTLIGHT HERO CARD */}
+        {spotlight && (
+          <Reveal>
+            <div
+              className="home-spotlight-card luxury-framed light-sweep"
+              style={{
+                borderRadius: '20px',
+                overflow: 'hidden',
+                border: '1.5px solid rgba(212, 175, 55, 0.45)',
+                background: 'var(--card)',
+                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.12)',
+                marginBottom: '36px',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))',
+                alignItems: 'stretch',
+              }}
+            >
+              {/* IMAGE WRAPPER */}
+              <Link 
+                to="/projects/$projectId" 
+                params={{ projectId: spotlight.id }}
+                className="group relative block overflow-hidden" 
+                style={{ minHeight: '340px' }}
+                aria-label={`View ${spotlight.name}`}
+              >
+                <img
+                  src={spotlight.image}
+                  alt={spotlight.name}
+                  loading="lazy"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                    transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
+                  }}
+                  className="group-hover:scale-105"
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%)' }} />
+                <span
+                  style={{
+                    position: 'absolute',
+                    top: '20px',
+                    left: '20px',
+                    background: spotlight.status === 'Completed' ? 'rgba(34, 197, 94, 0.95)' : 'rgba(217, 119, 6, 0.95)',
+                    color: '#ffffff',
+                    fontSize: '11px',
+                    fontWeight: '700',
+                    letterSpacing: '0.08em',
+                    padding: '6px 14px',
+                    borderRadius: '50px',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.25)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#ffffff' }} />
+                  {spotlight.status.toUpperCase()}
+                </span>
+                <span
+                  style={{
+                    position: 'absolute',
+                    bottom: '20px',
+                    left: '20px',
+                    background: 'rgba(9, 13, 22, 0.85)',
+                    backdropFilter: 'blur(10px)',
+                    color: '#f8fafc',
+                    fontSize: '12px',
+                    fontWeight: '600',
+                    padding: '6px 14px',
+                    borderRadius: '50px',
+                    border: '1px solid rgba(212, 175, 55, 0.4)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <MapPin size={13} style={{ color: 'var(--accent)' }} /> {spotlight.location}
+                </span>
+              </Link>
+
+              {/* DETAILS PANEL */}
+              <div style={{ padding: '40px 36px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+                    <span style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent)' }}>
+                      FEATURED LANDMARK {spotlight.number} / 04
+                    </span>
+                    <span style={{ fontSize: '11px', fontWeight: '600', background: 'rgba(212, 175, 55, 0.12)', color: 'var(--accent)', padding: '4px 10px', borderRadius: '4px', border: '1px solid rgba(212, 175, 55, 0.3)' }}>
+                      {spotlight.category.toUpperCase()}
+                    </span>
+                  </div>
+
+                  <Link to="/projects/$projectId" params={{ projectId: spotlight.id }}>
+                    <h3 style={{ fontSize: '36px', fontFamily: 'var(--font-display)', margin: '0 0 14px', color: 'var(--foreground)' }} className="hover:text-accent transition-colors">
+                      {spotlight.name}
+                    </h3>
+                  </Link>
+
+                  <p style={{ fontSize: '15px', lineHeight: '1.75', color: 'var(--muted-foreground)', marginBottom: '24px' }}>
+                    {spotlight.id === 'jentora-highland-prive'
+                      ? '100 bespoke luxury individual villas in Madukkarai, Coimbatore, blending architectural opulence, private landscaped grounds, and sustainable community master planning.'
+                      : spotlight.id === 'jentora-vadapalani'
+                      ? 'A signature 3-floor residential landmark in Vadapalani, Chennai. Features high-grade structural engineering, bespoke apartment layouts, and guaranteed handover excellence.'
+                      : 'High-grade structural engineering with lab-verified cement and high-tensile steel, offering optimal cross-ventilation and luxurious finishes.'}
+                  </p>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '12px', padding: '16px 0', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', marginBottom: '24px' }}>
+                    <div>
+                      <span style={{ fontSize: '11px', color: 'var(--muted-foreground)', textTransform: 'uppercase' }}>CAPACITY</span>
+                      <strong style={{ display: 'block', fontSize: '16px', color: 'var(--foreground)', marginTop: '2px' }}>{spotlight.units} Units</strong>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '11px', color: 'var(--muted-foreground)', textTransform: 'uppercase' }}>ELEVATION</span>
+                      <strong style={{ display: 'block', fontSize: '16px', color: 'var(--foreground)', marginTop: '2px' }}>{spotlight.floors} Floors</strong>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '11px', color: 'var(--muted-foreground)', textTransform: 'uppercase' }}>STATUS</span>
+                      <strong style={{ display: 'block', fontSize: '16px', color: 'var(--foreground)', marginTop: '2px' }}>{spotlight.status}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+                  <Button asChild variant="editorial" className="light-sweep">
+                    <Link to="/projects/$projectId" params={{ projectId: spotlight.id }}>
+                      EXPLORE BLUEPRINTS & SITE GALLERY <ArrowRight size={15} />
+                    </Link>
+                  </Button>
+                  <Button asChild variant="minimal">
+                    <Link to="/contact">
+                      REQUEST BROCHURE <ArrowUpRight size={14} />
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        )}
+
+        {/* COMPANION LANDMARK CARDS GRID */}
+        {companions.length > 0 && (
+          <div
+            className="home-projects-grid"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
+              gap: '24px',
+            }}
+          >
+            {companions.map((proj, idx) => (
+              <Reveal key={proj.id} className={`delay-${(idx + 1) * 100}`}>
+                <div
+                  className="companion-project-card luxury-framed light-sweep"
+                  style={{
+                    borderRadius: '16px',
+                    overflow: 'hidden',
+                    border: '1.5px solid rgba(212, 175, 55, 0.4)',
+                    background: 'var(--card)',
+                    boxShadow: '0 12px 32px rgba(0, 0, 0, 0.08)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%',
+                    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                  }}
+                >
+                  {/* PHOTO CONTAINER */}
+                  <Link
+                    to="/projects/$projectId"
+                    params={{ projectId: proj.id }}
+                    className="group relative block overflow-hidden"
+                    style={{ height: '220px', width: '100%' }}
+                    aria-label={`View ${proj.name}`}
+                  >
+                    <img
+                      src={proj.image}
+                      alt={proj.name}
+                      loading="lazy"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                        transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                      }}
+                      className="group-hover:scale-108"
+                    />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%)' }} />
+                    <span
+                      style={{
+                        position: 'absolute',
+                        top: '14px',
+                        left: '14px',
+                        background: proj.status === 'Completed' ? 'rgba(34, 197, 94, 0.95)' : 'rgba(217, 119, 6, 0.95)',
+                        color: '#ffffff',
+                        fontSize: '10px',
+                        fontWeight: '700',
+                        letterSpacing: '0.08em',
+                        padding: '4px 10px',
+                        borderRadius: '50px',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                      }}
+                    >
+                      {proj.status.toUpperCase()}
+                    </span>
+                    <span
+                      style={{
+                        position: 'absolute',
+                        bottom: '12px',
+                        left: '14px',
+                        background: 'rgba(9, 13, 22, 0.8)',
+                        backdropFilter: 'blur(8px)',
+                        color: '#f8fafc',
+                        fontSize: '11px',
+                        fontWeight: '600',
+                        padding: '4px 10px',
+                        borderRadius: '50px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                      }}
+                    >
+                      <MapPin size={11} style={{ color: 'var(--accent)' }} /> {proj.location}
+                    </span>
+                  </Link>
+
+                  {/* CARD BODY */}
+                  <div style={{ padding: '24px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                        <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--accent)', letterSpacing: '0.1em' }}>
+                          LANDMARK {proj.number} / 04
+                        </span>
+                        <span style={{ fontSize: '10px', fontWeight: '600', background: 'rgba(212, 175, 55, 0.1)', color: 'var(--accent)', padding: '2px 8px', borderRadius: '4px', border: '1px solid rgba(212, 175, 55, 0.25)' }}>
+                          {proj.category.toUpperCase()}
+                        </span>
+                      </div>
+
+                      <Link to="/projects/$projectId" params={{ projectId: proj.id }}>
+                        <h4 style={{ fontSize: '24px', fontFamily: 'var(--font-display)', margin: '0 0 10px', color: 'var(--foreground)' }} className="hover:text-accent transition-colors">
+                          {proj.name}
+                        </h4>
+                      </Link>
+
+                      <div style={{ display: 'flex', gap: '16px', fontSize: '12px', color: 'var(--muted-foreground)', marginBottom: '18px' }}>
+                        <span><strong>{proj.units}</strong> Units</span>
+                        <span>•</span>
+                        <span><strong>{proj.floors}</strong> Floors</span>
+                        {proj.year && (
+                          <>
+                            <span>•</span>
+                            <span>{proj.year}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    <Link
+                      to="/projects/$projectId"
+                      params={{ projectId: proj.id }}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        fontSize: '12px',
+                        fontWeight: '700',
+                        letterSpacing: '0.06em',
+                        color: 'var(--accent)',
+                        paddingTop: '14px',
+                        borderTop: '1px solid var(--border)',
+                        textDecoration: 'none',
+                      }}
+                      className="hover:underline group"
+                    >
+                      <span>VIEW PROJECT DETAILS</span>
+                      <ArrowUpRight size={15} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                    </Link>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        )}
+
+        {/* BOTTOM PORTFOLIO CTA BAR */}
+        <Reveal>
+          <div
+            className="projects-cta-footer"
+            style={{
+              marginTop: '45px',
+              padding: '24px 32px',
+              borderRadius: '16px',
+              background: 'rgba(212, 175, 55, 0.08)',
+              border: '1.5px solid rgba(212, 175, 55, 0.35)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: '20px',
+            }}
+          >
+            <div>
+              <h4 style={{ fontSize: '20px', fontFamily: 'var(--font-display)', color: 'var(--foreground)', margin: 0 }}>
+                Looking to build your own signature landmark?
+              </h4>
+              <p style={{ fontSize: '13px', color: 'var(--muted-foreground)', marginTop: '4px', margin: 0 }}>
+                Consult directly with our principal civil engineers for residential, commercial & turnkey developments.
+              </p>
+            </div>
+            <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Button asChild variant="editorial" className="light-sweep">
+                <Link to="/projects">
+                  VIEW ALL PROJECTS <ArrowRight size={14} />
+                </Link>
+              </Button>
+              <Button asChild variant="minimal">
+                <Link to="/contact">
+                  GET A PROJECT QUOTE <ArrowUpRight size={14} />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
   );
 }
 
