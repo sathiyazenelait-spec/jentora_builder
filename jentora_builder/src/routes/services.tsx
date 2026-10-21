@@ -117,7 +117,7 @@ function Services() {
           <div className="services-zigzag-header">
             <Reveal>
               <span className="sidebar-label">OUR CAPABILITIES</span>
-              <h2 className="services-zigzag-main-heading">
+              <h2 className="services-zigzag-main-heading" style={{ whiteSpace: 'nowrap' }}>
                 Tailored solutions for lasting impact.
               </h2>
               <p className="services-zigzag-subheading">
@@ -169,7 +169,7 @@ function Services() {
         <div className="container service-cta-container">
           <Reveal>
             <span className="service-cta-subtitle">READY TO GET STARTED?</span>
-            <h2 className="service-cta-title">
+            <h2 className="service-cta-title" style={{ color: '#ffffff' }}>
               LET’S BUILD SOMETHING<br /><span className="gold-shimmer-text">EXCEPTIONAL.</span>
             </h2>
           </Reveal>

@@ -371,8 +371,7 @@ function ProjectDetail() {
             <div>
               <SectionLabel>VISUAL CHRONICLE</SectionLabel>
               <h2>
-                Form. Light.<br />
-                <em>Possibility.</em>
+                Form. Light. <em>Possibility.</em>
               </h2>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
@@ -400,9 +399,8 @@ function ProjectDetail() {
             <div className="project-story-col">
               <div className="project-story-header">
                 <SectionLabel>STRUCTURAL INTEGRITY & DESIGN</SectionLabel>
-                <h2 style={{ marginTop: '12px', marginBottom: '24px' }}>
-                  A landmark with<br />
-                  <em>its own architectural story.</em>
+                <h2 style={{ fontSize: 'clamp(28px, 3.2vw, 44px)', lineHeight: '1.2', marginTop: '12px', marginBottom: '24px' }}>
+                  A landmark with <em>its own architectural story.</em>
                 </h2>
               </div>
 
@@ -521,7 +519,7 @@ function ProjectDetail() {
               <div className="next-project-v2-content">
                 <div className="next-project-v2-info">
                   <SectionLabel>NEXT LANDMARK / {next.number}</SectionLabel>
-                  <h3 className="next-project-v2-title">{next.name}</h3>
+                  <h3 className="next-project-v2-title" style={{ color: '#ffffff' }}>{next.name}</h3>
                   <div className="next-project-v2-loc">
                     <MapPin size={16} />
                     <span>{next.location}</span>

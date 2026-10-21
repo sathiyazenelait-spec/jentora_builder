@@ -63,19 +63,19 @@ function About() {
 
       {/* STORY & STATS */}
       <section className="section">
-        <div className="container intro-grid">
+        <div className="container intro-grid about-story-grid" style={{ gap: '48px', alignItems: 'center' }}>
           <Reveal>
             <SectionLabel>OUR STORY & PEDIGREE</SectionLabel>
-            <h2 className="about-headline-single" style={{ fontSize: 'clamp(32px, 4.4vw, 64px)', lineHeight: '1.15', margin: '20px 0 24px 0' }}>
-              New beginnings. <em>Lasting foundations.</em>
+            <h2 className="about-headline-single" style={{ fontSize: 'clamp(24px, 2.6vw, 36px)', lineHeight: '1.25', margin: '14px 0 18px 0', whiteSpace: 'normal' }}>
+              New beginnings.<br className="hidden sm:inline" /> <em>Lasting foundations.</em>
             </h2>
             <p className="text-justify" style={{ textAlign: 'justify', textJustify: 'inter-word', lineHeight: '1.8' }}>
               {company.introduction}
             </p>
             <Stats />
           </Reveal>
-          <Reveal className="intro-image luxury-framed light-sweep">
-            <img src={images.interior} alt="Architectural interior, illustrative concept" loading="lazy" className="rounded-2xl" />
+          <Reveal className="intro-image luxury-framed light-sweep" style={{ maxWidth: '100%' }}>
+            <img src={images.interior} alt="Architectural interior, illustrative concept" loading="lazy" className="rounded-2xl w-full" />
             <span className="vertical-note">20 YEARS OF INDUSTRY EXPERIENCE · CHENNAI · COIMBATORE</span>
           </Reveal>
         </div>

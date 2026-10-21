@@ -21,6 +21,13 @@
   --font-display: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-sans: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-editorial: 'Cormorant Garamond', Georgia, serif;
+  --font-montserrat: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-josefin: 'Josefin Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-raleway: 'Raleway', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-slab: 'Roboto Slab', Georgia, serif;
+  --font-baskerville: 'Libre Baskerville', Georgia, serif;
+  --font-bandera: 'Bandera Text', 'Bandera Pro', 'Bandera', 'Zilla Slab', 'Bitter', 'Roboto Slab', Georgia, serif;
+  --font-luxury: 'Cormorant Garamond', 'Cinzel', 'Playfair Display', Georgia, serif;
 }
 :root {
   --background: #fffcf9;
@@ -649,13 +656,35 @@ button,a,input,select,textarea{outline-offset:5px}
   max-width: 920px;
   width: 100%;
 }
+@font-face {
+  font-family: 'Bandera Text';
+  src: local('Bandera Text Bold'), local('BanderaText-Bold'), local('Bandera-Text-Bold'), local('Bandera Text'),
+       url('/fonts/BanderaText-Bold.woff2') format('woff2'),
+       url('/fonts/BanderaText-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bandera Text';
+  src: local('Bandera Text Italic'), local('BanderaText-Italic'), local('Bandera-Text-Italic'),
+       url('/fonts/BanderaText-Italic.woff2') format('woff2'),
+       url('/fonts/BanderaText-Italic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
 .hero-content h1 {
-  font-size: clamp(38px, 4.8vw, 70px);
+  font-family: var(--font-luxury, 'Cormorant Garamond', Georgia, serif);
+  font-size: clamp(40px, 5.2vw, 76px);
+  font-weight: 600;
   line-height: 1.08;
   margin: 14px 0 18px;
   color: #ffffff;
-  letter-spacing: -0.01em;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+  letter-spacing: -0.015em;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.85);
 }
 
 /* SILKY SMOOTH LUXURY HERO ENTRANCE */
@@ -677,8 +706,16 @@ button,a,input,select,textarea{outline-offset:5px}
   }
 }
 .luxury-smooth-title {
+  font-family: var(--font-luxury, 'Cormorant Garamond', Georgia, serif);
+  font-weight: 600;
   animation: luxuryTitleReveal 1.45s cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: transform, opacity, filter;
+}
+
+.luxury-smooth-title em {
+  font-family: var(--font-luxury, 'Cormorant Garamond', Georgia, serif);
+  font-style: italic;
+  font-weight: 600;
 }
 
 @keyframes luxuryTextSlideUp {
@@ -2012,15 +2049,12 @@ button,a,input,select,textarea{outline-offset:5px}
    ABOUT PAGE HEADLINE - SINGLE LINE & INCREASED FONT
    ========================================================================== */
 .about-headline-single {
-  font-size: clamp(36px, 4.4vw, 64px) !important;
-  line-height: 1.15 !important;
-  white-space: nowrap !important;
-  letter-spacing: -0.02em;
-}
-@media (max-width: 900px) {
-  .about-headline-single {
-    white-space: normal !important;
-  }
+  font-size: clamp(24px, 2.6vw, 38px) !important;
+  line-height: 1.2 !important;
+  white-space: normal !important;
+  letter-spacing: -0.01em;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 /* OVERALL CARD PARAGRAPH TEXT JUSTIFICATION */
@@ -2915,15 +2949,20 @@ button,a,input,select,textarea{outline-offset:5px}
 }
 .services-zigzag-header {
   text-align: center;
-  max-width: 700px;
+  max-width: 960px;
   margin: 0 auto 90px auto;
 }
 .services-zigzag-main-heading {
-  font-size: 56px;
+  font-size: clamp(30px, 3.8vw, 56px);
   font-family: var(--font-display);
-  line-height: 1.1;
+  line-height: 1.15;
   margin: 16px 0 20px 0;
   color: var(--foreground);
+}
+@media (min-width: 768px) {
+  .services-zigzag-main-heading {
+    white-space: nowrap;
+  }
 }
 .services-zigzag-subheading {
   font-size: 16px;
@@ -5612,20 +5651,23 @@ body.light-theme {
   font-weight: 700 !important;
 }
 [data-theme="light"] .hero-bottom {
-  color: #18181b;
-  border-top: 1px solid rgba(212, 175, 55, 0.3);
+  color: #000000;
+  border-top: 1px solid rgba(0, 0, 0, 0.18);
 }
 [data-theme="light"] .hero-bottom a.scroll {
-  color: #18181b;
+  color: #000000 !important;
+  font-weight: 700;
 }
 [data-theme="light"] .hero-bottom a.scroll:hover {
-  color: #ec4899;
+  color: #d4af37 !important;
 }
 [data-theme="light"] .hero-bottom .signature {
-  color: #18181b;
+  color: #000000 !important;
+  font-weight: 700;
 }
 [data-theme="light"] .hero-bottom .signature span {
-  color: #71717a;
+  color: #000000 !important;
+  font-weight: 600;
 }
 
 /* ==========================================================================
@@ -7971,9 +8013,19 @@ img, video {
 body.light-theme .luxury-vip-card,
 html.light .luxury-vip-card,
 :root:not([data-theme="dark"]) .luxury-vip-card {
-  background: linear-gradient(135deg, #ffffff 0%, #fdf9f0 50%, #faeed0 100%) !important;
-  border: 1.5px solid rgba(212, 175, 55, 0.55) !important;
-  box-shadow: 0 20px 45px rgba(212, 175, 55, 0.22), 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+  background: linear-gradient(145deg, #f7e7c4 0%, #edd08a 35%, #e2bb62 70%, #f5e2b8 100%) !important;
+  border: 1.5px solid rgba(184, 134, 11, 0.65) !important;
+  box-shadow: 0 20px 45px rgba(184, 134, 11, 0.25), 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+[data-theme="light"] .luxury-vip-card:hover,
+body.light-theme .luxury-vip-card:hover,
+html.light .luxury-vip-card:hover,
+:root:not([data-theme="dark"]) .luxury-vip-card:hover {
+  background: #ffffff !important;
+  border-color: #d4af37 !important;
+  box-shadow: 0 28px 65px rgba(212, 175, 55, 0.4), 0 0 35px rgba(212, 175, 55, 0.25) !important;
 }
 
 [data-theme="light"] .luxury-vip-card h2,
@@ -7987,7 +8039,31 @@ html.light .luxury-vip-card h2,
 body.light-theme .luxury-vip-card p,
 html.light .luxury-vip-card p,
 :root:not([data-theme="dark"]) .luxury-vip-card p {
-  color: #334155 !important;
+  color: #27272a !important;
+}
+
+/* WHITE TEXT OVERRIDES IN LIGHT MODE FOR SPECIFIC SECTIONS */
+[data-theme="light"] .next-project-v2-title,
+.next-project-v2-title {
+  color: #ffffff !important;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.85), 0 2px 6px rgba(0, 0, 0, 0.95) !important;
+}
+
+[data-theme="light"] .service-cta-title,
+[data-theme="light"] .service-cta-banner h2 {
+  color: #ffffff !important;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8) !important;
+}
+
+[data-theme="light"] .commitment-white-line {
+  color: #ffffff !important;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8) !important;
+}
+
+@media (min-width: 900px) {
+  .about-story-grid {
+    grid-template-columns: 60% 40% !important;
+  }
 }
 
 /* PHONE NUMBER IN WHITE THEME: BLACK BEFORE HOVER */

@@ -139,9 +139,9 @@ function Vision() {
           <SectionLabel>03 / OUR COMMITMENT</SectionLabel>
           <Reveal>
             <h2 className="flip-in" style={{ fontSize: 'clamp(36px, 4.8vw, 62px)', lineHeight: '1.2', marginTop: '28px', color: '#ffffff', textShadow: '0 4px 25px rgba(0,0,0,0.7)' }}>
-              Passion in every idea.<br />
+              <span className="commitment-white-line" style={{ color: '#ffffff' }}>Passion in every idea.</span><br />
               <em className="gold-shimmer-text" style={{ fontStyle: 'italic', display: 'inline-block' }}>Precision in every detail.</em><br />
-              Perfection in every project.
+              <span className="commitment-white-line" style={{ color: '#ffffff' }}>Perfection in every project.</span>
             </h2>
             <div 
               className="commitment-statement-box light-sweep" 

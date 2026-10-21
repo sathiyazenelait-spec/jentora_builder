@@ -382,18 +382,6 @@ export function StartConversationModal() {
                 />
               </div>
 
-              {/* LIVE MESSAGE PREVIEW */}
-              <div style={{ padding: '12px 16px', background: 'var(--secondary)', border: '1px dashed var(--border)', borderRadius: '10px', fontSize: '12px' }}>
-                <span style={{ color: 'var(--accent)', fontWeight: '700', display: 'block', marginBottom: '6px' }}>
-                  ✦ DIRECT MESSAGE PREVIEW (TO 9444434196):
-                </span>
-                <pre style={{ margin: 0, fontFamily: 'monospace', fontSize: '12px', whiteSpace: 'pre-wrap', color: 'var(--foreground)', opacity: 0.85 }}>
-                  username:{fullName || 'your_name'},{'\n'}
-                  email:{email || 'your_email@domain.com'},{'\n'}
-                  project type:{projectType === 'Other Construction Enquiry' && customProjectType ? customProjectType : projectType},{'\n'}
-                  query:{query || 'your query details...'}
-                </pre>
-              </div>
 
               {/* SUBMIT BUTTON */}
               <button

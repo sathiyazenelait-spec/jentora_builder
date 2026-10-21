@@ -744,8 +744,8 @@ export function LuxuryTestimonialsSection() {
               </h2>
             </Reveal>
             <Reveal>
-              <p className="subtle" style={{ maxWidth: '540px', fontSize: '16px', lineHeight: '1.75', marginTop: '16px' }}>
-                Hear from property owners and investors who have partnered with Jentora for landmark residential, commercial, and turnkey industrial projects.
+              <p className="subtle text-justify" style={{ maxWidth: '640px', fontSize: '16px', lineHeight: '1.75', marginTop: '16px', textAlign: 'justify', textJustify: 'inter-word' }}>
+                Hear from property owners and investors who have partnered with Jentora for<br className="hidden md:inline" /> landmark residential, commercial, and turnkey industrial projects.
               </p>
             </Reveal>
           </div>
@@ -994,9 +994,8 @@ export function VipConsultationBanner() {
                 <span className="eyebrow" style={{ color: 'var(--accent)', marginBottom: '12px', display: 'inline-block', transform: 'translateZ(22px)' }}>
                   ✦ PRIVATE ARCHITECTURAL CONSULTATION
                 </span>
-                <h2 style={{ fontSize: '46px', lineHeight: '1.1', color: '#ffffff', marginBottom: '16px', transform: 'translateZ(30px)' }}>
-                  Ready to construct your next<br />
-                  <em className="gold-shimmer-text">landmark development?</em>
+                <h2 style={{ fontSize: 'clamp(24px, 2.6vw, 34px)', lineHeight: '1.2', color: '#ffffff', marginBottom: '16px', transform: 'translateZ(30px)' }}>
+                  Ready to construct your next <em className="gold-shimmer-text">landmark development?</em>
                 </h2>
                 <p style={{ fontSize: '14px', color: '#cbd5e1', lineHeight: '1.7', maxWidth: '520px', transform: 'translateZ(18px)' }}>
                   Speak directly with our Managing Director & Principal Engineers. We provide complimentary structural feasibility reviews, preliminary architectural estimates, and customized stage-linked payment planning.
