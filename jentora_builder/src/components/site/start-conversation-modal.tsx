@@ -17,7 +17,7 @@ import { publicApi } from '@/lib/api';
 const WHATSAPP_PHONE = '919444434196'; // Indian country code 91 + 9444434196
 
 export interface ConversationModalEventDetail {
-  projectType?: string;
+  projectType?: string | undefined;
 }
 
 export function openStartConversation(projectType?: string) {
@@ -132,7 +132,7 @@ export function StartConversationModal() {
         fullName: fullName.trim(),
         email: email.trim(),
         phone: '9444434196',
-        projectType: selectedType,
+        projectType: selectedType ?? '',
         location: 'Tamil Nadu (Chennai / Coimbatore)',
         message: query.trim(),
         source: 'START_CONVERSATION_POPUP',

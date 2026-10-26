@@ -648,13 +648,84 @@ button,a,input,select,textarea{outline-offset:5px}
     linear-gradient(90deg, rgba(7, 10, 18, 0.66) 0%, rgba(7, 10, 18, 0.22) 50%, rgba(7, 10, 18, 0.42) 100%),
     linear-gradient(0deg, rgba(7, 10, 18, 0.75) 0%, rgba(7, 10, 18, 0.18) 30%, transparent 70%);
 }
+.hero-content-grid {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 48px;
+}
 .hero-content {
   position: relative;
   z-index: 3;
   padding-top: 10px;
   padding-bottom: 20px;
-  max-width: 920px;
+  max-width: 740px;
   width: 100%;
+  flex: 1 1 auto;
+}
+.hero-logo-showcase {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 1 auto;
+  margin-left: auto;
+  padding: 10px 0 20px 20px;
+  animation: luxuryTextSlideUp 1.45s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+}
+.hero-logo-showcase-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  animation: heroLogoFloat 6s ease-in-out infinite alternate;
+}
+.hero-logo-showcase-inner:hover {
+  transform: translateY(-6px) scale(1.03);
+}
+.hero-logo-showcase-img {
+  width: clamp(420px, 34vw, 620px);
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  filter: 
+    drop-shadow(0 6px 16px rgba(0, 0, 0, 0.85))
+    drop-shadow(0 16px 45px rgba(0, 0, 0, 0.8))
+    drop-shadow(0 0 45px rgba(212, 175, 55, 0.38));
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  user-select: none;
+  pointer-events: none;
+}
+@keyframes heroLogoFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+@media (max-width: 1080px) {
+  .hero-content-grid {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hero-logo-showcase {
+    display: none;
+  }
+  .hero-content {
+    max-width: 100%;
+  }
 }
 @font-face {
   font-family: 'Bandera Text';

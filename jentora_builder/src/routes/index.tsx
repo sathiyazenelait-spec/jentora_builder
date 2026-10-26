@@ -18,6 +18,7 @@ import {
 import { Reveal } from '@/components/site/reveal';
 import { Pointer3DCard } from '@/components/site/pointer-3d-card';
 import { openStartConversation } from '@/components/site/start-conversation-modal';
+import jentoraLogo from '@/assets/jentora-logo.png';
 
 export const Route = createFileRoute('/')({
   head: () =>
@@ -44,51 +45,67 @@ function Home() {
           aria-hidden="true"
         />
         <div className="hero-shade" />
-        <div className="container hero-content">
-          <div className="mb-4 luxury-smooth-badge">
-            <span className="luxury-hero-badge">
-              <span className="luxury-hero-badge-dot" />
-              20 YEARS OF ARCHITECTURAL EXCELLENCE · EST. 2006
-            </span>
-          </div>
-          <h1 className="luxury-smooth-title">
-            Building with precision.<br />
-            Delivering with <em>enduring trust.</em>
-          </h1>
-          <p className="luxury-smooth-desc">
-            Pioneering luxury residential, commercial, and turnkey industrial landmarks across <strong>Chennai and Coimbatore</strong> with master engineering and unyielding integrity.
-          </p>
-          <div className="hero-actions luxury-smooth-actions">
-            <Button asChild variant="editorial" className="light-sweep">
-              <Link to="/projects" className="hover-wobble">
-                EXPLORE OUR PROJECTS <ArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-            </Button>
-            <Button 
-              type="button" 
-              variant="line" 
-              className="light-sweep cursor-pointer"
-              onClick={() => openStartConversation()}
-            >
-              <span className="hover-wobble flex items-center gap-1.5">
-                SCHEDULE CONSULTATION <ArrowUpRight className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+        <div className="container hero-content-grid">
+          <div className="hero-content">
+            <div className="mb-4 luxury-smooth-badge">
+              <span className="luxury-hero-badge">
+                <span className="luxury-hero-badge-dot" />
+                20 YEARS OF ARCHITECTURAL EXCELLENCE · EST. 2006
               </span>
-            </Button>
+            </div>
+            <h1 className="luxury-smooth-title">
+              Building with precision.<br />
+              Delivering with <em>enduring trust.</em>
+            </h1>
+            <p className="luxury-smooth-desc">
+              Pioneering luxury residential, commercial, and turnkey industrial landmarks across <strong>Chennai and Coimbatore</strong> with master engineering and unyielding integrity.
+            </p>
+            <div className="hero-actions luxury-smooth-actions">
+              <Button asChild variant="editorial" className="light-sweep">
+                <Link to="/projects" className="hover-wobble">
+                  EXPLORE OUR PROJECTS <ArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </Button>
+              <Button 
+                type="button" 
+                variant="line" 
+                className="light-sweep cursor-pointer"
+                onClick={() => openStartConversation()}
+              >
+                <span className="hover-wobble flex items-center gap-1.5">
+                  SCHEDULE CONSULTATION <ArrowUpRight className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </span>
+              </Button>
+            </div>
+
+            {/* FLOATING STATS BANNER */}
+            <div className="hero-stats-banner luxury-smooth-stats">
+              <div className="hero-stat-item">
+                <strong>20+</strong>
+                <span>Years Industry Mastery</span>
+              </div>
+              <div className="hero-stat-item">
+                <strong>157</strong>
+                <span>Completed Landmarks</span>
+              </div>
+              <div className="hero-stat-item">
+                <strong>09</strong>
+                <span>Construction Disciplines</span>
+              </div>
+            </div>
           </div>
 
-          {/* FLOATING STATS BANNER */}
-          <div className="hero-stats-banner luxury-smooth-stats">
-            <div className="hero-stat-item">
-              <strong>20+</strong>
-              <span>Years Industry Mastery</span>
-            </div>
-            <div className="hero-stat-item">
-              <strong>157</strong>
-              <span>Completed Landmarks</span>
-            </div>
-            <div className="hero-stat-item">
-              <strong>09</strong>
-              <span>Construction Disciplines</span>
+          {/* RIGHT EMPTY SPACE: JENTORA LOGO SHOWCASE */}
+          <div className="hero-logo-showcase" aria-hidden="true">
+            <div className="hero-logo-showcase-inner">
+              <img
+                src={jentoraLogo}
+                alt="Jentora Builder Logo"
+                className="hero-logo-showcase-img"
+                width={620}
+                height={387}
+                loading="eager"
+              />
             </div>
           </div>
         </div>
