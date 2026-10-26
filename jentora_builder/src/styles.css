@@ -345,7 +345,7 @@ button,a,input,select,textarea{outline-offset:5px}
   left: 50%;
   transform: translate3d(-50%, 0, 0);
   z-index: 100;
-  width: min(1220px, calc(100% - 32px));
+  width: min(1080px, calc(100% - 32px));
   color: #000000;
   background: linear-gradient(135deg, #ffffff 0%, #fffdf4 40%, #f9ebd0 100%);
   backdrop-filter: blur(20px);
@@ -359,7 +359,7 @@ button,a,input,select,textarea{outline-offset:5px}
               background 0.5s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  padding: 0 16px;
+  padding: 0 24px;
   will-change: transform, opacity, box-shadow;
 }
 .site-nav:hover {
@@ -380,8 +380,14 @@ button,a,input,select,textarea{outline-offset:5px}
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 62px;
-  gap: 20px;
+  height: 60px;
+  gap: 24px;
+}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
 }
 .logo-wrap {
   display: flex;
@@ -495,7 +501,7 @@ button,a,input,select,textarea{outline-offset:5px}
 }
 .desktop-nav {
   display: flex;
-  gap: 20px;
+  gap: 24px;
   align-items: center;
   flex-shrink: 1;
 }
@@ -505,7 +511,7 @@ button,a,input,select,textarea{outline-offset:5px}
   letter-spacing: 0.08em;
   color: #000000;
   position: relative;
-  padding: 8px 4px;
+  padding: 8px 6px;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   text-transform: uppercase;
   text-decoration: none;

@@ -113,9 +113,6 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <header className={`site-nav ${scrolled || path !== '/' ? 'solid' : ''}`}>
         <div className="container">
           <div className="nav-inner">
-            <Link to="/" aria-label="Jentora home" className="logo-wrap">
-              <img className="logo" src={logo} alt="Jentora" width={110} height={73} />
-            </Link>
             <nav className="desktop-nav" aria-label="Main navigation">
               {navigation.map((n) => (
                 <Link key={n.to} to={n.to} activeOptions={{ exact: true }}>
@@ -123,7 +120,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                 </Link>
               ))}
             </nav>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div className="nav-actions">
               <button
                 type="button"
                 onClick={toggleTheme}
