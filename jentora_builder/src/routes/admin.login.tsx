@@ -11,8 +11,8 @@ export const Route = createFileRoute('/admin/login')({
 
 function AdminLogin() {
   const router = useRouter();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('superadmin');
+  const [password, setPassword] = useState('Admin@Jentora2026!');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -334,6 +334,29 @@ function AdminLogin() {
                 <strong style={{ color: '#94a3b8' }}>Admin Manager:</strong> manager
               </div>
               <span style={{ color: '#94a3b8', fontSize: '11px' }}>Inquiries & CMS</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => fillQuickCredentials('sa', 'jentora_admin_2026')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '8px 12px',
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '6px',
+                color: '#f8fafc',
+                cursor: 'pointer',
+                textAlign: 'left',
+                fontSize: '12px',
+              }}
+            >
+              <div>
+                <strong style={{ color: '#94a3b8' }}>Database Admin:</strong> sa
+              </div>
+              <span style={{ color: '#94a3b8', fontSize: '11px' }}>System Admin</span>
             </button>
           </div>
         </div>

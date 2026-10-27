@@ -61,6 +61,20 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println(">>> SEEDED ADMIN USER: manager / Manager@Jentora2026!");
         }
 
+        // 3. Seed 'sa' Admin User if not exists
+        if (userRepository.findByUsername("sa").isEmpty()) {
+            User saAdmin = new User();
+            saAdmin.setUsername("sa");
+            saAdmin.setPassword(passwordEncoder.encode("jentora_admin_2026"));
+            saAdmin.setEmail("sa@jentora.co.in");
+            saAdmin.setFullName("System Administrator");
+            saAdmin.setRole("ROLE_SUPER_ADMIN");
+            saAdmin.setActive(true);
+            saAdmin.setCreatedAt(LocalDateTime.now());
+            userRepository.save(saAdmin);
+            System.out.println(">>> SEEDED SA ADMIN USER: sa / jentora_admin_2026");
+        }
+
         // 3. Seed Sample Inquiries if empty
         if (queryRepository.count() == 0) {
             ContactQuery q1 = new ContactQuery();
