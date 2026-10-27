@@ -63,7 +63,7 @@ function AdminLogin() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '30px 16px',
+        padding: '110px 16px 50px',
         position: 'relative',
       }}
     >
@@ -98,8 +98,8 @@ function AdminLogin() {
       >
         {/* LOGO & TITLE */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <div style={{ display: 'inline-block', padding: '8px', borderRadius: '8px', background: '#ffffff', marginBottom: '16px' }}>
-            <img src={logo} alt="Jentora Builder" style={{ height: '42px', width: 'auto' }} />
+          <div style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '12px', background: '#070a12', border: '1.5px solid rgba(212, 175, 55, 0.45)', boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)', marginBottom: '16px' }}>
+            <img src={logo} alt="Jentora Builder" style={{ height: '44px', width: 'auto', display: 'block' }} />
           </div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '6px' }}>
             <ShieldCheck size={18} style={{ color: '#c9a063' }} />
