@@ -104,7 +104,7 @@ function SuperAdminDashboard() {
     marketingLead: leadership[1]?.name || 'Mrs. GIRIJA',
     primaryPhone: defaultCompany.primaryPhone || '+91 9444434196',
     secondaryPhone: defaultCompany.secondaryPhone || '',
-    email: defaultCompany.email || 'info@jentora.co.in',
+    email: defaultCompany.email || 'admin@jentorabuilder.com',
     operatingHours: defaultCompany.operatingHours || 'Monday to Saturday – 10.00 am to 6.00 pm',
     addressFull: defaultCompany.address?.full || 'Plot No.85, 2nd Floor, 4th Avenue Road, Shanthi Colony, Anna Nagar, Chennai – 600040.',
     googleMapsUrl: defaultCompany.googleMapsUrl || 'https://maps.app.goo.gl/jhPACJxwpdF3Prdp6',
@@ -888,27 +888,26 @@ function SuperAdminDashboard() {
                                   q.status === 'NEW'
                                     ? 'rgba(245, 158, 11, 0.15)'
                                     : q.status === 'IN_PROGRESS'
-                                    ? 'rgba(59, 130, 246, 0.15)'
-                                    : q.status === 'RESOLVED'
-                                    ? 'rgba(34, 197, 94, 0.15)'
-                                    : 'rgba(148, 163, 184, 0.15)',
+                                      ? 'rgba(59, 130, 246, 0.15)'
+                                      : q.status === 'RESOLVED'
+                                        ? 'rgba(34, 197, 94, 0.15)'
+                                        : 'rgba(148, 163, 184, 0.15)',
                                 color:
                                   q.status === 'NEW'
                                     ? '#f59e0b'
                                     : q.status === 'IN_PROGRESS'
-                                    ? '#60a5fa'
-                                    : q.status === 'RESOLVED'
-                                    ? '#4ade80'
-                                    : '#94a3b8',
-                                border: `1px solid ${
-                                  q.status === 'NEW'
-                                    ? '#f59e0b'
-                                    : q.status === 'IN_PROGRESS'
+                                      ? '#60a5fa'
+                                      : q.status === 'RESOLVED'
+                                        ? '#4ade80'
+                                        : '#94a3b8',
+                                border: `1px solid ${q.status === 'NEW'
+                                  ? '#f59e0b'
+                                  : q.status === 'IN_PROGRESS'
                                     ? '#3b82f6'
                                     : q.status === 'RESOLVED'
-                                    ? '#22c55e'
-                                    : '#64748b'
-                                }`,
+                                      ? '#22c55e'
+                                      : '#64748b'
+                                  }`,
                               }}
                             >
                               {q.status.replace('_', ' ')}

@@ -7,10 +7,10 @@ import serviceIndustrial from '@/assets/service-industrial.jpg';
 import serviceCivil from '@/assets/service-civil.jpg';
 import serviceBlueprint from '@/assets/service-blueprint.jpg';
 import serviceManager from '@/assets/service-manager.jpg';
-export const images = { 
-  hero, 
-  apartment, 
-  interior, 
+export const images = {
+  hero,
+  apartment,
+  interior,
   villas,
   serviceCommercial,
   serviceIndustrial,
@@ -19,11 +19,11 @@ export const images = {
   serviceManager
 };
 
-export const company = { 
-  name: 'Jentora Builder Private Limited', 
+export const company = {
+  name: 'Jentora Builder Private Limited',
   shortName: 'Jentora',
-  established: '2025', 
-  experience: '20+', 
+  established: '2025',
+  experience: '20+',
   experienceFull: '20 Years of Industry experience in Commercial, Residential, Industrial Buildings',
   completedProjects: 157,
   ongoingProjects: 2,
@@ -39,7 +39,7 @@ export const company = {
   phones: ['+91 9444434196'],
   primaryPhone: '+91 9444434196',
   secondaryPhone: '',
-  email: 'info@jentora.co.in',
+  email: 'admin@jentorabuilder.com',
   whatsapp: '+91 9444434196',
   whatsappUrl: 'https://wa.me/919444434196?text=Hi%20Jentora%20Builder,%20I%20would%20like%20to%20enquire%20about%20your%20construction%20services.',
   googleMapsUrl: 'https://maps.app.goo.gl/jhPACJxwpdF3Prdp6',
@@ -118,12 +118,12 @@ export const socialLinks = {
 };
 
 export const navigation = [
-  {label:'HOME',to:'/'},
-  {label:'ABOUT',to:'/about'},
-  {label:'MISSION & VISION',to:'/vision-mission'},
-  {label:'SERVICES',to:'/services'},
-  {label:'PROJECTS',to:'/projects'},
-  {label:'CONTACT',to:'/contact'}
+  { label: 'HOME', to: '/' },
+  { label: 'ABOUT', to: '/about' },
+  { label: 'MISSION & VISION', to: '/vision-mission' },
+  { label: 'SERVICES', to: '/services' },
+  { label: 'PROJECTS', to: '/projects' },
+  { label: 'CONTACT', to: '/contact' }
 ] as const;
 export const projects = [
   {
@@ -207,15 +207,15 @@ export const projects = [
 ];
 export type Project = typeof projects[number];
 export const services = [
- ['Residential Construction','From custom luxury villas to modern apartment complexes, we craft exceptional living environments tailored to your lifestyle. Combining architectural elegance with structural integrity, we manage every phase—from ground preparation to final luxury finishes—ensuring your home stands as a lasting legacy of quality and comfort.'],
- ['Commercial Construction','Construction for commercial spaces, guided by quality and trust.'],
- ['Industrial Construction','Industrial construction with a focus on precision and execution.'],
- ['Turnkey Projects','A complete approach to bringing your construction project together.'],
- ['Building Renovation','A considered approach to transforming existing buildings.'],
- ['Interior Design and Fit-Out','Interior spaces shaped through design and craftsmanship.'],
- ['Civil Engineering','Engineering expertise at the foundation of every structure.'],
- ['Architectural Planning','Thoughtful planning that brings purpose and precision together.'],
- ['Project Management','Coordinating the details that bring a project to life.']
+  ['Residential Construction', 'From custom luxury villas to modern apartment complexes, we craft exceptional living environments tailored to your lifestyle. Combining architectural elegance with structural integrity, we manage every phase—from ground preparation to final luxury finishes—ensuring your home stands as a lasting legacy of quality and comfort.'],
+  ['Commercial Construction', 'Construction for commercial spaces, guided by quality and trust.'],
+  ['Industrial Construction', 'Industrial construction with a focus on precision and execution.'],
+  ['Turnkey Projects', 'A complete approach to bringing your construction project together.'],
+  ['Building Renovation', 'A considered approach to transforming existing buildings.'],
+  ['Interior Design and Fit-Out', 'Interior spaces shaped through design and craftsmanship.'],
+  ['Civil Engineering', 'Engineering expertise at the foundation of every structure.'],
+  ['Architectural Planning', 'Thoughtful planning that brings purpose and precision together.'],
+  ['Project Management', 'Coordinating the details that bring a project to life.']
 ];
 export const serviceItems = [
   {
@@ -327,6 +327,6 @@ export const companyCommitment = {
   statement: 'At Jentora, our mission is not simply to construct buildings, but to create spaces, relationships, and landmarks built on trust and excellence.'
 };
 
-export const philosophies = [['Passion','Passion in every idea.'],['Precision','Precision in every detail.'],['Perfection','Perfection in every project.']];
-export const missionThemes = ['Quality','Trust','Design','Excellence','Innovation','Sustainability','Relationships'];
-export function pageHead(title:string,description:string) { return {meta:[{title:`${title} — Jentora Builder`},{name:'description',content:description},{property:'og:title',content:`${title} — Jentora Builder`},{property:'og:description',content:description},{property:'og:type',content:'website'},{name:'twitter:card',content:'summary_large_image'}]}; }
+export const philosophies = [['Passion', 'Passion in every idea.'], ['Precision', 'Precision in every detail.'], ['Perfection', 'Perfection in every project.']];
+export const missionThemes = ['Quality', 'Trust', 'Design', 'Excellence', 'Innovation', 'Sustainability', 'Relationships'];
+export function pageHead(title: string, description: string) { return { meta: [{ title: `${title} — Jentora Builder` }, { name: 'description', content: description }, { property: 'og:title', content: `${title} — Jentora Builder` }, { property: 'og:description', content: description }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }] }; }

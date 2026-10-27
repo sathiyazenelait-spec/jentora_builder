@@ -113,11 +113,22 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;line-height:1.04;letter
 h1 em, h2 em, h3 em {
   font-style: italic;
   font-family: var(--font-display);
-  background: linear-gradient(135deg, #ffffff 15%, #f6e6b4 45%, #d4af37 80%, #b8860b 100%);
+  background: linear-gradient(135deg, #fff1f2 0%, #f472b6 25%, #ec4899 50%, #d4af37 80%, #b8860b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
-  text-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.pink-gold-gradient-text,
+.text-pink-gold,
+.text-gradient-pink-gold {
+  background: linear-gradient(135deg, #d4af37 0%, #ec4899 45%, #f472b6 75%, #b8860b 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2)) !important;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+  display: inline-block;
 }
 a{text-decoration:none;color:inherit}
 button,input,select,textarea{font:inherit}
@@ -520,11 +531,12 @@ button,a,input,select,textarea{outline-offset:5px}
 }
 .desktop-nav a:hover, 
 .desktop-nav a[data-status=active] {
-  background: linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #fbcfe8 100%);
+  background: linear-gradient(135deg, #d4af37 0%, #ec4899 50%, #f472b6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: #ec4899;
-  text-shadow: none;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.2));
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   transform: translateY(-1px);
 }
 .desktop-nav a:after {
@@ -756,6 +768,12 @@ button,a,input,select,textarea{outline-offset:5px}
   font-family: var(--font-luxury, 'Cormorant Garamond', Georgia, serif);
   font-style: italic;
   font-weight: 600;
+  background: linear-gradient(135deg, #fff1f2 0%, #f472b6 25%, #ec4899 50%, #d4af37 80%, #b8860b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 @keyframes luxuryTextSlideUp {
@@ -3506,10 +3524,12 @@ html.light .commitment-icon-wrapper {
 }
 .mobile-menu nav a:hover,
 .mobile-menu nav a:active {
-  background: linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #fbcfe8 100%);
+  background: linear-gradient(135deg, #d4af37 0%, #ec4899 50%, #f472b6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: #ec4899;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   transform: translateX(6px);
 }
 
@@ -5505,7 +5525,8 @@ body.light-theme {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
-  text-shadow: 0 0 20px rgba(236, 72, 153, 0.22);
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 [data-theme="light"] .site-nav {
@@ -5527,6 +5548,8 @@ body.light-theme {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: #ec4899;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.2));
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 [data-theme="light"] .desktop-nav a:after {
   background: linear-gradient(90deg, #d4af37 0%, #ec4899 50%, #f472b6 100%);

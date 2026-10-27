@@ -1,11 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { Mail, MessageCircle, Phone } from 'lucide-react';
 import { company, images, pageHead } from '@/data/company';
-import { 
-  InnerHero, 
-  SectionLabel, 
-  Stats, 
-  Approach, 
+import {
+  InnerHero,
+  SectionLabel,
+  Stats,
+  Approach,
   TextLink,
   QualityAndSafetySection,
   UniqueSellingPointsSection,
@@ -47,8 +47,8 @@ function About() {
               <Phone size={12} className="text-accent" /> +91 94444 34196
             </a>
             <span className="text-white/30 hidden sm:inline">|</span>
-            <a href="mailto:info@jentora.co.in" className="inline-flex items-center gap-1.5 text-foreground hover:text-accent transition-colors font-medium">
-              <Mail size={12} className="text-accent" /> info@jentora.co.in
+            <a href="mailto:admin@jentorabuilder.com" className="inline-flex items-center gap-1.5 text-foreground hover:text-accent transition-colors font-medium">
+              <Mail size={12} className="text-accent" /> admin@jentorabuilder.com
             </a>
             <span className="text-white/30 hidden sm:inline">|</span>
             <a href={company.whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[#25D366] hover:underline font-semibold">
@@ -108,7 +108,7 @@ function About() {
       <VipConsultationBanner />
 
       {/* CLOSING STATEMENT WITH ARCHITECTURAL IMAGE BACKGROUND */}
-      <section 
+      <section
         className="statement statement-with-bg"
         style={{
           backgroundImage: `linear-gradient(rgba(7, 10, 18, 0.72), rgba(7, 10, 18, 0.82)), url(${images.hero})`,

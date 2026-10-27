@@ -107,7 +107,7 @@ public class DataInitializer implements CommandLineRunner {
         }
 
         // 4. Seed Initial Website Content
-        seedContentIfAbsent("company_info", "{\"name\":\"Jentora Builder Private Limited\",\"tagline\":\"Passion in every idea. Precision in every detail. Perfection in every project.\",\"experience\":\"20+\",\"completedProjects\":157,\"primaryPhone\":\"+91 9444434196\",\"secondaryPhone\":\"\",\"email\":\"info@jentora.co.in\",\"whatsapp\":\"+91 9444434196\",\"address\":\"Plot No.85, 2nd Floor, 4th Avenue Road, Shanthi Colony, Anna Nagar, Chennai – 600040.\",\"operatingHours\":\"Monday to Saturday – 10.00 am to 6.00 pm\"}");
+        seedContentIfAbsent("company_info", "{\"name\":\"Jentora Builder Private Limited\",\"tagline\":\"Passion in every idea. Precision in every detail. Perfection in every project.\",\"experience\":\"20+\",\"completedProjects\":157,\"primaryPhone\":\"+91 9444434196\",\"secondaryPhone\":\"\",\"email\":\"admin@jentorabuilder.com\",\"whatsapp\":\"+91 9444434196\",\"address\":\"Plot No.85, 2nd Floor, 4th Avenue Road, Shanthi Colony, Anna Nagar, Chennai – 600040.\",\"operatingHours\":\"Monday to Saturday – 10.00 am to 6.00 pm\"}");
     }
 
     private void seedContentIfAbsent(String key, String jsonContent) {
