@@ -2,7 +2,7 @@ import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { useState, useEffect } from 'react';
 import { ShieldCheck, Lock, User, Eye, EyeOff, ArrowRight, CheckCircle2, AlertCircle, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { authApi, authStorage } from '@/lib/api';
+import { authApi, authStorage, publicApi } from '@/lib/api';
 import logo from '@/assets/jentora-logo.png';
 
 export const Route = createFileRoute('/admin/login')({
@@ -19,10 +19,13 @@ function AdminLogin() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    // If already authenticated, redirect to /admin
+    // If already authenticated, redirect to /admin immediately
     if (authStorage.isAuthenticated()) {
       router.navigate({ to: '/admin' as any });
+      return;
     }
+    // Silent pre-warm ping so Render backend instance is awake and warm before user clicks submit
+    publicApi.getPublicContent().catch(() => {});
   }, [router]);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -35,11 +38,10 @@ function AdminLogin() {
     try {
       setLoading(true);
       setError(null);
-      const user = await authApi.login({ username: username.trim(), password: password.trim() });
+      await authApi.login({ username: username.trim(), password: password.trim() });
       setSuccess(true);
-      setTimeout(() => {
-        router.navigate({ to: '/admin' as any });
-      }, 600);
+      // Instant redirect without artificial delay
+      router.navigate({ to: '/admin' as any });
     } catch (err: any) {
       setError(err.message || 'Invalid username or password. Please try again.');
     } finally {
@@ -55,6 +57,7 @@ function AdminLogin() {
 
   return (
     <div
+      className="admin-login-container"
       style={{
         minHeight: '100vh',
         background: 'radial-gradient(ellipse at top, #1e293b 0%, #0f172a 60%, #080d1a 100%)',

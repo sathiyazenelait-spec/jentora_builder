@@ -66,6 +66,8 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     const onScroll = () => setScrolled(window.scrollY > 50);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+    // Silent background pre-warm ping so Render backend is awake and fast for all actions
+    fetch('https://jentora-builder-backend-2kx8.onrender.com/api/public/content', { method: 'GET', keepalive: true }).catch(() => {});
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -102,6 +104,16 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       document.removeEventListener('keydown', onKey);
     };
   }, [menu]);
+
+  const isAdminRoute = path.startsWith('/admin');
+
+  if (isAdminRoute) {
+    return (
+      <main id="main-content" className="page-transition admin-portal-page" key={path}>
+        {children}
+      </main>
+    );
+  }
 
   return (
     <>

@@ -35,6 +35,7 @@ import {
   adminApi,
   authApi,
   authStorage,
+  publicApi,
   type ContactQuery,
   type DashboardStats,
   type User,
@@ -54,11 +55,11 @@ export const Route = createFileRoute('/admin/')({
 
 function SuperAdminDashboard() {
   const router = useRouter();
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(() => authStorage.getUser());
   const [activeTab, setActiveTab] = useState<'overview' | 'inquiries' | 'users' | 'cms'>('overview');
 
-  // Loading & error states
-  const [loading, setLoading] = useState(true);
+  // Loading & error states - initialized to false if user session is already cached
+  const [loading, setLoading] = useState(() => !authStorage.isAuthenticated());
   const [refreshing, setRefreshing] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -129,6 +130,13 @@ function SuperAdminDashboard() {
     }
     setCurrentUser(user);
     loadAllData();
+
+    // Keep Render container alive while admin is working on the dashboard
+    const heartbeat = setInterval(() => {
+      publicApi.getPublicContent().catch(() => {});
+    }, 8 * 60 * 1000); // ping every 8 mins to prevent 15-min Render idle sleep
+
+    return () => clearInterval(heartbeat);
   }, [router]);
 
   const showToast = (msg: string) => {
@@ -302,9 +310,9 @@ function SuperAdminDashboard() {
 
   const isSuperAdmin = currentUser?.role === 'ROLE_SUPER_ADMIN';
 
-  if (loading) {
+  if (loading && !currentUser) {
     return (
-      <div style={{ minHeight: '100vh', background: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f8fafc' }}>
+      <div className="admin-dashboard-container" style={{ minHeight: '100vh', background: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f8fafc' }}>
         <div style={{ textAlign: 'center' }}>
           <RefreshCw className="animate-spin" size={36} style={{ color: '#c9a063', margin: '0 auto 16px' }} />
           <p style={{ fontSize: '14px', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
@@ -316,7 +324,7 @@ function SuperAdminDashboard() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#090d16', color: '#f8fafc', display: 'flex', flexDirection: 'column' }}>
+    <div className="admin-dashboard-container" style={{ minHeight: '100vh', background: '#090d16', color: '#f8fafc', display: 'flex', flexDirection: 'column' }}>
       {/* TOAST ALERT */}
       {toastMessage && (
         <div
@@ -1460,6 +1468,7 @@ function SuperAdminDashboard() {
       {/* MODAL: INQUIRY DETAILS & INTERNAL NOTES */}
       <Dialog open={selectedQuery !== null} onOpenChange={(open) => { if (!open) setSelectedQuery(null); }}>
         <DialogContent
+          className="admin-dialog-content"
           style={{
             background: '#131b2e',
             color: '#f8fafc',
@@ -1653,7 +1662,7 @@ function SuperAdminDashboard() {
 
       {/* MODAL: CREATE USER (SUPER ADMIN) */}
       <Dialog open={showCreateUserModal} onOpenChange={setShowCreateUserModal}>
-        <DialogContent style={{ background: '#131b2e', color: '#f8fafc', border: '1px solid rgba(255,255,255,0.15)', maxWidth: '480px' }}>
+        <DialogContent className="admin-dialog-content" style={{ background: '#131b2e', color: '#f8fafc', border: '1px solid rgba(255,255,255,0.15)', maxWidth: '480px' }}>
           <DialogHeader>
             <DialogTitle style={{ fontSize: '18px', color: '#ffffff' }}>Add New Administrator</DialogTitle>
             <DialogDescription style={{ color: '#94a3b8', fontSize: '12px' }}>
@@ -1737,7 +1746,7 @@ function SuperAdminDashboard() {
 
       {/* MODAL: EDIT USER (SUPER ADMIN) */}
       <Dialog open={showEditUserModal} onOpenChange={setShowEditUserModal}>
-        <DialogContent style={{ background: '#131b2e', color: '#f8fafc', border: '1px solid rgba(255,255,255,0.15)', maxWidth: '480px' }}>
+        <DialogContent className="admin-dialog-content" style={{ background: '#131b2e', color: '#f8fafc', border: '1px solid rgba(255,255,255,0.15)', maxWidth: '480px' }}>
           <DialogHeader>
             <DialogTitle style={{ fontSize: '18px', color: '#ffffff' }}>
               Edit User: @{userToEdit?.username}

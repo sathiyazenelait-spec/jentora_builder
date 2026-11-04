@@ -8193,3 +8193,194 @@ html.dark .vip-consultation-divider,
 body.dark-theme .vip-consultation-divider {
   color: rgba(255, 255, 255, 0.3) !important;
 }
+
+/* ==========================================================================
+   JENTORA ADMIN DASHBOARD & LOGIN CONTRAST SYSTEM
+   Rule:
+   1. Black / dark background with black text -> Must be WHITE/LIGHT text.
+   2. White / light background with white text -> Must be BLACK/DARK text.
+   ========================================================================== */
+
+/* 1. BLACK/DARK BACKGROUND -> FORCE CRISP WHITE TEXT */
+.admin-dashboard-container,
+.admin-login-container,
+.admin-dialog-content,
+[data-radix-portal] .admin-dialog-content {
+  color: #f8fafc !important;
+}
+
+/* Headings on dark backgrounds MUST be white */
+.admin-dashboard-container h1,
+.admin-dashboard-container h2,
+.admin-dashboard-container h3,
+.admin-dashboard-container h4,
+.admin-dashboard-container h5,
+.admin-dashboard-container h6,
+.admin-login-container h1,
+.admin-login-container h2,
+.admin-login-container h3,
+.admin-login-container h4,
+.admin-dialog-content h1,
+.admin-dialog-content h2,
+.admin-dialog-content h3,
+.admin-dialog-content h4,
+[data-radix-dialog-content] h1,
+[data-radix-dialog-content] h2,
+[data-radix-dialog-content] h3,
+[data-radix-dialog-content] h4,
+[data-theme="light"] .admin-dashboard-container h1,
+[data-theme="light"] .admin-dashboard-container h2,
+[data-theme="light"] .admin-dashboard-container h3,
+[data-theme="light"] .admin-dashboard-container h4,
+[data-theme="light"] .admin-login-container h1,
+[data-theme="light"] .admin-login-container h2,
+[data-theme="light"] .admin-login-container h3,
+[data-theme="light"] .admin-login-container h4,
+[data-theme="light"] .admin-dialog-content h1,
+[data-theme="light"] .admin-dialog-content h2,
+[data-theme="light"] .admin-dialog-content h3,
+[data-theme="light"] .admin-dialog-content h4 {
+  color: #ffffff !important;
+  -webkit-text-fill-color: initial !important;
+}
+
+/* Paragraphs and descriptions on dark background */
+.admin-dashboard-container p,
+.admin-login-container p,
+.admin-dialog-content p,
+[data-theme="light"] .admin-dashboard-container p,
+[data-theme="light"] .admin-login-container p,
+[data-theme="light"] .admin-dialog-content p {
+  color: #cbd5e1 !important;
+}
+
+/* Labels on dark background */
+.admin-dashboard-container label,
+.admin-login-container label,
+.admin-dialog-content label,
+[data-theme="light"] .admin-dashboard-container label,
+[data-theme="light"] .admin-login-container label,
+[data-theme="light"] .admin-dialog-content label {
+  color: #94a3b8 !important;
+}
+
+/* Tables in admin dashboard */
+.admin-dashboard-container table {
+  color: #f8fafc !important;
+}
+.admin-dashboard-container th,
+[data-theme="light"] .admin-dashboard-container th {
+  color: #94a3b8 !important;
+}
+.admin-dashboard-container td,
+[data-theme="light"] .admin-dashboard-container td {
+  color: #e2e8f0 !important;
+}
+.admin-dashboard-container td strong,
+[data-theme="light"] .admin-dashboard-container td strong {
+  color: #ffffff !important;
+}
+
+/* Form controls on dark background */
+.admin-dashboard-container input,
+.admin-dashboard-container textarea,
+.admin-dashboard-container select,
+.admin-login-container input,
+.admin-login-container textarea,
+.admin-login-container select,
+.admin-dialog-content input,
+.admin-dialog-content textarea,
+.admin-dialog-content select,
+[data-theme="light"] .admin-dashboard-container input,
+[data-theme="light"] .admin-dashboard-container textarea,
+[data-theme="light"] .admin-dashboard-container select,
+[data-theme="light"] .admin-login-container input,
+[data-theme="light"] .admin-login-container textarea,
+[data-theme="light"] .admin-dialog-content input,
+[data-theme="light"] .admin-dialog-content textarea,
+[data-theme="light"] .admin-dialog-content select {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+.admin-dashboard-container input::placeholder,
+.admin-dashboard-container textarea::placeholder,
+.admin-login-container input::placeholder {
+  color: #64748b !important;
+}
+.admin-dashboard-container select option,
+.admin-dialog-content select option {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+}
+
+/* Outline buttons on dark background */
+.admin-dashboard-container button[class*="border"],
+.admin-dashboard-container button.border,
+.admin-dialog-content button[class*="border"] {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: #f8fafc !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+.admin-dashboard-container button[class*="border"]:hover,
+.admin-dialog-content button[class*="border"]:hover {
+  background-color: rgba(255, 255, 255, 0.16) !important;
+  color: #ffffff !important;
+}
+
+/* Radix dialog overlay - ensure dark translucent backdrop */
+[data-radix-portal] [data-radix-dialog-overlay],
+.fixed.inset-0.bg-primary\/80 {
+  background: rgba(0, 0, 0, 0.78) !important;
+  backdrop-filter: blur(6px) !important;
+}
+
+/* 2. WHITE/LIGHT BACKGROUND -> FORCE BLACK/DARK TEXT */
+/* Any element with white or light background MUST have black/dark text */
+.admin-dashboard-container .bg-white,
+.admin-dashboard-container [style*="background: #ffffff"],
+.admin-dashboard-container [style*="background:#ffffff"],
+.admin-dashboard-container [style*="background: rgb(255, 255, 255)"],
+.admin-login-container .bg-white,
+.admin-login-container [style*="background: #ffffff"],
+.admin-login-container [style*="background:#ffffff"] {
+  color: #090d16 !important;
+}
+
+.admin-dashboard-container .bg-white *,
+.admin-dashboard-container [style*="background: #ffffff"] *,
+.admin-dashboard-container [style*="background:#ffffff"] * {
+  color: #090d16 !important;
+}
+
+/* Active or light button states with white background */
+button.bg-white,
+button[style*="background: #ffffff"],
+button[style*="background:#ffffff"],
+.admin-dashboard-container button.bg-white,
+.admin-dashboard-container button[style*="background: #ffffff"] {
+  background-color: #ffffff !important;
+  color: #090d16 !important;
+  font-weight: 600 !important;
+}
+button.bg-white:hover,
+button[style*="background: #ffffff"]:hover {
+  background-color: #f1f5f9 !important;
+  color: #000000 !important;
+}
+
+/* If any card, badge, or container is light/white */
+.admin-light-surface,
+.admin-dashboard-container [data-theme="light-card"] {
+  background-color: #ffffff !important;
+  color: #090d16 !important;
+}
+.admin-light-surface h1,
+.admin-light-surface h2,
+.admin-light-surface h3,
+.admin-light-surface h4,
+.admin-light-surface p,
+.admin-light-surface span {
+  color: #090d16 !important;
+}
+
