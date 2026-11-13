@@ -129,12 +129,14 @@ export function StartConversationModal() {
     // Also persist in the backend database if available
     try {
       await publicApi.submitContact({
+        name: fullName.trim(),
         fullName: fullName.trim(),
         email: email.trim(),
         phone: '9444434196',
         projectType: selectedType ?? '',
+        projectName: selectedType ?? 'Tamil Nadu Project',
         location: 'Tamil Nadu (Chennai / Coimbatore)',
-        message: query.trim(),
+        message: query.trim() || 'Consultation enquiry',
         source: 'START_CONVERSATION_POPUP',
       });
     } catch (err) {

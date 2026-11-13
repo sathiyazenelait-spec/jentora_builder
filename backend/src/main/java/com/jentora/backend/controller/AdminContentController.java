@@ -7,6 +7,7 @@ import com.jentora.backend.entity.WebsiteContent;
 import com.jentora.backend.repository.ContactQueryRepository;
 import com.jentora.backend.repository.UserRepository;
 import com.jentora.backend.repository.WebsiteContentRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -68,14 +69,30 @@ public class AdminContentController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     @PutMapping("/content/{key}")
     public ResponseEntity<ApiResponse<WebsiteContentDto>> updateContent(
             @PathVariable String key,
-            @RequestBody Map<String, String> body) {
+            @RequestBody Map<String, Object> body) {
 
-        String jsonContent = body.get("jsonContent");
-        if (jsonContent == null) {
+        Object contentObj = body.get("jsonContent");
+        if (contentObj == null) {
+            contentObj = body.get("contentJson");
+        }
+        if (contentObj == null) {
             return ResponseEntity.badRequest().body(ApiResponse.error("jsonContent is required"));
+        }
+
+        String jsonContent;
+        if (contentObj instanceof String) {
+            jsonContent = (String) contentObj;
+        } else {
+            try {
+                jsonContent = objectMapper.writeValueAsString(contentObj);
+            } catch (Exception e) {
+                return ResponseEntity.badRequest().body(ApiResponse.error("Invalid json content: " + e.getMessage()));
+            }
         }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

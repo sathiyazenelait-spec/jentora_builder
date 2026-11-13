@@ -41,21 +41,28 @@ function Contact() {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
+    const clientName = String(formData.get('name') || '').trim();
+    const email = String(formData.get('email') || '').trim();
+    const phone = String(formData.get('phone') || '').trim();
+    const projectType = String(formData.get('type') || 'General Construction');
+    const message = String(formData.get('message') || '').trim() || `Consultation enquiry for ${projectType} from ${clientName}`;
+
     try {
       await publicApi.submitContact({
-        fullName: String(formData.get('name') || ''),
-        email: String(formData.get('email') || ''),
-        phone: String(formData.get('phone') || ''),
-        projectType: String(formData.get('type') || 'General Construction'),
+        name: clientName,
+        fullName: clientName,
+        email,
+        phone,
+        projectType,
+        projectName: `${projectType} - Chennai`,
         location: 'Chennai / Tamil Nadu',
-        message: String(formData.get('message') || 'Project consultation enquiry via contact page'),
+        message,
         source: 'CONTACT_PAGE',
       });
       setSent(true);
     } catch (err: any) {
       console.error('Contact submission error:', err);
-      // Fallback show success for client experience while logging
-      setSent(true);
+      alert(`Could not submit enquiry: ${err.message || 'Please connect directly with us via WhatsApp.'}`);
     } finally {
       setSubmitting(false);
     }

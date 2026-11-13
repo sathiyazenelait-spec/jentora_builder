@@ -160,13 +160,22 @@ function SuperAdminDashboard() {
       if (contentRes.status === 'fulfilled' && contentRes.value) {
         setCmsData(contentRes.value);
         const list = Array.isArray(contentRes.value) ? contentRes.value : [];
-        const profileItem = list.find((item: any) => item.key === 'company_profile');
+        const profileItem = list.find((item: any) => item.key === 'company_profile') || list.find((item: any) => item.key === 'company_info');
         if (profileItem && profileItem.jsonContent) {
           try {
             const parsed = typeof profileItem.jsonContent === 'string' ? JSON.parse(profileItem.jsonContent) : profileItem.jsonContent;
             setCmsForm((prev) => ({
               ...prev,
               ...parsed,
+              companyName: parsed.companyName || parsed.name || prev.companyName,
+              tagline: parsed.tagline || prev.tagline,
+              yearsExperience: parsed.yearsExperience || (parsed.experience ? parseInt(parsed.experience) : prev.yearsExperience),
+              projectsCompleted: parsed.projectsCompleted || parsed.completedProjects || prev.projectsCompleted,
+              primaryPhone: parsed.primaryPhone || prev.primaryPhone,
+              secondaryPhone: parsed.secondaryPhone || prev.secondaryPhone,
+              email: parsed.email || prev.email,
+              operatingHours: parsed.operatingHours || prev.operatingHours,
+              addressFull: parsed.addressFull || parsed.address || prev.addressFull,
             }));
           } catch (e) {
             console.warn('Could not parse cms json', e);
@@ -191,14 +200,14 @@ function SuperAdminDashboard() {
   // Inquiry Operations
   const handleUpdateQueryStatus = async (id: number, status: string, notes?: string) => {
     try {
-      await adminApi.updateQueryStatus(id, { status, adminNotes: notes });
+      await adminApi.updateQueryStatus(id, { status, adminNotes: notes, internalNotes: notes });
       showToast(`Inquiry #${id} marked as ${status}`);
       // Refresh local queries
       setQueries((prev) =>
-        prev.map((q) => (q.id === id ? { ...q, status: status as any, adminNotes: notes ?? q.adminNotes } : q))
+        prev.map((q) => (q.id === id ? { ...q, status: status as any, adminNotes: notes ?? q.adminNotes, internalNotes: notes ?? q.internalNotes } : q))
       );
       if (selectedQuery?.id === id) {
-        setSelectedQuery((prev) => (prev ? { ...prev, status: status as any, adminNotes: notes ?? prev.adminNotes } : null));
+        setSelectedQuery((prev) => (prev ? { ...prev, status: status as any, adminNotes: notes ?? prev.adminNotes, internalNotes: notes ?? prev.internalNotes } : null));
       }
       // Refresh stats
       adminApi.getStats().then(setStats).catch(console.error);
@@ -214,11 +223,12 @@ function SuperAdminDashboard() {
       await adminApi.updateQueryStatus(selectedQuery.id, {
         status: selectedQuery.status,
         adminNotes: queryNotes,
+        internalNotes: queryNotes,
       });
       showToast('Admin notes saved successfully.');
-      setSelectedQuery({ ...selectedQuery, adminNotes: queryNotes });
+      setSelectedQuery({ ...selectedQuery, adminNotes: queryNotes, internalNotes: queryNotes });
       setQueries((prev) =>
-        prev.map((q) => (q.id === selectedQuery.id ? { ...q, adminNotes: queryNotes } : q))
+        prev.map((q) => (q.id === selectedQuery.id ? { ...q, adminNotes: queryNotes, internalNotes: queryNotes } : q))
       );
     } catch (err: any) {
       alert('Error saving notes: ' + err.message);
@@ -292,6 +302,22 @@ function SuperAdminDashboard() {
     try {
       setSavingCms(true);
       await adminApi.updateContentSection('company_profile', cmsForm);
+
+      // Keep company_info in sync so public endpoint has latest company info
+      const companyInfoMapped = {
+        name: cmsForm.companyName,
+        tagline: cmsForm.tagline,
+        experience: `${cmsForm.yearsExperience}+`,
+        completedProjects: cmsForm.projectsCompleted,
+        primaryPhone: cmsForm.primaryPhone,
+        secondaryPhone: cmsForm.secondaryPhone,
+        email: cmsForm.email,
+        whatsapp: cmsForm.primaryPhone,
+        address: cmsForm.addressFull,
+        operatingHours: cmsForm.operatingHours,
+      };
+      await adminApi.updateContentSection('company_info', companyInfoMapped).catch(() => {});
+
       showToast('Website content updated and published successfully in Spring Boot backend!');
     } catch (err: any) {
       alert('Failed to update website content: ' + err.message);
@@ -303,7 +329,9 @@ function SuperAdminDashboard() {
   // Filtered queries list
   const filteredQueries = queries.filter((q) => {
     const matchesStatus = queryStatusFilter === 'ALL' || q.status === queryStatusFilter;
-    const queryStr = `${q.fullName} ${q.email} ${q.phone} ${q.location} ${q.projectType} ${q.message}`.toLowerCase();
+    const nameVal = q.name || q.fullName || '';
+    const locVal = q.location || q.projectName || '';
+    const queryStr = `${nameVal} ${q.email} ${q.phone} ${locVal} ${q.projectType} ${q.message}`.toLowerCase();
     const matchesKeyword = !searchKeyword.trim() || queryStr.includes(searchKeyword.toLowerCase().trim());
     return matchesStatus && matchesKeyword;
   });

@@ -1,11 +1,13 @@
 package com.jentora.backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public class ContactQueryRequest {
 
     @NotBlank(message = "Name is required")
+    @JsonAlias({"fullName", "clientName", "username"})
     private String name;
 
     @NotBlank(message = "Email is required")
@@ -17,6 +19,7 @@ public class ContactQueryRequest {
 
     private String projectType;
 
+    @JsonAlias({"location", "projectName"})
     private String projectName;
 
     @NotBlank(message = "Message or requirement is required")

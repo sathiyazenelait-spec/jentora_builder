@@ -131,19 +131,26 @@ function ProjectDetail() {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
+    const clientName = String(formData.get('name') || '').trim();
+    const email = String(formData.get('email') || '').trim();
+    const phone = String(formData.get('phone') || '').trim();
+    const message = String(formData.get('message') || '').trim() || `Inquiry for ${project.name} from ${clientName}`;
+
     try {
       await publicApi.submitQuote({
-        fullName: String(formData.get('name') || ''),
-        email: String(formData.get('email') || ''),
-        phone: String(formData.get('phone') || ''),
+        name: clientName,
+        fullName: clientName,
+        email,
+        phone,
         projectType: project.name,
+        projectName: project.name,
         location: project.location,
-        message: String(formData.get('message') || `Inquiry for ${project.name}`),
+        message,
       });
       setSubmitted(true);
     } catch (err: any) {
       console.error('Quote submission error:', err);
-      setSubmitted(true);
+      alert(`Could not submit quote request: ${err.message || 'Please connect directly with us via WhatsApp.'}`);
     } finally {
       setSubmitting(false);
     }

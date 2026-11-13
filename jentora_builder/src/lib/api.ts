@@ -23,18 +23,22 @@ export interface AuthResponse {
 
 export interface ContactQuery {
   id: number;
+  name?: string;
   fullName: string;
   phone: string;
   email: string;
   projectType: string;
+  projectName?: string;
   location: string;
   estimatedBudget: string;
   message: string;
-  source: 'CONTACT_PAGE' | 'PROJECT_QUOTE_POPUP' | 'HERO_POPUP' | 'DIRECT';
+  source: 'CONTACT_PAGE' | 'PROJECT_QUOTE_POPUP' | 'HERO_POPUP' | 'DIRECT' | string;
   status: 'NEW' | 'IN_PROGRESS' | 'RESOLVED' | 'ARCHIVED';
+  internalNotes?: string | null;
   adminNotes: string | null;
+  assignedTo?: string | null;
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string | null;
 }
 
 export interface DashboardStats {
@@ -109,8 +113,8 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
   const resJson = await response.json().catch(() => ({}));
 
   if (!response.ok) {
-    if (response.status === 401 || response.status === 403) {
-      // If unauthorized during admin route, we may want to redirect
+    if (response.status === 401) {
+      // If unauthorized during admin route, redirect to login
       if (window.location.pathname.startsWith('/admin') && window.location.pathname !== '/admin/login') {
         authStorage.clear();
       }
@@ -125,33 +129,61 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 // Public Inquiries API
 export const publicApi = {
   submitContact: async (data: {
-    fullName: string;
+    fullName?: string;
+    name?: string;
     phone: string;
     email: string;
     projectType: string;
-    location: string;
+    projectName?: string;
+    location?: string;
     estimatedBudget?: string;
     message: string;
     source?: string;
   }) => {
-    return request<{ success: boolean; message: string; data: ContactQuery }>('/contact/submit', {
+    const clientName = (data.name || data.fullName || '').trim();
+    const payload = {
+      name: clientName,
+      fullName: clientName,
+      email: (data.email || '').trim(),
+      phone: (data.phone || '').trim(),
+      projectType: data.projectType || 'General Construction',
+      projectName: data.projectName || data.location || 'Tamil Nadu',
+      location: data.location || data.projectName || 'Chennai / Tamil Nadu',
+      message: (data.message || '').trim() || 'Project consultation enquiry via contact page',
+      source: data.source || 'CONTACT_PAGE',
+    };
+    return request<{ success: boolean; message: string; data: any }>('/contact/submit', {
       method: 'POST',
-      body: JSON.stringify({ ...data, source: data.source || 'CONTACT_PAGE' }),
+      body: JSON.stringify(payload),
     });
   },
 
   submitQuote: async (data: {
-    fullName: string;
+    fullName?: string;
+    name?: string;
     phone: string;
     email: string;
-    projectType: string;
-    location: string;
+    projectType?: string;
+    projectName?: string;
+    location?: string;
     estimatedBudget?: string;
-    message: string;
+    message?: string;
   }) => {
-    return request<{ success: boolean; message: string; data: ContactQuery }>('/quote/submit', {
+    const clientName = (data.name || data.fullName || '').trim();
+    const payload = {
+      name: clientName,
+      fullName: clientName,
+      email: (data.email || '').trim(),
+      phone: (data.phone || '').trim(),
+      projectType: data.projectType || 'Project Quote Request',
+      projectName: data.projectName || data.location || 'Bespoke Construction Project',
+      location: data.location || data.projectName || 'Tamil Nadu',
+      message: (data.message || '').trim() || 'Detailed quote request',
+      source: 'PROJECT_QUOTE_POPUP',
+    };
+    return request<{ success: boolean; message: string; data: any }>('/quote/submit', {
       method: 'POST',
-      body: JSON.stringify({ ...data, source: 'PROJECT_QUOTE_POPUP' }),
+      body: JSON.stringify(payload),
     });
   },
 
@@ -203,17 +235,33 @@ export const adminApi = {
 
   getQueries: async (params?: { status?: string; search?: string }): Promise<ContactQuery[]> => {
     const queryParts: string[] = [];
-    if (params?.status) queryParts.push(`status=${encodeURIComponent(params.status)}`);
+    if (params?.status && params.status !== 'ALL') queryParts.push(`status=${encodeURIComponent(params.status)}`);
     if (params?.search) queryParts.push(`search=${encodeURIComponent(params.search)}`);
     const qStr = queryParts.length > 0 ? `?${queryParts.join('&')}` : '';
-    const res = await request<{ success: boolean; data: ContactQuery[] }>(`/admin/queries${qStr}`);
-    return res.data;
+    const res = await request<{ success: boolean; data: any[] }>(`/admin/queries${qStr}`);
+    return (res.data || []).map((item) => ({
+      ...item,
+      name: item.name || item.fullName || 'Valued Client',
+      fullName: item.name || item.fullName || 'Valued Client',
+      location: item.location || item.projectName || 'Chennai / Tamil Nadu',
+      projectName: item.projectName || item.location || '',
+      estimatedBudget: item.estimatedBudget || 'Flexible / Standard',
+      adminNotes: item.internalNotes ?? item.adminNotes ?? null,
+      internalNotes: item.internalNotes ?? item.adminNotes ?? null,
+    }));
   },
 
-  updateQueryStatus: async (id: number, payload: { status: string; adminNotes?: string | undefined }) => {
-    return request<{ success: boolean; message: string; data: ContactQuery }>(`/admin/queries/${id}/status`, {
-      method: 'PATCH',
-      body: JSON.stringify(payload),
+  updateQueryStatus: async (
+    id: number,
+    payload: { status: string; adminNotes?: string | undefined; internalNotes?: string | undefined; assignedTo?: string | undefined }
+  ) => {
+    return request<{ success: boolean; message: string; data: ContactQuery }>(`/admin/queries/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        status: payload.status,
+        internalNotes: payload.internalNotes ?? payload.adminNotes,
+        assignedTo: payload.assignedTo,
+      }),
     });
   },
 
@@ -270,10 +318,14 @@ export const adminApi = {
     return res.data;
   },
 
-  updateContentSection: async (sectionKey: string, contentJson: Record<string, any>) => {
+  updateContentSection: async (sectionKey: string, contentJson: Record<string, any> | string) => {
+    const jsonString = typeof contentJson === 'string' ? contentJson : JSON.stringify(contentJson);
     return request<{ success: boolean; message: string }>(`/admin/content/${sectionKey}`, {
       method: 'PUT',
-      body: JSON.stringify({ contentJson }),
+      body: JSON.stringify({
+        jsonContent: jsonString,
+        contentJson: jsonString,
+      }),
     });
   },
 };
