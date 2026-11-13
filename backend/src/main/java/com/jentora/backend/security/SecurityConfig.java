@@ -58,6 +58,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/login", "/api/auth/logout").permitAll()
                 .requestMatchers("/api/contact/submit", "/api/quote/submit").permitAll()
                 .requestMatchers("/api/public/**").permitAll()
+                .requestMatchers("/error", "/error/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
                 // Super Admin specific endpoints
                 .requestMatchers("/api/admin/users/**").hasRole("SUPER_ADMIN")
