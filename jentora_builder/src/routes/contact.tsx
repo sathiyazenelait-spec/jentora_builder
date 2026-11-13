@@ -193,7 +193,7 @@ function Contact() {
                     }}
                     className="hover:opacity-95 hover:scale-[1.02]"
                   >
-                    <MessageCircle size={18} /> CONNECT VIA WHATSAPP (+91 94444 34196)
+                    <MessageCircle size={18} /> CONNECT VIA WHATSAPP ({company.whatsapp || company.primaryPhone})
                   </a>
 
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '20px', flexWrap: 'wrap', gap: '12px' }}>

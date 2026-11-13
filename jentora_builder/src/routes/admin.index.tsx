@@ -47,6 +47,7 @@ import {
   visionData,
   companyCommitment,
   socialLinks,
+  applyDynamicContent,
 } from '@/data/company';
 
 export const Route = createFileRoute('/admin/')({
@@ -317,6 +318,12 @@ function SuperAdminDashboard() {
         operatingHours: cmsForm.operatingHours,
       };
       await adminApi.updateContentSection('company_info', companyInfoMapped).catch(() => {});
+
+      // Immediately synchronize and update live website content across all open pages & tabs
+      applyDynamicContent({
+        company_profile: cmsForm,
+        company_info: companyInfoMapped,
+      });
 
       showToast('Website content updated and published successfully in Spring Boot backend!');
     } catch (err: any) {

@@ -330,3 +330,118 @@ export const companyCommitment = {
 export const philosophies = [['Passion', 'Passion in every idea.'], ['Precision', 'Precision in every detail.'], ['Perfection', 'Perfection in every project.']];
 export const missionThemes = ['Quality', 'Trust', 'Design', 'Excellence', 'Innovation', 'Sustainability', 'Relationships'];
 export function pageHead(title: string, description: string) { return { meta: [{ title: `${title} — Jentora Builder` }, { name: 'description', content: description }, { property: 'og:title', content: `${title} — Jentora Builder` }, { property: 'og:description', content: description }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }] }; }
+
+/**
+ * Dynamically applies and syncs website content updated from the Spring Boot CMS
+ */
+export function applyDynamicContent(contentMap: Record<string, any>): boolean {
+  if (!contentMap || typeof contentMap !== 'object') return false;
+
+  let profile: any = contentMap.company_profile;
+  if (typeof profile === 'string') {
+    try { profile = JSON.parse(profile); } catch {}
+  }
+  let info: any = contentMap.company_info;
+  if (typeof info === 'string') {
+    try { info = JSON.parse(info); } catch {}
+  }
+
+  const p: Record<string, any> = { ...(info || {}), ...(profile || {}) };
+  if (Object.keys(p).length === 0) return false;
+
+  if (p.companyName || p.name) {
+    company.name = String(p.companyName || p.name);
+  }
+  if (p.tagline) {
+    companyCommitment.tagline = String(p.tagline);
+  }
+  if (p.yearsExperience || p.experience) {
+    const expNum = parseInt(String(p.yearsExperience || p.experience)) || 20;
+    company.experience = `${expNum}+`;
+    company.experienceFull = `${expNum} Years of Industry experience in Commercial, Residential, Industrial Buildings`;
+  }
+  if (p.projectsCompleted || p.completedProjects) {
+    const projNum = parseInt(String(p.projectsCompleted || p.completedProjects)) || 157;
+    company.completedProjects = projNum;
+  }
+  company.introduction = `${company.name} is a premier construction enterprise built on ${company.experience} of industry experience delivering exceptional residential, commercial, and industrial developments across Chennai and Coimbatore. We believe a home or commercial landmark is someone’s dream, life savings, and trust—and we construct with that uncompromising responsibility. With ${company.completedProjects} completed landmarks and landmark projects under construction, we bring passion, precision, and perfection to every project.`;
+  if (p.primaryPhone) {
+    const cleanPhone = String(p.primaryPhone);
+    company.primaryPhone = cleanPhone;
+    company.phones = [cleanPhone];
+    company.whatsapp = cleanPhone;
+    company.whatsappUrl = `https://wa.me/${cleanPhone.replace(/[^0-9]/g, '')}?text=Hi%20Jentora%20Builder,%20I%20would%20like%20to%20enquire%20about%20your%20construction%20services.`;
+  }
+  if (p.secondaryPhone !== undefined) {
+    company.secondaryPhone = String(p.secondaryPhone);
+  }
+  if (p.email) {
+    company.email = String(p.email);
+  }
+  if (p.operatingHours) {
+    company.operatingHours = String(p.operatingHours);
+  }
+  if (p.addressFull || p.address) {
+    const fullAddr = String(p.addressFull || p.address);
+    company.address.full = fullAddr;
+    company.address.street = fullAddr;
+  }
+  if (p.googleMapsUrl) {
+    company.googleMapsUrl = String(p.googleMapsUrl);
+  }
+  if (p.whatsappUrl) {
+    company.whatsappUrl = String(p.whatsappUrl);
+  }
+
+  if (p.managingDirector && leadership[0]) {
+    leadership[0].name = String(p.managingDirector);
+  }
+  if (p.marketingLead && leadership[1]) {
+    leadership[1].name = String(p.marketingLead);
+  }
+
+  if (p.visionP1) {
+    visionData.statement = String(p.visionP1);
+    if (visionData.paragraphs && visionData.paragraphs.length > 0) {
+      visionData.paragraphs[0] = String(p.visionP1);
+    }
+  }
+  if (p.visionP2) {
+    visionData.secondary = String(p.visionP2);
+    if (visionData.paragraphs && visionData.paragraphs.length > 1) {
+      visionData.paragraphs[1] = String(p.visionP2);
+    }
+  }
+
+  if (p.commitmentP1) {
+    companyCommitment.tagline = String(p.commitmentP1);
+  }
+  if (p.commitmentP2) {
+    companyCommitment.statement = String(p.commitmentP2);
+  }
+
+  if (p.facebook) socialLinks.facebook = String(p.facebook);
+  if (p.instagram) socialLinks.instagram = String(p.instagram);
+  if (p.linkedin) socialLinks.linkedin = String(p.linkedin);
+  if (p.youtube) socialLinks.youtube = String(p.youtube);
+
+  try {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('jentora_public_content', JSON.stringify(contentMap));
+      window.dispatchEvent(new CustomEvent('jentora-content-updated', { detail: contentMap }));
+    }
+  } catch {}
+
+  return true;
+}
+
+// Initial client hydration from storage cache to eliminate layout shifts
+try {
+  if (typeof window !== 'undefined') {
+    const cached = localStorage.getItem('jentora_public_content');
+    if (cached) {
+      applyDynamicContent(JSON.parse(cached));
+    }
+  }
+} catch {}
+

@@ -13,8 +13,13 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { publicApi } from '@/lib/api';
+import { company } from '@/data/company';
 
-const WHATSAPP_PHONE = '919444434196'; // Indian country code 91 + 9444434196
+const getWhatsAppDigits = () => {
+  const raw = company.whatsapp || company.primaryPhone || '919444434196';
+  const digits = raw.replace(/\D/g, '');
+  return digits.length === 10 ? `91${digits}` : digits;
+};
 
 export interface ConversationModalEventDetail {
   projectType?: string | undefined;
@@ -132,7 +137,7 @@ export function StartConversationModal() {
         name: fullName.trim(),
         fullName: fullName.trim(),
         email: email.trim(),
-        phone: '9444434196',
+        phone: company.primaryPhone || '9444434196',
         projectType: selectedType ?? '',
         projectName: selectedType ?? 'Tamil Nadu Project',
         location: 'Tamil Nadu (Chennai / Coimbatore)',
@@ -144,8 +149,8 @@ export function StartConversationModal() {
       console.warn('Backend logging notice:', err);
     }
 
-    // Direct WhatsApp link to 9444434196
-    const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(formattedMessage)}`;
+    // Direct WhatsApp link
+    const whatsappUrl = `https://wa.me/${getWhatsAppDigits()}?text=${encodeURIComponent(formattedMessage)}`;
     
     // Open WhatsApp
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
@@ -243,7 +248,7 @@ export function StartConversationModal() {
                 Start a Conversation
               </h2>
               <p style={{ fontSize: '14px', color: 'var(--muted-foreground)', lineHeight: '1.6' }}>
-                Connect directly with our engineering & architectural leadership. Your inquiry will be formatted and routed straight to our principal line at <strong>+91 9444434196</strong>.
+                Connect directly with our engineering & architectural leadership. Your inquiry will be formatted and routed straight to our principal line at <strong>{company.primaryPhone}</strong>.
               </p>
             </div>
 
@@ -411,11 +416,11 @@ export function StartConversationModal() {
                 }}
               >
                 <Send size={18} />
-                {isSubmitting ? 'DISPATCHING INQUIRY...' : 'SEND DIRECTLY TO +91 9444434196'}
+                {isSubmitting ? 'DISPATCHING INQUIRY...' : `SEND DIRECTLY TO ${company.primaryPhone}`}
               </button>
 
               <div style={{ textAlign: 'center', fontSize: '12px', color: 'var(--muted-foreground)', marginTop: '4px' }}>
-                Instant delivery to Jentora Leadership via WhatsApp (+91 9444434196)
+                Instant delivery to Jentora Leadership via WhatsApp ({company.whatsapp || company.primaryPhone})
               </div>
             </form>
           </>
@@ -429,7 +434,7 @@ export function StartConversationModal() {
               Inquiry Dispatched!
             </h3>
             <p style={{ fontSize: '15px', color: 'var(--muted-foreground)', maxWidth: '400px', margin: '0 auto 24px', lineHeight: '1.6' }}>
-              Your inquiry has been compiled and routed directly to <strong>+91 9444434196</strong>. A representative will review your project requirements promptly.
+              Your inquiry has been compiled and routed directly to <strong>{company.primaryPhone}</strong>. A representative will review your project requirements promptly.
             </p>
 
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>

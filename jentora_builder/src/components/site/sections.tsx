@@ -152,7 +152,7 @@ export function Stats() {
       >
         <div className="stat-card-content">
           <strong className="stat-card-number">
-            20<span className="stat-card-plus">+</span>
+            {company.experience}
           </strong>
           <span className="stat-card-label">
             YEARS INDUSTRY EXPERIENCE
@@ -167,7 +167,7 @@ export function Stats() {
       >
         <div className="stat-card-content">
           <strong className="stat-card-number">
-            157
+            {company.completedProjects}
           </strong>
           <span className="stat-card-label">
             COMPLETED LANDMARKS
@@ -207,7 +207,7 @@ export function LeadershipSection() {
           </Reveal>
           <Reveal>
             <p className="subtle" style={{ maxWidth: '440px', fontSize: '16px', lineHeight: '1.75' }}>
-              Our executive leadership brings over 20 years of hands-on construction acumen, ensuring every development adheres to the highest standards of safety, precision, and client satisfaction.
+              Our executive leadership brings over {company.experience} of hands-on construction acumen, ensuring every development adheres to the highest standards of safety, precision, and client satisfaction.
             </p>
           </Reveal>
         </div>
@@ -614,7 +614,7 @@ export function QualityAndSafetySection() {
 
 export function LuxuryTrustStrip() {
   const badges = [
-    { icon: <Award size={20} />, title: '20+ Years Pedigree', sub: 'Commercial & Residential Mastery' },
+    { icon: <Award size={20} />, title: `${company.experience} Pedigree`, sub: 'Commercial & Residential Mastery' },
     { icon: <Clock size={20} />, title: 'Milestone Delivery', sub: 'Zero Tolerance Delay Track Record' },
   ];
 
@@ -1013,10 +1013,10 @@ export function VipConsultationBanner() {
                 </Button>
                 <div style={{ display: 'flex', gap: '20px', alignItems: 'center', justifyContent: 'center', width: '100%', flexWrap: 'wrap' }}>
                   <a 
-                    href="tel:+919444434196" 
+                    href={`tel:${company.primaryPhone.replace(/\s+/g, '')}`} 
                     className="vip-consultation-phone hover:underline"
                   >
-                    <PhoneCall size={18} /> +91 94444 34196
+                    <PhoneCall size={18} /> {company.primaryPhone}
                   </a>
                   <span className="vip-consultation-divider">|</span>
                   <a href={company.whatsappUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '9px', fontSize: '15px', color: '#25D366', fontWeight: '700' }} className="hover:underline">

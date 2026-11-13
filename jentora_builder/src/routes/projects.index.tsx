@@ -39,10 +39,13 @@ function Projects() {
   const [filter, setFilter] = useState('All Projects');
   const shown = projects.filter((p) => filter === 'All Projects' || p.status === filter);
 
-  const getWhatsappUrl = (p: Project) =>
-    `https://wa.me/919444434196?text=${encodeURIComponent(
-      `Hi Jentora Builder, I would like to enquire about ${p.name} (${p.location}).`
+  const getWhatsappUrl = (p: Project) => {
+    const digits = (company.whatsapp || company.primaryPhone || '919444434196').replace(/\D/g, '');
+    const phone = digits.length === 10 ? `91${digits}` : digits;
+    return `https://wa.me/${phone}?text=${encodeURIComponent(
+      `Hi ${company.shortName || 'Jentora Builder'}, I would like to enquire about ${p.name} (${p.location}).`
     )}`;
+  };
 
   return (
     <>

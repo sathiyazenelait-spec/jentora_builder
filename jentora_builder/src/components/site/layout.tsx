@@ -23,12 +23,14 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import logo from '@/assets/jentora-logo.png';
 import zenelaitLogo from '@/assets/zenelait-logo.png';
-import { company, navigation, services, socialLinks } from '@/data/company';
+import { company, navigation, services, socialLinks, applyDynamicContent } from '@/data/company';
+import { publicApi } from '@/lib/api';
 import { ContactLink } from './sections';
 import { StartConversationModal, openStartConversation } from './start-conversation-modal';
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
+  const [contentVersion, setContentVersion] = useState(0);
   const [menu, setMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [legal, setLegal] = useState<string | null>(null);
@@ -66,9 +68,35 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     const onScroll = () => setScrolled(window.scrollY > 50);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    // Silent background pre-warm ping so Render backend is awake and fast for all actions
-    fetch('https://jentora-builder-backend-2kx8.onrender.com/api/public/content', { method: 'GET', keepalive: true }).catch(() => {});
-    return () => window.removeEventListener('scroll', onScroll);
+
+    // Fetch and apply live dynamic content from the Spring Boot backend
+    publicApi.getPublicContent().then((res) => {
+      if (res?.data) {
+        const changed = applyDynamicContent(res.data);
+        if (changed) {
+          setContentVersion((v) => v + 1);
+        }
+      }
+    }).catch(() => {});
+
+    // Listen for real-time updates from Admin CMS (same window or other tabs)
+    const onContentUpdate = () => setContentVersion((v) => v + 1);
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === 'jentora_public_content' && e.newValue) {
+        try {
+          applyDynamicContent(JSON.parse(e.newValue));
+          setContentVersion((v) => v + 1);
+        } catch {}
+      }
+    };
+    window.addEventListener('jentora-content-updated', onContentUpdate);
+    window.addEventListener('storage', onStorage);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('jentora-content-updated', onContentUpdate);
+      window.removeEventListener('storage', onStorage);
+    };
   }, []);
 
   useEffect(() => {
@@ -224,16 +252,16 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             </Button>
           </div>
           <div className="mt-6 pt-6 border-t border-white/15 text-xs text-secondary/80 flex flex-col gap-2">
-            <p className="font-semibold text-accent">JENTORA BUILDER PRIVATE LIMITED</p>
+            <p className="font-semibold text-accent">{company.name.toUpperCase()}</p>
             <p>Chennai · Coimbatore</p>
-            <a href="tel:+919444434196" className="hover:text-accent">+91 9444434196</a>
+            <a href={`tel:${company.primaryPhone.replace(/\s+/g, '')}`} className="hover:text-accent">{company.primaryPhone}</a>
           </div>
           <p className="eyebrow mt-8">PASSION · PRECISION · PERFECTION</p>
         </div>
       )}
 
       {/* MAIN CONTENT */}
-      <main id="main-content" className="page-transition" key={path}>
+      <main id="main-content" className="page-transition" key={`${path}-${contentVersion}`}>
         {children}
       </main>
 
@@ -296,7 +324,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                 PASSION · PRECISION · PERFECTION
               </p>
               <p style={{ fontSize: '15px', lineHeight: '1.7', maxWidth: '300px' }}>
-                20 Years of industry experience delivering premium residential, commercial, and industrial landmarks built on trust and superior craftsmanship.
+                {company.experienceFull || `${company.experience} of industry experience delivering premium residential, commercial, and industrial landmarks built on trust and superior craftsmanship.`}
               </p>
               <div style={{ marginTop: '8px' }}>
                 <span className="footer-section-title" style={{ marginBottom: '6px' }}>
@@ -523,15 +551,15 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Award size={18} style={{ color: '#b45309' }} />
-              <span>20 Years Architectural Pedigree</span>
+              <span>{company.experience} Architectural Pedigree</span>
             </div>
           </div>
         </div>
 
         {/* BOTTOM LEGAL STRIP */}
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} JENTORA BUILDER PVT LTD. ALL RIGHTS RESERVED.</span>
-          <span>20 YEARS OF INDUSTRY EXPERIENCE</span>
+          <span>© {new Date().getFullYear()} {company.name.toUpperCase()}. ALL RIGHTS RESERVED.</span>
+          <span>{company.experience.toUpperCase()} OF INDUSTRY EXPERIENCE</span>
           <div className="flex items-center gap-4 flex-wrap justify-center">
             <Button variant="minimal" className="h-auto text-[10px] font-semibold text-slate-700 hover:text-pink-600" onClick={() => setLegal('Privacy Policy')}>
               PRIVACY POLICY

@@ -218,8 +218,10 @@ function ProjectDetail() {
     },
   ];
 
-  const whatsappQuoteUrl = `https://wa.me/919444434196?text=${encodeURIComponent(
-    `Hi Jentora Builder, I would like to request a quote and brochure for ${project.name} (${project.location}).`
+  const whatsappDigits = (company.whatsapp || company.primaryPhone || '919444434196').replace(/\D/g, '');
+  const cleanPhone = whatsappDigits.length === 10 ? `91${whatsappDigits}` : whatsappDigits;
+  const whatsappQuoteUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(
+    `Hi ${company.shortName || 'Jentora Builder'}, I would like to request a quote and brochure for ${project.name} (${project.location}).`
   )}`;
 
   return (
@@ -615,10 +617,10 @@ function ProjectDetail() {
                 Thank you! Our project team will connect with you with pricing and project details.
                 You can also reach our desk directly at{' '}
                 <a
-                  href="tel:+919444434196"
+                  href={`tel:${company.primaryPhone.replace(/\s+/g, '')}`}
                   style={{ color: 'var(--foreground)', fontWeight: '600' }}
                 >
-                  +91 9444434196
+                  {company.primaryPhone}
                 </a>
                 .
               </p>

@@ -28,3 +28,4 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(ex.getMessage() != null ? ex.getMessage() : "An unexpected server error occurred"));
     }
 }
+

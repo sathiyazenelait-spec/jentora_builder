@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { images, visionData, missionData, missionPoints, companyCommitment, pageHead } from '@/data/company';
+import { images, company, visionData, missionData, missionPoints, companyCommitment, pageHead } from '@/data/company';
 import { InnerHero, SectionLabel, Philosophy, ContactLink } from '@/components/site/sections';
 import { Reveal } from '@/components/site/reveal';
 import { Pointer3DCard } from '@/components/site/pointer-3d-card';
@@ -75,7 +75,7 @@ function Vision() {
                   />
                   <div className="mission-image-badge">
                     <span className="mission-badge-dot">✦</span>
-                    <span>20+ YEARS OF EXCELLENCE</span>
+                    <span>{company.experience} YEARS OF EXCELLENCE</span>
                   </div>
                 </div>
               </Pointer3DCard>
@@ -176,7 +176,7 @@ function Vision() {
               Ready to bring your <em>vision to life?</em>
             </h2>
             <p style={{ color: 'var(--muted-foreground)', marginTop: '12px', maxWidth: '520px', fontSize: '14px', lineHeight: '1.7' }}>
-              From initial architectural planning to precision construction, partner with Jentora Builder Private Limited for your next landmark project.
+              From initial architectural planning to precision construction, partner with {company.name} for your next landmark project.
             </p>
           </Reveal>
           <Reveal>

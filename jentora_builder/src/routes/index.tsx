@@ -92,11 +92,11 @@ function Home() {
           {/* FLOATING STATS BANNER */}
           <div className="hero-stats-banner luxury-smooth-stats">
             <div className="hero-stat-item">
-              <strong>20+</strong>
+              <strong>{company.experience}</strong>
               <span>Years Industry Mastery</span>
             </div>
             <div className="hero-stat-item">
-              <strong>157</strong>
+              <strong>{company.completedProjects}</strong>
               <span>Completed Landmarks</span>
             </div>
             <div className="hero-stat-item">
@@ -343,15 +343,15 @@ function Home() {
                 <em>Purpose moves us.</em>
               </h2>
               <p style={{ fontSize: '16px', lineHeight: '1.8', color: 'var(--muted-foreground)', marginBottom: '24px' }}>
-                At Jentora Builder, we believe constructing a home or commercial landmark represents a lifetime of trust, aspiration, and investment. Backed by 20 years of master construction acumen, we deliver turnkey residential villas, high-grade commercial hubs, and industrial developments across Chennai and Coimbatore with unwavering structural perfection.
+                At {company.name}, we believe constructing a home or commercial landmark represents a lifetime of trust, aspiration, and investment. Backed by {company.experience} of master construction acumen, we deliver turnkey residential villas, high-grade commercial hubs, and industrial developments across Chennai and Coimbatore with unwavering structural perfection.
               </p>
               
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '32px' }}>
                 <span className="sparkle" style={{ background: 'rgba(212, 175, 55, 0.1)', border: '1px solid rgba(212, 175, 55, 0.35)', color: 'var(--accent)', padding: '6px 14px', borderRadius: '50px', fontSize: '13px', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                  ✦ 20+ Years Pedigree
+                  ✦ {company.experience} Pedigree
                 </span>
                 <span className="sparkle" style={{ background: 'rgba(212, 175, 55, 0.1)', border: '1px solid rgba(212, 175, 55, 0.35)', color: 'var(--accent)', padding: '6px 14px', borderRadius: '50px', fontSize: '13px', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', animationDelay: '0.3s' }}>
-                  ✦ 157 Landmark Deliveries
+                  ✦ {company.completedProjects} Landmark Deliveries
                 </span>
                 <span className="sparkle" style={{ background: 'rgba(212, 175, 55, 0.1)', border: '1px solid rgba(212, 175, 55, 0.35)', color: 'var(--accent)', padding: '6px 14px', borderRadius: '50px', fontSize: '13px', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', animationDelay: '0.6s' }}>
                   ✦ 2 Regional Hubs

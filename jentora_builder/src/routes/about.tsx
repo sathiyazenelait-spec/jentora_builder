@@ -38,17 +38,17 @@ function About() {
       <div className="about-announcement-bar border-b border-accent/20 py-3 text-xs relative z-10 shadow-lg">
         <div className="container flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-foreground font-medium">20 Years of Engineering & Architectural Excellence</span>
+            <span className="text-foreground font-medium">{company.experience} of Engineering & Architectural Excellence</span>
             <span className="text-white/30 hidden md:inline">|</span>
             <span className="text-muted-foreground"><strong className="text-foreground font-semibold">Chennai · Coimbatore</strong></span>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-[11px]">
-            <a href="tel:+919444434196" className="inline-flex items-center gap-1.5 text-foreground hover:text-accent transition-colors font-medium">
-              <Phone size={12} className="text-accent" /> +91 94444 34196
+            <a href={`tel:${company.primaryPhone.replace(/\s+/g, '')}`} className="inline-flex items-center gap-1.5 text-foreground hover:text-accent transition-colors font-medium">
+              <Phone size={12} className="text-accent" /> {company.primaryPhone}
             </a>
             <span className="text-white/30 hidden sm:inline">|</span>
-            <a href="mailto:admin@jentorabuilder.com" className="inline-flex items-center gap-1.5 text-foreground hover:text-accent transition-colors font-medium">
-              <Mail size={12} className="text-accent" /> admin@jentorabuilder.com
+            <a href={`mailto:${company.email}`} className="inline-flex items-center gap-1.5 text-foreground hover:text-accent transition-colors font-medium">
+              <Mail size={12} className="text-accent" /> {company.email}
             </a>
             <span className="text-white/30 hidden sm:inline">|</span>
             <a href={company.whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[#25D366] hover:underline font-semibold">
@@ -76,7 +76,7 @@ function About() {
           </Reveal>
           <Reveal className="intro-image luxury-framed light-sweep" style={{ maxWidth: '100%' }}>
             <img src={images.interior} alt="Architectural interior, illustrative concept" loading="lazy" className="rounded-2xl w-full" />
-            <span className="vertical-note">20 YEARS OF INDUSTRY EXPERIENCE · CHENNAI · COIMBATORE</span>
+            <span className="vertical-note">{company.experience} YEARS OF INDUSTRY EXPERIENCE · CHENNAI · COIMBATORE</span>
           </Reveal>
         </div>
       </section>
