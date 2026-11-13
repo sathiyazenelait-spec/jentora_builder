@@ -125,7 +125,86 @@ export const navigation = [
   { label: 'PROJECTS', to: '/projects' },
   { label: 'CONTACT', to: '/contact' }
 ] as const;
-export const projects = [
+export interface Project {
+  id: string;
+  number: string;
+  name: string;
+  location: string;
+  category: string;
+  units?: number | string;
+  floors?: number | string;
+  year?: string;
+  status: 'Completed' | 'Under Construction' | 'Upcoming' | string;
+  image: string;
+  gallery: string[];
+}
+
+export interface ServiceItem {
+  id: string;
+  number: string;
+  title: string;
+  desc: string;
+  exploredContent?: string;
+  image: string;
+  features?: string[];
+  active?: boolean;
+}
+
+export interface FooterConfig {
+  serviceListStyle: 'numbers' | 'bullets' | 'arrows' | 'plain' | 'pills';
+  navListStyle: 'numbers' | 'bullets' | 'arrows' | 'plain' | 'pills';
+  brandHeadline: string;
+  brandTagline: string;
+  brandAboutText: string;
+  turnkeyTitle: string;
+  turnkeyText: string;
+  operatingRegionsTitle: string;
+  operatingRegionsText: string;
+  showProjectsInFooter?: boolean;
+}
+
+export interface ServicesPageConfig {
+  heroSubtitle: string;
+  heroTitle: string;
+  heroDescription: string;
+  commitmentSubtitle: string;
+  commitmentTitle: string;
+  zigzagLabel: string;
+  zigzagMainHeading: string;
+  zigzagSubheading: string;
+  ctaSubtitle: string;
+  ctaTitle: string;
+  ctaButtonText: string;
+}
+
+export const footerConfig: FooterConfig = {
+  serviceListStyle: 'numbers',
+  navListStyle: 'numbers',
+  brandHeadline: 'START YOUR PROJECT',
+  brandTagline: 'PASSION · PRECISION · PERFECTION',
+  brandAboutText: '20 Years of industry experience delivering premium residential, commercial, and industrial landmarks built on trust and superior craftsmanship.',
+  turnkeyTitle: 'TURNKEY ASSURANCE',
+  turnkeyText: 'End-to-end structural engineering, architectural blueprints, and handover guarantee across Tamil Nadu.',
+  operatingRegionsTitle: 'OPERATING REGIONS',
+  operatingRegionsText: 'Chennai · Coimbatore',
+  showProjectsInFooter: false
+};
+
+export const servicesPageConfig: ServicesPageConfig = {
+  heroSubtitle: 'OUR SERVICES',
+  heroTitle: 'WHAT WE BUILD.',
+  heroDescription: 'Comprehensive construction and design solutions for residential, commercial and industrial spaces.',
+  commitmentSubtitle: 'WHY CHOOSE JENTORA',
+  commitmentTitle: 'More Than Construction. It’s a Commitment.',
+  zigzagLabel: 'OUR CAPABILITIES',
+  zigzagMainHeading: 'Tailored solutions for lasting impact.',
+  zigzagSubheading: 'From luxurious homes to large-scale commercial and industrial spaces, our services are designed to bring your vision to life with precision, quality and integrity.',
+  ctaSubtitle: 'READY TO GET STARTED?',
+  ctaTitle: 'LET’S BUILD SOMETHING EXCEPTIONAL.',
+  ctaButtonText: 'START A CONVERSATION'
+};
+
+export const projects: Project[] = [
   {
     id: 'jentora-vadapalani',
     number: '01',
@@ -205,74 +284,101 @@ export const projects = [
     ]
   }
 ];
-export type Project = typeof projects[number];
-export const services = [
-  ['Residential Construction', 'From custom luxury villas to modern apartment complexes, we craft exceptional living environments tailored to your lifestyle. Combining architectural elegance with structural integrity, we manage every phase—from ground preparation to final luxury finishes—ensuring your home stands as a lasting legacy of quality and comfort.'],
-  ['Commercial Construction', 'Construction for commercial spaces, guided by quality and trust.'],
-  ['Industrial Construction', 'Industrial construction with a focus on precision and execution.'],
-  ['Turnkey Projects', 'A complete approach to bringing your construction project together.'],
-  ['Building Renovation', 'A considered approach to transforming existing buildings.'],
-  ['Interior Design and Fit-Out', 'Interior spaces shaped through design and craftsmanship.'],
-  ['Civil Engineering', 'Engineering expertise at the foundation of every structure.'],
-  ['Architectural Planning', 'Thoughtful planning that brings purpose and precision together.'],
-  ['Project Management', 'Coordinating the details that bring a project to life.']
-];
-export const serviceItems = [
+
+export const serviceItems: ServiceItem[] = [
   {
+    id: 'residential-construction',
     number: '01',
     title: 'Residential Construction',
     desc: 'From custom luxury villas to modern apartment complexes, we craft exceptional living environments tailored to your lifestyle. Combining architectural elegance with structural integrity, we manage every phase—from ground preparation to final luxury finishes—ensuring your home stands as a lasting legacy of quality and comfort.',
-    image: villas
+    exploredContent: 'Jentora Builder delivers bespoke luxury individual villas, duplexes, and multi-unit residential communities across Chennai and Coimbatore. Every residence is engineered with soil-tested RCC structures, Vastu alignment, optimal natural lighting, cross-ventilation, and premium-grade fittings. We offer transparent 3D architectural renders, stage-wise photo updates, and turnkey project delivery on committed timelines.',
+    image: villas,
+    features: ['Soil & Structural Lab Testing', 'Vastu-Compliant Space Planning', '3D Photorealistic Elevations', 'Turnkey Luxury Fittings & Handover', 'Complete Municipal Approvals'],
+    active: true
   },
   {
+    id: 'commercial-construction',
     number: '02',
     title: 'Commercial Construction',
     desc: 'We design and construct iconic commercial buildings, corporate headquarters, and vibrant retail spaces engineered for growth and efficiency. Our commercial projects focus on optimized spatial planning, modern facade architecture, sustainable energy integration, and timely delivery to empower your business operations.',
-    image: serviceCommercial
+    exploredContent: 'From modern corporate office headquarters to retail complexes and mixed-use commercial developments, Jentora specializes in functional, high-footfall structural engineering. We deliver expansive floor plates, modern glass facade systems, energy-efficient HVAC conduit integrations, high-load foundations, and complete municipal compliance certification.',
+    image: serviceCommercial,
+    features: ['High-Grade Facade & Steel Structures', 'Zoning & Municipal Fire Clearance', 'Energy-Efficient Architectural Design', 'High-Load Flooring & Escalator Wells', 'Dedicated Commercial Project Managers'],
+    active: true
   },
   {
+    id: 'industrial-construction',
     number: '03',
     title: 'Industrial Construction',
     desc: 'Engineering robust, scalable, and high-performance industrial facilities, warehouses, and logistics centers built for demanding operational needs. Utilizing heavy-duty materials, advanced structural systems, and strict safety compliance, we deliver industrial structures engineered for maximum productivity and long-term durability.',
-    image: serviceIndustrial
+    exploredContent: 'Engineered for high operational demands, our industrial construction solutions encompass pre-engineered building (PEB) sheds, heavy manufacturing plants, modern logistics warehouses, and distribution centers. We incorporate laser-screed concrete flooring, high-clearance crane gantries, robust fire suppression infrastructure, and national industrial safety codes.',
+    image: serviceIndustrial,
+    features: ['PEB Sheds & Heavy Structural Steel', 'Laser-Screed Heavy Industrial Flooring', 'Dock Leveler & Heavy Logistics Bays', 'Environmental & Pollution Compliance', 'High-Tension Power Substation Integration'],
+    active: true
   },
   {
+    id: 'turnkey-projects',
     number: '04',
     title: 'Turnkey Projects',
     desc: 'Comprehensive end-to-end project execution that takes your vision from initial concept to key handover without stress. We assume total single-point responsibility covering site acquisition, architectural design, structural engineering, procurement, construction management, and quality assurance.',
-    image: apartment
+    exploredContent: 'Our turnkey construction service represents complete, single-point accountability. From initial architectural drawings and municipal permissions to structural foundation, MEP (mechanical, electrical, plumbing), interior finishes, and key handover—we handle everything while you enjoy milestone-driven peace of mind.',
+    image: apartment,
+    features: ['Single-Point Responsibility', 'Fixed Price & Milestone Guarantees', 'Full Authority & Plan Sanctions', 'Move-In Ready Handover', 'Dedicated Single Contact Desk'],
+    active: true
   },
   {
+    id: 'building-renovation',
     number: '05',
     title: 'Building Renovation',
     desc: 'Breathe new life and value into existing structures through comprehensive modern upgrades, structural retrofitting, and spatial redesigns. Whether restoring heritage properties or modernizing outdated commercial spaces, we preserve original structural character while integrating contemporary functionality.',
-    image: interior
+    exploredContent: 'Transform outdated buildings into modern architectural statements with Jentora renovation services. We conduct non-destructive structural audits, beam strengthening, facade remodeling, spatial reconfiguration, and contemporary plumbing and electrical modernization while maintaining safety and building codes.',
+    image: interior,
+    features: ['Non-Destructive Structural Health Audits', 'Exterior Facade & Elevation Modernization', 'Spatial Reconfiguration & Partitioning', 'Modern MEP Infrastructure Overhaul', 'Minimal Disruption Construction Planning'],
+    active: true
   },
   {
+    id: 'interior-design-and-fit-out',
     number: '06',
     title: 'Interior Design and Fit-Out',
     desc: 'Creating refined, bespoke interior environments that reflect your identity and purpose. Our interior team combines ergonomic planning, custom woodwork, lighting design, premium material selection, and detailed craftsmanship to deliver turnkey interiors for luxury homes and corporate spaces.',
-    image: interior
+    exploredContent: 'Our turnkey interior design and fit-out team transforms empty structures into luxurious, functional living and workspace sanctuaries. From bespoke Italian marble flooring and custom teak carpentry to architectural ambient lighting and sound acoustic treatments, every detail is crafted with perfection.',
+    image: interior,
+    features: ['Custom Modular Kitchens & Wardrobes', 'False Ceilings & Smart LED Automation', 'Premium Italian Marble & Granite Finishes', 'Acoustic & Thermal Insulation Systems', 'Turnkey Furniture & Decor Curation'],
+    active: true
   },
   {
+    id: 'civil-engineering',
     number: '07',
     title: 'Civil Engineering',
     desc: 'Delivering resilient foundational engineering and vital infrastructure solutions that underpin modern developments. From site grading, earthworks, and reinforced concrete structures to drainage systems and utility connections, our engineering guarantees safety, durability, and compliance.',
-    image: serviceCivil
+    exploredContent: 'Precision civil engineering forms the backbone of every landmark. Our licensed civil engineers oversee geo-technical investigation, pile foundations, retainment walls, earthquake-resistant framed structures, storm-water drainage channels, and heavy infrastructure earthworks.',
+    image: serviceCivil,
+    features: ['Geotechnical & Soil Bearing Audits', 'Deep Pile & Raft Foundation Engineering', 'Seismic Zone Compliant Structural Framing', 'Storm Water & Rainwater Harvesting Civil Works', 'Certified Structural Stability Certificates'],
+    active: true
   },
   {
+    id: 'architectural-planning',
     number: '08',
     title: 'Architectural Planning',
     desc: 'Thoughtful architectural design that balances aesthetic beauty, spatial utility, microclimate orientation, and environmental sustainability. Our architects create master plans, 3D visualizations, and detailed working drawings optimized for local zoning approvals and efficient construction.',
-    image: serviceBlueprint
+    exploredContent: 'Our architects unite artistic vision with pragmatic engineering. We develop master layouts, Vastu-oriented floor blueprints, realistic 3D exterior and interior walkthroughs, and sanction-ready working drawings compliant with CMDA and DTCP regulations.',
+    image: serviceBlueprint,
+    features: ['CMDA / DTCP Sanction Blueprints', '3D Virtual Walkthroughs & Renders', 'Passive Solar & Cross-Ventilation Design', 'Comprehensive Working & MEP Drawings', 'Landscape & Outdoor Integration'],
+    active: true
   },
   {
+    id: 'project-management',
     number: '09',
     title: 'Project Management',
     desc: 'Rigorous coordination, transparent financial controls, strict quality monitoring, and schedule management across the entire project lifecycle. Our project managers leverage modern software tracking to ensure safety compliance, resource optimization, transparent client reporting, and on-time completion.',
-    image: serviceManager
+    exploredContent: 'Stay in complete control of your building journey with our professional construction project management. We provide stage-linked Gantt charts, weekly digital milestone updates, vendor quality audits, transparent procurement bills, and zero-compromise site safety management.',
+    image: serviceManager,
+    features: ['Digital Milestone & Photo Progress Reports', 'Strict Schedule & Gantt Chart Tracking', 'Vendor Quality Auditing & Procurement Logs', 'Site Safety & Zero-Accident Protocols', 'Transparent Financial Stage Gate Verification'],
+    active: true
   }
 ];
+
+export const services: [string, string][] = serviceItems.map((s) => [s.title, s.desc]);
 export const visionData = {
   title: 'Our Vision',
   statement:
@@ -337,6 +443,92 @@ export function pageHead(title: string, description: string) { return { meta: [{
 export function applyDynamicContent(contentMap: Record<string, any>): boolean {
   if (!contentMap || typeof contentMap !== 'object') return false;
 
+  let hasUpdates = false;
+
+  // 1. SERVICES LIST
+  if (contentMap.services_list) {
+    let raw = contentMap.services_list;
+    if (typeof raw === 'string') {
+      try { raw = JSON.parse(raw); } catch {}
+    }
+    if (Array.isArray(raw) && raw.length > 0) {
+      serviceItems.length = 0;
+      raw.forEach((item, index) => {
+        serviceItems.push({
+          id: item.id || `service-${index + 1}`,
+          number: item.number || (index < 9 ? `0${index + 1}` : `${index + 1}`),
+          title: String(item.title || ''),
+          desc: String(item.desc || ''),
+          exploredContent: item.exploredContent ? String(item.exploredContent) : undefined,
+          image: item.image || villas,
+          features: Array.isArray(item.features) ? item.features : [],
+          active: item.active !== false,
+        });
+      });
+
+      // Synchronize services array
+      services.length = 0;
+      serviceItems
+        .filter((s) => s.active !== false)
+        .forEach((s) => {
+          services.push([s.title, s.desc]);
+        });
+      hasUpdates = true;
+    }
+  }
+
+  // 2. PROJECTS LIST
+  if (contentMap.projects_list) {
+    let raw = contentMap.projects_list;
+    if (typeof raw === 'string') {
+      try { raw = JSON.parse(raw); } catch {}
+    }
+    if (Array.isArray(raw) && raw.length > 0) {
+      projects.length = 0;
+      raw.forEach((p, index) => {
+        projects.push({
+          id: p.id || `project-${index + 1}`,
+          number: p.number || (index < 9 ? `0${index + 1}` : `${index + 1}`),
+          name: String(p.name || ''),
+          location: String(p.location || ''),
+          category: String(p.category || 'Apartment'),
+          units: p.units,
+          floors: p.floors,
+          year: p.year ? String(p.year) : undefined,
+          status: String(p.status || 'Completed'),
+          image: String(p.image || '/site-photos/vadapalani/vadapalani-1.jpg'),
+          gallery: Array.isArray(p.gallery) ? p.gallery : [p.image || '/site-photos/vadapalani/vadapalani-1.jpg'],
+        });
+      });
+      hasUpdates = true;
+    }
+  }
+
+  // 3. FOOTER CONFIG
+  if (contentMap.footer_config) {
+    let raw = contentMap.footer_config;
+    if (typeof raw === 'string') {
+      try { raw = JSON.parse(raw); } catch {}
+    }
+    if (raw && typeof raw === 'object') {
+      Object.assign(footerConfig, raw);
+      hasUpdates = true;
+    }
+  }
+
+  // 4. SERVICES PAGE CONFIG
+  if (contentMap.services_page_config) {
+    let raw = contentMap.services_page_config;
+    if (typeof raw === 'string') {
+      try { raw = JSON.parse(raw); } catch {}
+    }
+    if (raw && typeof raw === 'object') {
+      Object.assign(servicesPageConfig, raw);
+      hasUpdates = true;
+    }
+  }
+
+  // 5. COMPANY PROFILE & INFO
   let profile: any = contentMap.company_profile;
   if (typeof profile === 'string') {
     try { profile = JSON.parse(profile); } catch {}
@@ -347,92 +539,95 @@ export function applyDynamicContent(contentMap: Record<string, any>): boolean {
   }
 
   const p: Record<string, any> = { ...(info || {}), ...(profile || {}) };
-  if (Object.keys(p).length === 0) return false;
-
-  if (p.companyName || p.name) {
-    company.name = String(p.companyName || p.name);
-  }
-  if (p.tagline) {
-    companyCommitment.tagline = String(p.tagline);
-  }
-  if (p.yearsExperience || p.experience) {
-    const expNum = parseInt(String(p.yearsExperience || p.experience)) || 20;
-    company.experience = `${expNum}+`;
-    company.experienceFull = `${expNum} Years of Industry experience in Commercial, Residential, Industrial Buildings`;
-  }
-  if (p.projectsCompleted || p.completedProjects) {
-    const projNum = parseInt(String(p.projectsCompleted || p.completedProjects)) || 157;
-    company.completedProjects = projNum;
-  }
-  company.introduction = `${company.name} is a premier construction enterprise built on ${company.experience} of industry experience delivering exceptional residential, commercial, and industrial developments across Chennai and Coimbatore. We believe a home or commercial landmark is someone’s dream, life savings, and trust—and we construct with that uncompromising responsibility. With ${company.completedProjects} completed landmarks and landmark projects under construction, we bring passion, precision, and perfection to every project.`;
-  if (p.primaryPhone) {
-    const cleanPhone = String(p.primaryPhone);
-    company.primaryPhone = cleanPhone;
-    company.phones = [cleanPhone];
-    company.whatsapp = cleanPhone;
-    company.whatsappUrl = `https://wa.me/${cleanPhone.replace(/[^0-9]/g, '')}?text=Hi%20Jentora%20Builder,%20I%20would%20like%20to%20enquire%20about%20your%20construction%20services.`;
-  }
-  if (p.secondaryPhone !== undefined) {
-    company.secondaryPhone = String(p.secondaryPhone);
-  }
-  if (p.email) {
-    company.email = String(p.email);
-  }
-  if (p.operatingHours) {
-    company.operatingHours = String(p.operatingHours);
-  }
-  if (p.addressFull || p.address) {
-    const fullAddr = String(p.addressFull || p.address);
-    company.address.full = fullAddr;
-    company.address.street = fullAddr;
-  }
-  if (p.googleMapsUrl) {
-    company.googleMapsUrl = String(p.googleMapsUrl);
-  }
-  if (p.whatsappUrl) {
-    company.whatsappUrl = String(p.whatsappUrl);
-  }
-
-  if (p.managingDirector && leadership[0]) {
-    leadership[0].name = String(p.managingDirector);
-  }
-  if (p.marketingLead && leadership[1]) {
-    leadership[1].name = String(p.marketingLead);
-  }
-
-  if (p.visionP1) {
-    visionData.statement = String(p.visionP1);
-    if (visionData.paragraphs && visionData.paragraphs.length > 0) {
-      visionData.paragraphs[0] = String(p.visionP1);
+  if (Object.keys(p).length > 0) {
+    hasUpdates = true;
+    if (p.companyName || p.name) {
+      company.name = String(p.companyName || p.name);
     }
-  }
-  if (p.visionP2) {
-    visionData.secondary = String(p.visionP2);
-    if (visionData.paragraphs && visionData.paragraphs.length > 1) {
-      visionData.paragraphs[1] = String(p.visionP2);
+    if (p.tagline) {
+      companyCommitment.tagline = String(p.tagline);
     }
-  }
-
-  if (p.commitmentP1) {
-    companyCommitment.tagline = String(p.commitmentP1);
-  }
-  if (p.commitmentP2) {
-    companyCommitment.statement = String(p.commitmentP2);
-  }
-
-  if (p.facebook) socialLinks.facebook = String(p.facebook);
-  if (p.instagram) socialLinks.instagram = String(p.instagram);
-  if (p.linkedin) socialLinks.linkedin = String(p.linkedin);
-  if (p.youtube) socialLinks.youtube = String(p.youtube);
-
-  try {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('jentora_public_content', JSON.stringify(contentMap));
-      window.dispatchEvent(new CustomEvent('jentora-content-updated', { detail: contentMap }));
+    if (p.yearsExperience || p.experience) {
+      const expNum = parseInt(String(p.yearsExperience || p.experience)) || 20;
+      company.experience = `${expNum}+`;
+      company.experienceFull = `${expNum} Years of Industry experience in Commercial, Residential, Industrial Buildings`;
     }
-  } catch {}
+    if (p.projectsCompleted || p.completedProjects) {
+      const projNum = parseInt(String(p.projectsCompleted || p.completedProjects)) || 157;
+      company.completedProjects = projNum;
+    }
+    company.introduction = `${company.name} is a premier construction enterprise built on ${company.experience} of industry experience delivering exceptional residential, commercial, and industrial developments across Chennai and Coimbatore. We believe a home or commercial landmark is someone’s dream, life savings, and trust—and we construct with that uncompromising responsibility. With ${company.completedProjects} completed landmarks and landmark projects under construction, we bring passion, precision, and perfection to every project.`;
+    if (p.primaryPhone) {
+      const cleanPhone = String(p.primaryPhone);
+      company.primaryPhone = cleanPhone;
+      company.phones = [cleanPhone];
+      company.whatsapp = cleanPhone;
+      company.whatsappUrl = `https://wa.me/${cleanPhone.replace(/[^0-9]/g, '')}?text=Hi%20Jentora%20Builder,%20I%20would%20like%20to%20enquire%20about%20your%20construction%20services.`;
+    }
+    if (p.secondaryPhone !== undefined) {
+      company.secondaryPhone = String(p.secondaryPhone);
+    }
+    if (p.email) {
+      company.email = String(p.email);
+    }
+    if (p.operatingHours) {
+      company.operatingHours = String(p.operatingHours);
+    }
+    if (p.addressFull || p.address) {
+      const fullAddr = String(p.addressFull || p.address);
+      company.address.full = fullAddr;
+      company.address.street = fullAddr;
+    }
+    if (p.googleMapsUrl) {
+      company.googleMapsUrl = String(p.googleMapsUrl);
+    }
+    if (p.whatsappUrl) {
+      company.whatsappUrl = String(p.whatsappUrl);
+    }
 
-  return true;
+    if (p.managingDirector && leadership[0]) {
+      leadership[0].name = String(p.managingDirector);
+    }
+    if (p.marketingLead && leadership[1]) {
+      leadership[1].name = String(p.marketingLead);
+    }
+
+    if (p.visionP1) {
+      visionData.statement = String(p.visionP1);
+      if (visionData.paragraphs && visionData.paragraphs.length > 0) {
+        visionData.paragraphs[0] = String(p.visionP1);
+      }
+    }
+    if (p.visionP2) {
+      visionData.secondary = String(p.visionP2);
+      if (visionData.paragraphs && visionData.paragraphs.length > 1) {
+        visionData.paragraphs[1] = String(p.visionP2);
+      }
+    }
+
+    if (p.commitmentP1) {
+      companyCommitment.tagline = String(p.commitmentP1);
+    }
+    if (p.commitmentP2) {
+      companyCommitment.statement = String(p.commitmentP2);
+    }
+
+    if (p.facebook) socialLinks.facebook = String(p.facebook);
+    if (p.instagram) socialLinks.instagram = String(p.instagram);
+    if (p.linkedin) socialLinks.linkedin = String(p.linkedin);
+    if (p.youtube) socialLinks.youtube = String(p.youtube);
+  }
+
+  if (hasUpdates) {
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('jentora_public_content', JSON.stringify(contentMap));
+        window.dispatchEvent(new CustomEvent('jentora-content-updated', { detail: contentMap }));
+      }
+    } catch {}
+  }
+
+  return hasUpdates;
 }
 
 // Initial client hydration from storage cache to eliminate layout shifts

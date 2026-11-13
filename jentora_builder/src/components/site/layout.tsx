@@ -23,10 +23,41 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import logo from '@/assets/jentora-logo.png';
 import zenelaitLogo from '@/assets/zenelait-logo.png';
-import { company, navigation, services, socialLinks, applyDynamicContent } from '@/data/company';
+import { company, navigation, services, projects, socialLinks, footerConfig, applyDynamicContent } from '@/data/company';
 import { publicApi } from '@/lib/api';
 import { ContactLink } from './sections';
 import { StartConversationModal, openStartConversation } from './start-conversation-modal';
+
+function renderListMarker(index: number, style: 'numbers' | 'bullets' | 'arrows' | 'plain' | 'pills' = 'numbers') {
+  switch (style) {
+    case 'bullets':
+      return <span style={{ color: 'var(--accent)', fontSize: '13px', lineHeight: 1, display: 'inline-block', width: '16px' }}>✦</span>;
+    case 'arrows':
+      return <span style={{ color: 'var(--accent)', fontSize: '13px', lineHeight: 1, display: 'inline-block', width: '16px' }}>→</span>;
+    case 'pills':
+      return (
+        <span
+          className="footer-num-badge"
+          style={{
+            borderRadius: '4px',
+            padding: '1px 6px',
+            fontSize: '10px',
+            background: 'rgba(212, 175, 55, 0.15)',
+            color: '#b45309',
+            fontWeight: '700',
+            letterSpacing: '0.04em',
+          }}
+        >
+          #{index + 1}
+        </span>
+      );
+    case 'plain':
+      return null;
+    case 'numbers':
+    default:
+      return <span className="footer-num-badge">{index < 9 ? `0${index + 1}` : `${index + 1}`}</span>;
+  }
+}
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
@@ -271,7 +302,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           {/* TOP CTA BAND */}
           <div className="footer-cta-band" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '30px', paddingBottom: '50px' }}>
             <div>
-              <span className="eyebrow" style={{ marginBottom: '14px', display: 'inline-block' }}>START YOUR PROJECT</span>
+              <span className="eyebrow" style={{ marginBottom: '14px', display: 'inline-block' }}>{footerConfig.brandHeadline || 'START YOUR PROJECT'}</span>
               <h2 style={{ fontSize: '48px', lineHeight: '1.05', margin: '10px 0 0' }}>
                 Let’s build something<br /><em>exceptional together.</em>
               </h2>
@@ -321,17 +352,17 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                 </div>
               </Link>
               <p style={{ fontSize: '13px', color: '#92400e', letterSpacing: '0.12em', fontWeight: '700' }}>
-                PASSION · PRECISION · PERFECTION
+                {footerConfig.brandTagline || 'PASSION · PRECISION · PERFECTION'}
               </p>
               <p style={{ fontSize: '15px', lineHeight: '1.7', maxWidth: '300px' }}>
-                {company.experienceFull || `${company.experience} of industry experience delivering premium residential, commercial, and industrial landmarks built on trust and superior craftsmanship.`}
+                {footerConfig.brandAboutText || company.experienceFull || `${company.experience} of industry experience delivering premium residential, commercial, and industrial landmarks built on trust and superior craftsmanship.`}
               </p>
               <div style={{ marginTop: '8px' }}>
                 <span className="footer-section-title" style={{ marginBottom: '6px' }}>
-                  OPERATING REGIONS
+                  {footerConfig.operatingRegionsTitle || 'OPERATING REGIONS'}
                 </span>
                 <p style={{ fontSize: '15px', fontWeight: '700', color: '#090d16' }}>
-                  Chennai · Coimbatore
+                  {footerConfig.operatingRegionsText || 'Chennai · Coimbatore'}
                 </p>
               </div>
 
@@ -393,15 +424,17 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                       to="/services"
                       style={{ fontSize: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}
                     >
-                      <span className="footer-num-badge">0{i + 1}</span> {title}
+                      {renderListMarker(i, footerConfig.serviceListStyle)} {title}
                     </Link>
                   </li>
                 ))}
               </ul>
               <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid rgba(212, 175, 55, 0.25)' }}>
-                <span className="footer-section-title" style={{ fontSize: '11px', marginBottom: '8px' }}>TURNKEY ASSURANCE</span>
+                <span className="footer-section-title" style={{ fontSize: '11px', marginBottom: '8px' }}>
+                  {footerConfig.turnkeyTitle || 'TURNKEY ASSURANCE'}
+                </span>
                 <p style={{ fontSize: '13px', lineHeight: '1.6', color: '#475569' }}>
-                  End-to-end structural engineering, architectural blueprints, and handover guarantee across Tamil Nadu.
+                  {footerConfig.turnkeyText || 'End-to-end structural engineering, architectural blueprints, and handover guarantee across Tamil Nadu.'}
                 </p>
               </div>
             </div>
@@ -418,12 +451,33 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                       to={n.to}
                       style={{ fontSize: '15px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '10px' }}
                     >
-                      <span className="footer-num-badge">0{i + 1}</span>
+                      {renderListMarker(i, footerConfig.navListStyle)}
                       {n.label}
                     </Link>
                   </li>
                 ))}
               </ul>
+
+              {/* OPTIONAL FEATURED PROJECTS IN FOOTER */}
+              {footerConfig.showProjectsInFooter && projects.length > 0 && (
+                <div style={{ marginTop: '20px', paddingTop: '14px', borderTop: '1px solid rgba(212, 175, 55, 0.25)' }}>
+                  <span className="footer-section-title" style={{ fontSize: '11px', marginBottom: '8px' }}>
+                    FEATURED PROJECTS
+                  </span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {projects.slice(0, 3).map((p) => (
+                      <Link
+                        key={p.id}
+                        to={`/projects/${p.id}` as any}
+                        style={{ fontSize: '13px', color: 'var(--muted-foreground)', display: 'flex', alignItems: 'center', gap: '6px' }}
+                        className="hover:text-accent"
+                      >
+                        <span style={{ color: 'var(--accent)', fontSize: '11px' }}>✦</span> {p.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
               <div className="footer-divider" style={{ marginTop: '28px', paddingTop: '20px', borderTop: '1px solid' }}>
                 <p style={{ fontSize: '14px', marginBottom: '10px', lineHeight: '1.6' }}>
                   Have an architectural concept or construction project in mind?

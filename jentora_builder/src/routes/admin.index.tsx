@@ -28,6 +28,14 @@ import {
   X,
   UserCheck,
   Lock,
+  Hammer,
+  FolderKanban,
+  ArrowUp,
+  ArrowDown,
+  Sparkles,
+  Layers,
+  Image as ImageIcon,
+  CheckCircle2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
@@ -41,13 +49,29 @@ import {
   type User,
 } from '@/lib/api';
 import logo from '@/assets/jentora-logo.png';
+import villas from '@/assets/villas.jpg';
+import apartment from '@/assets/apartment.jpg';
+import interior from '@/assets/interior.jpg';
+import serviceCommercial from '@/assets/service-commercial.jpg';
+import serviceIndustrial from '@/assets/service-industrial.jpg';
+import serviceCivil from '@/assets/service-civil.jpg';
+import serviceBlueprint from '@/assets/service-blueprint.jpg';
+import serviceManager from '@/assets/service-manager.jpg';
 import {
   company as defaultCompany,
   leadership,
   visionData,
   companyCommitment,
   socialLinks,
+  footerConfig as defaultFooterConfig,
+  servicesPageConfig as defaultServicesPageConfig,
+  serviceItems as defaultServiceItems,
+  projects as defaultProjects,
   applyDynamicContent,
+  type ServiceItem,
+  type Project,
+  type FooterConfig,
+  type ServicesPageConfig,
 } from '@/data/company';
 
 export const Route = createFileRoute('/admin/')({
@@ -57,7 +81,7 @@ export const Route = createFileRoute('/admin/')({
 function SuperAdminDashboard() {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<User | null>(() => authStorage.getUser());
-  const [activeTab, setActiveTab] = useState<'overview' | 'inquiries' | 'users' | 'cms'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'inquiries' | 'services' | 'projects' | 'cms' | 'users'>('overview');
 
   // Loading & error states - initialized to false if user session is already cached
   const [loading, setLoading] = useState(() => !authStorage.isAuthenticated());
@@ -69,6 +93,58 @@ function SuperAdminDashboard() {
   const [queries, setQueries] = useState<ContactQuery[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [cmsData, setCmsData] = useState<any>(null);
+
+  // Services Management State
+  const [servicesList, setServicesList] = useState<ServiceItem[]>(() => [...defaultServiceItems]);
+  const [servicesPageForm, setServicesPageForm] = useState<ServicesPageConfig>(() => ({ ...defaultServicesPageConfig }));
+  const [savingServices, setSavingServices] = useState(false);
+  const [showServiceModal, setShowServiceModal] = useState(false);
+  const [editingServiceIndex, setEditingServiceIndex] = useState<number | null>(null);
+  const [serviceModalForm, setServiceModalForm] = useState<ServiceItem>({
+    id: '',
+    number: '',
+    title: '',
+    desc: '',
+    exploredContent: '',
+    image: villas,
+    features: [],
+    active: true,
+  });
+  const [serviceFeaturesInput, setServiceFeaturesInput] = useState<string>('');
+
+  // Projects Management State
+  const [projectsList, setProjectsList] = useState<Project[]>(() => [...defaultProjects]);
+  const [savingProjects, setSavingProjects] = useState(false);
+  const [showProjectModal, setShowProjectModal] = useState(false);
+  const [editingProjectIndex, setEditingProjectIndex] = useState<number | null>(null);
+  const [projectModalForm, setProjectModalForm] = useState<Project>({
+    id: '',
+    number: '',
+    name: '',
+    location: '',
+    category: 'Apartment',
+    status: 'Completed',
+    units: '',
+    floors: '',
+    year: '',
+    image: '/site-photos/vadapalani/vadapalani-1.jpg',
+    gallery: [],
+  });
+  const [projectGalleryInput, setProjectGalleryInput] = useState<string>('');
+
+  // Footer Configuration State
+  const [footerForm, setFooterForm] = useState<FooterConfig>({
+    serviceListStyle: defaultFooterConfig.serviceListStyle || 'numbers',
+    navListStyle: defaultFooterConfig.navListStyle || 'numbers',
+    brandHeadline: defaultFooterConfig.brandHeadline || 'START YOUR PROJECT',
+    brandTagline: defaultFooterConfig.brandTagline || 'PASSION · PRECISION · PERFECTION',
+    brandAboutText: defaultFooterConfig.brandAboutText || '20 Years of industry experience delivering premium residential, commercial, and industrial landmarks built on trust and superior craftsmanship.',
+    turnkeyTitle: defaultFooterConfig.turnkeyTitle || 'TURNKEY ASSURANCE',
+    turnkeyText: defaultFooterConfig.turnkeyText || 'End-to-end structural engineering, architectural blueprints, and handover guarantee across Tamil Nadu.',
+    operatingRegionsTitle: defaultFooterConfig.operatingRegionsTitle || 'OPERATING REGIONS',
+    operatingRegionsText: defaultFooterConfig.operatingRegionsText || 'Chennai · Coimbatore',
+    showProjectsInFooter: Boolean(defaultFooterConfig.showProjectsInFooter),
+  });
 
   // Inquiry filter & search
   const [queryStatusFilter, setQueryStatusFilter] = useState<string>('ALL');
@@ -180,6 +256,58 @@ function SuperAdminDashboard() {
             }));
           } catch (e) {
             console.warn('Could not parse cms json', e);
+          }
+        }
+
+        // Hydrate services_list
+        const servicesItem = list.find((item: any) => item.key === 'services_list');
+        if (servicesItem && servicesItem.jsonContent) {
+          try {
+            const parsed = typeof servicesItem.jsonContent === 'string' ? JSON.parse(servicesItem.jsonContent) : servicesItem.jsonContent;
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              setServicesList(parsed);
+            }
+          } catch (e) {
+            console.warn('Could not parse services json', e);
+          }
+        }
+
+        // Hydrate services_page_config
+        const servicesPageItem = list.find((item: any) => item.key === 'services_page_config');
+        if (servicesPageItem && servicesPageItem.jsonContent) {
+          try {
+            const parsed = typeof servicesPageItem.jsonContent === 'string' ? JSON.parse(servicesPageItem.jsonContent) : servicesPageItem.jsonContent;
+            if (parsed && typeof parsed === 'object') {
+              setServicesPageForm((prev) => ({ ...prev, ...parsed }));
+            }
+          } catch (e) {
+            console.warn('Could not parse services page config json', e);
+          }
+        }
+
+        // Hydrate projects_list
+        const projectsItem = list.find((item: any) => item.key === 'projects_list');
+        if (projectsItem && projectsItem.jsonContent) {
+          try {
+            const parsed = typeof projectsItem.jsonContent === 'string' ? JSON.parse(projectsItem.jsonContent) : projectsItem.jsonContent;
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              setProjectsList(parsed);
+            }
+          } catch (e) {
+            console.warn('Could not parse projects json', e);
+          }
+        }
+
+        // Hydrate footer_config
+        const footerItem = list.find((item: any) => item.key === 'footer_config');
+        if (footerItem && footerItem.jsonContent) {
+          try {
+            const parsed = typeof footerItem.jsonContent === 'string' ? JSON.parse(footerItem.jsonContent) : footerItem.jsonContent;
+            if (parsed && typeof parsed === 'object') {
+              setFooterForm((prev) => ({ ...prev, ...parsed }));
+            }
+          } catch (e) {
+            console.warn('Could not parse footer json', e);
           }
         }
       }
@@ -297,7 +425,7 @@ function SuperAdminDashboard() {
     }
   };
 
-  // CMS Save Operation
+  // CMS Save Operation (Profile, Info, Footer)
   const handleSaveCms = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -318,19 +446,232 @@ function SuperAdminDashboard() {
         operatingHours: cmsForm.operatingHours,
       };
       await adminApi.updateContentSection('company_info', companyInfoMapped).catch(() => {});
+      await adminApi.updateContentSection('footer_config', footerForm).catch(() => {});
 
       // Immediately synchronize and update live website content across all open pages & tabs
       applyDynamicContent({
         company_profile: cmsForm,
         company_info: companyInfoMapped,
+        footer_config: footerForm,
       });
 
-      showToast('Website content updated and published successfully in Spring Boot backend!');
+      showToast('Website content and footer configuration updated & published successfully!');
     } catch (err: any) {
       alert('Failed to update website content: ' + err.message);
     } finally {
       setSavingCms(false);
     }
+  };
+
+  // Services Save Operation
+  const handleSaveServices = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    try {
+      setSavingServices(true);
+      await adminApi.updateContentSection('services_list', servicesList);
+      await adminApi.updateContentSection('services_page_config', servicesPageForm);
+
+      applyDynamicContent({
+        services_list: servicesList,
+        services_page_config: servicesPageForm,
+      });
+
+      showToast('All services and services page configuration published to live website!');
+    } catch (err: any) {
+      alert('Failed to save services: ' + err.message);
+    } finally {
+      setSavingServices(false);
+    }
+  };
+
+  // Service CRUD operations
+  const handleOpenAddService = () => {
+    const nextNum = servicesList.length + 1;
+    setServiceModalForm({
+      id: `service-${Date.now()}`,
+      number: nextNum < 10 ? `0${nextNum}` : `${nextNum}`,
+      title: '',
+      desc: '',
+      exploredContent: '',
+      image: villas,
+      features: ['Architectural Consultation', 'Quality Assurance & Lab Testing', 'Turnkey Material Delivery'],
+      active: true,
+    });
+    setServiceFeaturesInput('Architectural Consultation, Quality Assurance & Lab Testing, Turnkey Material Delivery');
+    setEditingServiceIndex(null);
+    setShowServiceModal(true);
+  };
+
+  const handleOpenEditService = (index: number) => {
+    const item = servicesList[index];
+    if (!item) return;
+    setServiceModalForm({ ...item });
+    setServiceFeaturesInput(Array.isArray(item.features) ? item.features.join(', ') : '');
+    setEditingServiceIndex(index);
+    setShowServiceModal(true);
+  };
+
+  const handleSaveServiceModal = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!serviceModalForm.title.trim()) {
+      alert('Please enter a service title.');
+      return;
+    }
+    const featuresList = serviceFeaturesInput
+      .split(',')
+      .map((f) => f.trim())
+      .filter(Boolean);
+
+    const updatedItem: ServiceItem = {
+      ...serviceModalForm,
+      features: featuresList,
+    };
+
+    if (editingServiceIndex !== null) {
+      setServicesList((prev) => {
+        const next = [...prev];
+        next[editingServiceIndex] = updatedItem;
+        return next;
+      });
+      showToast(`Service "${updatedItem.title}" updated in working draft.`);
+    } else {
+      setServicesList((prev) => [...prev, updatedItem]);
+      showToast(`New service "${updatedItem.title}" added to working draft.`);
+    }
+    setShowServiceModal(false);
+  };
+
+  const handleDeleteService = (index: number) => {
+    const item = servicesList[index];
+    if (!item) return;
+    if (!confirm(`Are you sure you want to delete service "${item.title}"?`)) return;
+    setServicesList((prev) => prev.filter((_, i) => i !== index));
+    showToast(`Service "${item.title}" removed.`);
+  };
+
+  const handleMoveService = (index: number, direction: 'up' | 'down') => {
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= servicesList.length) return;
+    setServicesList((prev) => {
+      const next = [...prev];
+      const temp = next[index];
+      next[index] = next[targetIndex];
+      next[targetIndex] = temp;
+      return next.map((item, idx) => ({
+        ...item,
+        number: idx < 9 ? `0${idx + 1}` : `${idx + 1}`,
+      }));
+    });
+  };
+
+  const handleToggleServiceActive = (index: number) => {
+    setServicesList((prev) => {
+      const next = [...prev];
+      next[index] = { ...next[index], active: next[index].active === false ? true : false };
+      return next;
+    });
+  };
+
+  // Projects Save Operation
+  const handleSaveProjects = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    try {
+      setSavingProjects(true);
+      await adminApi.updateContentSection('projects_list', projectsList);
+
+      applyDynamicContent({
+        projects_list: projectsList,
+      });
+
+      showToast('Projects portfolio published to live website successfully!');
+    } catch (err: any) {
+      alert('Failed to save projects: ' + err.message);
+    } finally {
+      setSavingProjects(false);
+    }
+  };
+
+  // Project CRUD operations
+  const handleOpenAddProject = () => {
+    const nextNum = projectsList.length + 1;
+    setProjectModalForm({
+      id: `jentora-project-${Date.now()}`,
+      number: nextNum < 10 ? `0${nextNum}` : `${nextNum}`,
+      name: '',
+      location: 'Chennai',
+      category: 'Apartment',
+      status: 'Completed',
+      units: 6,
+      floors: 3,
+      year: new Date().getFullYear().toString(),
+      image: '/site-photos/vadapalani/vadapalani-1.jpg',
+      gallery: ['/site-photos/vadapalani/vadapalani-1.jpg'],
+    });
+    setProjectGalleryInput('/site-photos/vadapalani/vadapalani-1.jpg');
+    setEditingProjectIndex(null);
+    setShowProjectModal(true);
+  };
+
+  const handleOpenEditProject = (index: number) => {
+    const item = projectsList[index];
+    if (!item) return;
+    setProjectModalForm({ ...item });
+    setProjectGalleryInput(Array.isArray(item.gallery) ? item.gallery.join('\n') : item.image);
+    setEditingProjectIndex(index);
+    setShowProjectModal(true);
+  };
+
+  const handleSaveProjectModal = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!projectModalForm.name.trim()) {
+      alert('Please enter a project name.');
+      return;
+    }
+    const galleryUrls = projectGalleryInput
+      .split('\n')
+      .map((u) => u.trim())
+      .filter(Boolean);
+
+    const updatedProject: Project = {
+      ...projectModalForm,
+      gallery: galleryUrls.length > 0 ? galleryUrls : [projectModalForm.image],
+    };
+
+    if (editingProjectIndex !== null) {
+      setProjectsList((prev) => {
+        const next = [...prev];
+        next[editingProjectIndex] = updatedProject;
+        return next;
+      });
+      showToast(`Project "${updatedProject.name}" updated in working draft.`);
+    } else {
+      setProjectsList((prev) => [...prev, updatedProject]);
+      showToast(`New project "${updatedProject.name}" added to working draft.`);
+    }
+    setShowProjectModal(false);
+  };
+
+  const handleDeleteProject = (index: number) => {
+    const item = projectsList[index];
+    if (!item) return;
+    if (!confirm(`Are you sure you want to delete project "${item.name}"?`)) return;
+    setProjectsList((prev) => prev.filter((_, i) => i !== index));
+    showToast(`Project "${item.name}" removed.`);
+  };
+
+  const handleMoveProject = (index: number, direction: 'up' | 'down') => {
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= projectsList.length) return;
+    setProjectsList((prev) => {
+      const next = [...prev];
+      const temp = next[index];
+      next[index] = next[targetIndex];
+      next[targetIndex] = temp;
+      return next.map((item, idx) => ({
+        ...item,
+        number: idx < 9 ? `0${idx + 1}` : `${idx + 1}`,
+      }));
+    });
   };
 
   // Filtered queries list
@@ -572,6 +913,74 @@ function SuperAdminDashboard() {
                 {stats.newQueries}
               </span>
             )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab('services')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 18px',
+              borderRadius: '8px',
+              fontSize: '13px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              border: 'none',
+              background: activeTab === 'services' ? '#c9a063' : 'transparent',
+              color: activeTab === 'services' ? '#0f172a' : '#94a3b8',
+              transition: 'all 0.2s',
+            }}
+          >
+            <Hammer size={16} />
+            <span>Services & Capabilities</span>
+            <span
+              style={{
+                fontSize: '11px',
+                fontWeight: '700',
+                background: activeTab === 'services' ? '#0f172a' : 'rgba(255,255,255,0.1)',
+                color: activeTab === 'services' ? '#c9a063' : '#94a3b8',
+                padding: '2px 7px',
+                borderRadius: '10px',
+              }}
+            >
+              {servicesList.length}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab('projects')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 18px',
+              borderRadius: '8px',
+              fontSize: '13px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              border: 'none',
+              background: activeTab === 'projects' ? '#c9a063' : 'transparent',
+              color: activeTab === 'projects' ? '#0f172a' : '#94a3b8',
+              transition: 'all 0.2s',
+            }}
+          >
+            <FolderKanban size={16} />
+            <span>Projects Portfolio</span>
+            <span
+              style={{
+                fontSize: '11px',
+                fontWeight: '700',
+                background: activeTab === 'projects' ? '#0f172a' : 'rgba(255,255,255,0.1)',
+                color: activeTab === 'projects' ? '#c9a063' : '#94a3b8',
+                padding: '2px 7px',
+                borderRadius: '10px',
+              }}
+            >
+              {projectsList.length}
+            </span>
           </button>
 
           {isSuperAdmin && (
@@ -1201,6 +1610,490 @@ function SuperAdminDashboard() {
           </div>
         )}
 
+        {/* TAB: SERVICES & CAPABILITIES MANAGEMENT */}
+        {activeTab === 'services' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {/* TOP HEADER BAR */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                background: '#131b2e',
+                padding: '20px',
+                borderRadius: '12px',
+                border: '1px solid rgba(255,255,255,0.08)',
+                flexWrap: 'wrap',
+                gap: '16px',
+              }}
+            >
+              <div>
+                <h3 style={{ fontSize: '18px', fontWeight: '600', margin: 0, color: '#ffffff', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Hammer size={20} style={{ color: '#c9a063' }} />
+                  Services & Capabilities Manager
+                </h3>
+                <p style={{ fontSize: '12px', color: '#94a3b8', margin: '4px 0 0' }}>
+                  Add new services, update explored inside content, images, key deliverables, and maintain the Services page
+                </p>
+              </div>
+
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <Button
+                  type="button"
+                  onClick={handleOpenAddService}
+                  style={{
+                    background: 'rgba(201, 160, 99, 0.2)',
+                    border: '1px solid #c9a063',
+                    color: '#c9a063',
+                    fontWeight: '600',
+                    fontSize: '13px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <Plus size={16} /> Add New Service
+                </Button>
+
+                <Button
+                  type="button"
+                  onClick={handleSaveServices}
+                  disabled={savingServices}
+                  style={{
+                    background: '#c9a063',
+                    color: '#0f172a',
+                    fontWeight: '700',
+                    fontSize: '13px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
+                >
+                  <Save size={16} />
+                  {savingServices ? 'Publishing to Website...' : 'Save & Publish Services'}
+                </Button>
+              </div>
+            </div>
+
+            {/* SERVICES PAGE CONTENT CONFIGURATION BOX */}
+            <div style={{ background: '#131b2e', padding: '24px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '8px' }}>
+                <h4 style={{ fontSize: '14px', fontWeight: '700', color: '#c9a063', margin: 0, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  Services Page Header & Section Text
+                </h4>
+                <span style={{ fontSize: '11px', color: '#94a3b8' }}>
+                  These texts control the headlines on the public /services page
+                </span>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>HERO SUBTITLE</label>
+                  <input
+                    type="text"
+                    value={servicesPageForm.heroSubtitle}
+                    onChange={(e) => setServicesPageForm({ ...servicesPageForm, heroSubtitle: e.target.value })}
+                    style={{ width: '100%', height: '36px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 10px', color: '#ffffff', fontSize: '13px' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>HERO MAIN TITLE</label>
+                  <input
+                    type="text"
+                    value={servicesPageForm.heroTitle}
+                    onChange={(e) => setServicesPageForm({ ...servicesPageForm, heroTitle: e.target.value })}
+                    style={{ width: '100%', height: '36px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 10px', color: '#ffffff', fontSize: '13px' }}
+                  />
+                </div>
+                <div style={{ gridColumn: '1 / -1' }}>
+                  <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>HERO DESCRIPTION</label>
+                  <input
+                    type="text"
+                    value={servicesPageForm.heroDescription}
+                    onChange={(e) => setServicesPageForm({ ...servicesPageForm, heroDescription: e.target.value })}
+                    style={{ width: '100%', height: '36px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 10px', color: '#ffffff', fontSize: '13px' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>CAPABILITIES LABEL</label>
+                  <input
+                    type="text"
+                    value={servicesPageForm.zigzagLabel}
+                    onChange={(e) => setServicesPageForm({ ...servicesPageForm, zigzagLabel: e.target.value })}
+                    style={{ width: '100%', height: '36px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 10px', color: '#ffffff', fontSize: '13px' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>CAPABILITIES HEADING</label>
+                  <input
+                    type="text"
+                    value={servicesPageForm.zigzagMainHeading}
+                    onChange={(e) => setServicesPageForm({ ...servicesPageForm, zigzagMainHeading: e.target.value })}
+                    style={{ width: '100%', height: '36px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 10px', color: '#ffffff', fontSize: '13px' }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* SERVICES LIST CARDS */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
+                <h4 style={{ fontSize: '15px', fontWeight: '600', color: '#f8fafc', margin: 0 }}>
+                  Active Construction & Design Services ({servicesList.length})
+                </h4>
+                <span style={{ fontSize: '12px', color: '#94a3b8' }}>
+                  Use arrows to reorder. Click "Edit" to customize inside explored content & features.
+                </span>
+              </div>
+
+              {servicesList.map((item, index) => (
+                <div
+                  key={item.id || index}
+                  style={{
+                    background: '#131b2e',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '10px',
+                    padding: '18px 20px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '18px',
+                    flexWrap: 'wrap',
+                    opacity: item.active === false ? 0.6 : 1,
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  {/* REORDER BUTTONS */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <button
+                      type="button"
+                      disabled={index === 0}
+                      onClick={() => handleMoveService(index, 'up')}
+                      style={{
+                        background: 'rgba(255,255,255,0.08)',
+                        border: 'none',
+                        color: index === 0 ? '#475569' : '#e2e8f0',
+                        borderRadius: '4px',
+                        padding: '4px',
+                        cursor: index === 0 ? 'default' : 'pointer',
+                      }}
+                      title="Move Up"
+                    >
+                      <ArrowUp size={14} />
+                    </button>
+                    <button
+                      type="button"
+                      disabled={index === servicesList.length - 1}
+                      onClick={() => handleMoveService(index, 'down')}
+                      style={{
+                        background: 'rgba(255,255,255,0.08)',
+                        border: 'none',
+                        color: index === servicesList.length - 1 ? '#475569' : '#e2e8f0',
+                        borderRadius: '4px',
+                        padding: '4px',
+                        cursor: index === servicesList.length - 1 ? 'default' : 'pointer',
+                      }}
+                      title="Move Down"
+                    >
+                      <ArrowDown size={14} />
+                    </button>
+                  </div>
+
+                  {/* NUMBER & THUMBNAIL */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <span
+                      style={{
+                        fontSize: '13px',
+                        fontWeight: '700',
+                        background: '#0f172a',
+                        color: '#c9a063',
+                        border: '1px solid rgba(201, 160, 99, 0.4)',
+                        padding: '6px 10px',
+                        borderRadius: '6px',
+                        minWidth: '38px',
+                        textAlign: 'center',
+                      }}
+                    >
+                      {item.number}
+                    </span>
+                    <div style={{ width: '56px', height: '56px', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.15)', flexShrink: 0 }}>
+                      <img src={item.image} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                  </div>
+
+                  {/* TITLE & DESCRIPTION */}
+                  <div style={{ flex: '1 1 300px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <h4 style={{ fontSize: '15px', fontWeight: '600', color: '#ffffff', margin: 0 }}>
+                        {item.title}
+                      </h4>
+                      <button
+                        type="button"
+                        onClick={() => handleToggleServiceActive(index)}
+                        style={{
+                          fontSize: '10px',
+                          fontWeight: '700',
+                          padding: '2px 8px',
+                          borderRadius: '12px',
+                          border: 'none',
+                          cursor: 'pointer',
+                          background: item.active !== false ? 'rgba(34, 197, 94, 0.2)' : 'rgba(148, 163, 184, 0.2)',
+                          color: item.active !== false ? '#4ade80' : '#94a3b8',
+                        }}
+                      >
+                        {item.active !== false ? 'ACTIVE' : 'HIDDEN'}
+                      </button>
+                    </div>
+                    <p style={{ fontSize: '12.5px', color: '#94a3b8', margin: '4px 0 6px', lineHeight: '1.5', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      {item.desc}
+                    </p>
+                    {item.features && item.features.length > 0 && (
+                      <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                        {item.features.slice(0, 3).map((f, fi) => (
+                          <span key={fi} style={{ fontSize: '11px', background: 'rgba(201, 160, 99, 0.1)', color: '#c9a063', padding: '1px 6px', borderRadius: '4px' }}>
+                            ✓ {f}
+                          </span>
+                        ))}
+                        {item.features.length > 3 && (
+                          <span style={{ fontSize: '11px', color: '#64748b' }}>
+                            +{item.features.length - 3} more
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* ACTIONS */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleOpenEditService(index)}
+                      style={{ fontSize: '12px', background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.15)', color: '#e2e8f0' }}
+                    >
+                      <Edit2 size={13} style={{ marginRight: '4px' }} /> Edit
+                    </Button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteService(index)}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '32px',
+                        height: '32px',
+                        background: 'rgba(239, 68, 68, 0.1)',
+                        border: '1px solid rgba(239, 68, 68, 0.3)',
+                        color: '#f87171',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                      }}
+                      title="Delete Service"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* TAB: PROJECTS PORTFOLIO MANAGEMENT */}
+        {activeTab === 'projects' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {/* TOP HEADER BAR */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                background: '#131b2e',
+                padding: '20px',
+                borderRadius: '12px',
+                border: '1px solid rgba(255,255,255,0.08)',
+                flexWrap: 'wrap',
+                gap: '16px',
+              }}
+            >
+              <div>
+                <h3 style={{ fontSize: '18px', fontWeight: '600', margin: 0, color: '#ffffff', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <FolderKanban size={20} style={{ color: '#c9a063' }} />
+                  Projects Portfolio Manager
+                </h3>
+                <p style={{ fontSize: '12px', color: '#94a3b8', margin: '4px 0 0' }}>
+                  Manage residential apartments, individual villas, commercial spaces, photos, and project statuses
+                </p>
+              </div>
+
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <Button
+                  type="button"
+                  onClick={handleOpenAddProject}
+                  style={{
+                    background: 'rgba(201, 160, 99, 0.2)',
+                    border: '1px solid #c9a063',
+                    color: '#c9a063',
+                    fontWeight: '600',
+                    fontSize: '13px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <Plus size={16} /> Add New Project
+                </Button>
+
+                <Button
+                  type="button"
+                  onClick={handleSaveProjects}
+                  disabled={savingProjects}
+                  style={{
+                    background: '#c9a063',
+                    color: '#0f172a',
+                    fontWeight: '700',
+                    fontSize: '13px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
+                >
+                  <Save size={16} />
+                  {savingProjects ? 'Publishing Projects...' : 'Save & Publish Projects'}
+                </Button>
+              </div>
+            </div>
+
+            {/* PROJECTS GRID */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '18px' }}>
+              {projectsList.map((item, index) => (
+                <div
+                  key={item.id || index}
+                  style={{
+                    background: '#131b2e',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                >
+                  {/* PROJECT IMAGE */}
+                  <div style={{ position: 'relative', height: '170px', background: '#0a101d' }}>
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      onError={(e) => {
+                        (e.target as any).src = '/site-photos/vadapalani/vadapalani-1.jpg';
+                      }}
+                    />
+                    <div style={{ position: 'absolute', top: '10px', left: '10px', display: 'flex', gap: '6px' }}>
+                      <span style={{ fontSize: '11px', fontWeight: '700', background: 'rgba(7,10,18,0.85)', color: '#c9a063', padding: '3px 8px', borderRadius: '4px', border: '1px solid rgba(201,160,99,0.4)' }}>
+                        #{item.number}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: '11px',
+                          fontWeight: '700',
+                          padding: '3px 8px',
+                          borderRadius: '4px',
+                          background: item.status === 'Completed' ? 'rgba(34,197,94,0.85)' : item.status === 'Under Construction' ? 'rgba(59,130,246,0.85)' : 'rgba(245,158,11,0.85)',
+                          color: '#ffffff',
+                        }}
+                      >
+                        {item.status}
+                      </span>
+                    </div>
+
+                    <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', gap: '4px' }}>
+                      <button
+                        type="button"
+                        disabled={index === 0}
+                        onClick={() => handleMoveProject(index, 'up')}
+                        style={{ background: 'rgba(7,10,18,0.8)', border: 'none', color: '#ffffff', borderRadius: '4px', padding: '4px', cursor: 'pointer' }}
+                        title="Move Left/Up"
+                      >
+                        <ArrowUp size={13} />
+                      </button>
+                      <button
+                        type="button"
+                        disabled={index === projectsList.length - 1}
+                        onClick={() => handleMoveProject(index, 'down')}
+                        style={{ background: 'rgba(7,10,18,0.8)', border: 'none', color: '#ffffff', borderRadius: '4px', padding: '4px', cursor: 'pointer' }}
+                        title="Move Right/Down"
+                      >
+                        <ArrowDown size={13} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* PROJECT DETAILS */}
+                  <div style={{ padding: '16px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+                        <span style={{ fontSize: '11px', textTransform: 'uppercase', color: '#c9a063', fontWeight: '700', letterSpacing: '0.06em' }}>
+                          {item.category}
+                        </span>
+                        {item.year && (
+                          <span style={{ fontSize: '11px', color: '#94a3b8' }}>
+                            {item.year}
+                          </span>
+                        )}
+                      </div>
+                      <h4 style={{ fontSize: '17px', fontWeight: '700', color: '#ffffff', margin: '0 0 6px' }}>
+                        {item.name}
+                      </h4>
+                      <p style={{ fontSize: '12.5px', color: '#94a3b8', margin: '0 0 12px' }}>
+                        📍 {item.location}
+                      </p>
+
+                      <div style={{ display: 'flex', gap: '12px', fontSize: '12px', color: '#cbd5e1', marginBottom: '14px', flexWrap: 'wrap' }}>
+                        {item.units && <span><strong>{item.units}</strong> Units</span>}
+                        {item.floors && <span>• <strong>{item.floors}</strong> Floors</span>}
+                        <span>• <strong>{item.gallery ? item.gallery.length : 1}</strong> Photos</span>
+                      </div>
+                    </div>
+
+                    {/* CARD ACTIONS */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '12px' }}>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleOpenEditProject(index)}
+                        style={{ fontSize: '12px', background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.15)', color: '#e2e8f0' }}
+                      >
+                        <Edit2 size={13} style={{ marginRight: '4px' }} /> Edit Details
+                      </Button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteProject(index)}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '32px',
+                          height: '32px',
+                          background: 'rgba(239, 68, 68, 0.1)',
+                          border: '1px solid rgba(239, 68, 68, 0.3)',
+                          color: '#f87171',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                        }}
+                        title="Delete Project"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* TAB 4: WEBSITE CMS & CONTENT */}
         {activeTab === 'cms' && (
           <form onSubmit={handleSaveCms} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -1472,6 +2365,147 @@ function SuperAdminDashboard() {
                     onChange={(e) => setCmsForm({ ...cmsForm, youtube: e.target.value })}
                     style={{ width: '100%', height: '40px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
                   />
+                </div>
+              </div>
+            </div>
+
+            {/* SECTION: FOOTER CUSTOMIZATION & LIST STYLES */}
+            <div style={{ background: '#131b2e', padding: '24px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+                <h4 style={{ fontSize: '15px', fontWeight: '600', color: '#c9a063', margin: 0, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  05. Website Footer Customization & List Styles
+                </h4>
+                <span style={{ fontSize: '11px', color: '#94a3b8' }}>
+                  Control list prefixes (numbers, bullets, arrows, pills) & footer texts
+                </span>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '20px' }}>
+                {/* SERVICE LIST STYLE */}
+                <div style={{ background: '#0f172a', padding: '16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#c9a063', fontWeight: '700', marginBottom: '6px' }}>
+                    SERVICES LIST BUTTON / MARKER STYLE
+                  </label>
+                  <p style={{ fontSize: '11px', color: '#94a3b8', marginBottom: '10px' }}>
+                    Select how services are styled in the footer
+                  </p>
+                  <select
+                    value={footerForm.serviceListStyle}
+                    onChange={(e) => setFooterForm({ ...footerForm, serviceListStyle: e.target.value as any })}
+                    style={{ width: '100%', height: '40px', background: '#131b2e', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+                  >
+                    <option value="numbers">Numbers Badge (01, 02, 03...)</option>
+                    <option value="bullets">Golden Bullets (✦)</option>
+                    <option value="arrows">Gold Arrows (→)</option>
+                    <option value="pills">Pill Badges (#1, #2, #3...)</option>
+                    <option value="plain">Clean / Plain (No Prefix)</option>
+                  </select>
+                </div>
+
+                {/* NAVIGATION LIST STYLE */}
+                <div style={{ background: '#0f172a', padding: '16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#c9a063', fontWeight: '700', marginBottom: '6px' }}>
+                    NAVIGATION / EXPLORE LIST MARKER STYLE
+                  </label>
+                  <p style={{ fontSize: '11px', color: '#94a3b8', marginBottom: '10px' }}>
+                    Select how site navigation links are numbered or marked
+                  </p>
+                  <select
+                    value={footerForm.navListStyle}
+                    onChange={(e) => setFooterForm({ ...footerForm, navListStyle: e.target.value as any })}
+                    style={{ width: '100%', height: '40px', background: '#131b2e', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+                  >
+                    <option value="numbers">Numbers Badge (01, 02, 03...)</option>
+                    <option value="bullets">Golden Bullets (✦)</option>
+                    <option value="arrows">Gold Arrows (→)</option>
+                    <option value="pills">Pill Badges (#1, #2, #3...)</option>
+                    <option value="plain">Clean / Plain (No Prefix)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px' }}>FOOTER TOP CTA HEADLINE</label>
+                  <input
+                    type="text"
+                    value={footerForm.brandHeadline}
+                    onChange={(e) => setFooterForm({ ...footerForm, brandHeadline: e.target.value })}
+                    style={{ width: '100%', height: '40px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px' }}>FOOTER BRAND TAGLINE</label>
+                  <input
+                    type="text"
+                    value={footerForm.brandTagline}
+                    onChange={(e) => setFooterForm({ ...footerForm, brandTagline: e.target.value })}
+                    style={{ width: '100%', height: '40px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+                  />
+                </div>
+
+                <div style={{ gridColumn: '1 / -1' }}>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px' }}>FOOTER BRAND ABOUT STATEMENT</label>
+                  <textarea
+                    rows={2}
+                    value={footerForm.brandAboutText}
+                    onChange={(e) => setFooterForm({ ...footerForm, brandAboutText: e.target.value })}
+                    style={{ width: '100%', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '10px 12px', color: '#ffffff', fontSize: '13px' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px' }}>OPERATING REGIONS TITLE</label>
+                  <input
+                    type="text"
+                    value={footerForm.operatingRegionsTitle}
+                    onChange={(e) => setFooterForm({ ...footerForm, operatingRegionsTitle: e.target.value })}
+                    style={{ width: '100%', height: '40px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px' }}>OPERATING REGIONS TEXT</label>
+                  <input
+                    type="text"
+                    value={footerForm.operatingRegionsText}
+                    onChange={(e) => setFooterForm({ ...footerForm, operatingRegionsText: e.target.value })}
+                    style={{ width: '100%', height: '40px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px' }}>TURNKEY ASSURANCE TITLE</label>
+                  <input
+                    type="text"
+                    value={footerForm.turnkeyTitle}
+                    onChange={(e) => setFooterForm({ ...footerForm, turnkeyTitle: e.target.value })}
+                    style={{ width: '100%', height: '40px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+                  />
+                </div>
+
+                <div style={{ gridColumn: '1 / -1' }}>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px' }}>TURNKEY ASSURANCE DESCRIPTION</label>
+                  <textarea
+                    rows={2}
+                    value={footerForm.turnkeyText}
+                    onChange={(e) => setFooterForm({ ...footerForm, turnkeyText: e.target.value })}
+                    style={{ width: '100%', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '10px 12px', color: '#ffffff', fontSize: '13px' }}
+                  />
+                </div>
+
+                <div style={{ gridColumn: '1 / -1', display: 'flex', alignItems: 'center', gap: '10px', paddingTop: '8px' }}>
+                  <input
+                    type="checkbox"
+                    id="showProjectsFooter"
+                    checked={footerForm.showProjectsInFooter}
+                    onChange={(e) => setFooterForm({ ...footerForm, showProjectsInFooter: e.target.checked })}
+                    style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                  />
+                  <label htmlFor="showProjectsFooter" style={{ fontSize: '13px', color: '#ffffff', cursor: 'pointer' }}>
+                    Show "Featured Projects" section in the website footer
+                  </label>
                 </div>
               </div>
             </div>
@@ -1854,6 +2888,324 @@ function SuperAdminDashboard() {
               </Button>
               <Button type="submit" style={{ background: '#c9a063', color: '#0f172a', fontWeight: '700', fontSize: '12px' }}>
                 Update Account
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* MODAL: ADD / EDIT SERVICE */}
+      <Dialog open={showServiceModal} onOpenChange={setShowServiceModal}>
+        <DialogContent
+          className="admin-dialog-content"
+          style={{
+            background: '#131b2e',
+            color: '#f8fafc',
+            border: '1px solid rgba(255,255,255,0.15)',
+            maxWidth: '650px',
+            maxHeight: '90vh',
+            overflowY: 'auto',
+          }}
+        >
+          <DialogHeader>
+            <DialogTitle style={{ fontSize: '18px', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Hammer size={18} style={{ color: '#c9a063' }} />
+              {editingServiceIndex !== null ? `Edit Service #${serviceModalForm.number}` : 'Add New Service'}
+            </DialogTitle>
+            <DialogDescription style={{ fontSize: '12px', color: '#94a3b8' }}>
+              Configure service details, inside explored content, deliverables, and preview photo.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleSaveServiceModal} style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '12px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '100px 1fr', gap: '12px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>NUMBER</label>
+                <input
+                  type="text"
+                  required
+                  value={serviceModalForm.number}
+                  onChange={(e) => setServiceModalForm({ ...serviceModalForm, number: e.target.value })}
+                  style={{ width: '100%', height: '38px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 10px', color: '#ffffff', fontSize: '13px' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>SERVICE TITLE</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Residential Construction"
+                  value={serviceModalForm.title}
+                  onChange={(e) => setServiceModalForm({ ...serviceModalForm, title: e.target.value })}
+                  style={{ width: '100%', height: '38px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>CARD SHORT SUMMARY (OVERVIEW)</label>
+              <textarea
+                rows={2}
+                required
+                placeholder="Brief summary visible on the services card list..."
+                value={serviceModalForm.desc}
+                onChange={(e) => setServiceModalForm({ ...serviceModalForm, desc: e.target.value })}
+                style={{ width: '100%', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '8px 12px', color: '#ffffff', fontSize: '13px' }}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '11px', color: '#c9a063', fontWeight: '700', marginBottom: '4px' }}>
+                EXPLORED SERVICE INSIDE CONTENT (FULL DETAILS)
+              </label>
+              <p style={{ fontSize: '11px', color: '#94a3b8', margin: '0 0 6px' }}>
+                This rich content is shown in the interactive pop-up when the client clicks "EXPLORE SERVICE"
+              </p>
+              <textarea
+                rows={4}
+                placeholder="Comprehensive technical breakdown, engineering methodology, vastu planning, materials, and handover timeline..."
+                value={serviceModalForm.exploredContent || ''}
+                onChange={(e) => setServiceModalForm({ ...serviceModalForm, exploredContent: e.target.value })}
+                style={{ width: '100%', background: '#0f172a', border: '1px solid rgba(201, 160, 99, 0.4)', borderRadius: '6px', padding: '10px 12px', color: '#ffffff', fontSize: '13px', lineHeight: '1.6' }}
+              />
+            </div>
+
+            {/* PRESET IMAGE SELECTOR */}
+            <div>
+              <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>SERVICE PHOTO PRESET OR URL</label>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '8px', marginBottom: '8px' }}>
+                {[
+                  { name: 'Luxury Villas', src: villas },
+                  { name: 'Commercial', src: serviceCommercial },
+                  { name: 'Industrial', src: serviceIndustrial },
+                  { name: 'Turnkey Apt', src: apartment },
+                  { name: 'Interior', src: interior },
+                  { name: 'Civil Works', src: serviceCivil },
+                  { name: 'Blueprints', src: serviceBlueprint },
+                  { name: 'Project Desk', src: serviceManager },
+                ].map((preset) => (
+                  <button
+                    key={preset.name}
+                    type="button"
+                    onClick={() => setServiceModalForm({ ...serviceModalForm, image: preset.src })}
+                    style={{
+                      background: serviceModalForm.image === preset.src ? 'rgba(201,160,99,0.25)' : '#0f172a',
+                      border: `1px solid ${serviceModalForm.image === preset.src ? '#c9a063' : 'rgba(255,255,255,0.15)'}`,
+                      borderRadius: '6px',
+                      padding: '6px',
+                      color: '#ffffff',
+                      fontSize: '11px',
+                      cursor: 'pointer',
+                      textAlign: 'center',
+                    }}
+                  >
+                    {preset.name}
+                  </button>
+                ))}
+              </div>
+              <input
+                type="text"
+                placeholder="Or paste custom image URL (e.g. /site-photos/... or https://...)"
+                value={typeof serviceModalForm.image === 'string' ? serviceModalForm.image : ''}
+                onChange={(e) => setServiceModalForm({ ...serviceModalForm, image: e.target.value })}
+                style={{ width: '100%', height: '36px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 10px', color: '#ffffff', fontSize: '12px' }}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>
+                KEY ENGINEERING DELIVERABLES / FEATURES (COMMA-SEPARATED)
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. Soil & Lab Testing, Vastu Planning, 3D Elevation, Turnkey Handover"
+                value={serviceFeaturesInput}
+                onChange={(e) => setServiceFeaturesInput(e.target.value)}
+                style={{ width: '100%', height: '38px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', paddingTop: '4px' }}>
+              <input
+                type="checkbox"
+                id="service-active"
+                checked={serviceModalForm.active !== false}
+                onChange={(e) => setServiceModalForm({ ...serviceModalForm, active: e.target.checked })}
+                style={{ width: '16px', height: '16px', cursor: 'pointer' }}
+              />
+              <label htmlFor="service-active" style={{ fontSize: '13px', color: '#f8fafc', cursor: 'pointer' }}>
+                Show this service publicly on the website
+              </label>
+            </div>
+
+            <DialogFooter style={{ marginTop: '12px' }}>
+              <Button type="button" variant="outline" onClick={() => setShowServiceModal(false)} style={{ fontSize: '12px' }}>
+                Cancel
+              </Button>
+              <Button type="submit" style={{ background: '#c9a063', color: '#0f172a', fontWeight: '700', fontSize: '12px' }}>
+                {editingServiceIndex !== null ? 'Save Service Draft' : 'Add Service'}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* MODAL: ADD / EDIT PROJECT */}
+      <Dialog open={showProjectModal} onOpenChange={setShowProjectModal}>
+        <DialogContent
+          className="admin-dialog-content"
+          style={{
+            background: '#131b2e',
+            color: '#f8fafc',
+            border: '1px solid rgba(255,255,255,0.15)',
+            maxWidth: '650px',
+            maxHeight: '90vh',
+            overflowY: 'auto',
+          }}
+        >
+          <DialogHeader>
+            <DialogTitle style={{ fontSize: '18px', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <FolderKanban size={18} style={{ color: '#c9a063' }} />
+              {editingProjectIndex !== null ? `Edit Project: ${projectModalForm.name}` : 'Add New Project'}
+            </DialogTitle>
+            <DialogDescription style={{ fontSize: '12px', color: '#94a3b8' }}>
+              Configure project landmark name, category, location, status, and photos.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleSaveProjectModal} style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '12px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '100px 1fr', gap: '12px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>NUMBER</label>
+                <input
+                  type="text"
+                  required
+                  value={projectModalForm.number}
+                  onChange={(e) => setProjectModalForm({ ...projectModalForm, number: e.target.value })}
+                  style={{ width: '100%', height: '38px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 10px', color: '#ffffff', fontSize: '13px' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>PROJECT NAME</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Jentora Vadapalani"
+                  value={projectModalForm.name}
+                  onChange={(e) => setProjectModalForm({ ...projectModalForm, name: e.target.value })}
+                  style={{ width: '100%', height: '38px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+                />
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>LOCATION</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Vadapalani, Chennai"
+                  value={projectModalForm.location}
+                  onChange={(e) => setProjectModalForm({ ...projectModalForm, location: e.target.value })}
+                  style={{ width: '100%', height: '38px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>CATEGORY</label>
+                <select
+                  value={projectModalForm.category}
+                  onChange={(e) => setProjectModalForm({ ...projectModalForm, category: e.target.value })}
+                  style={{ width: '100%', height: '38px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+                >
+                  <option value="Apartment">Apartment</option>
+                  <option value="Individual Villas">Individual Villas</option>
+                  <option value="Commercial">Commercial</option>
+                  <option value="Industrial">Industrial</option>
+                  <option value="Turnkey Projects">Turnkey Projects</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>STATUS</label>
+                <select
+                  value={projectModalForm.status}
+                  onChange={(e) => setProjectModalForm({ ...projectModalForm, status: e.target.value })}
+                  style={{ width: '100%', height: '38px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+                >
+                  <option value="Completed">Completed</option>
+                  <option value="Under Construction">Under Construction</option>
+                  <option value="Upcoming">Upcoming</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>YEAR</label>
+                <input
+                  type="text"
+                  placeholder="e.g. 2025"
+                  value={projectModalForm.year || ''}
+                  onChange={(e) => setProjectModalForm({ ...projectModalForm, year: e.target.value })}
+                  style={{ width: '100%', height: '38px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>TOTAL UNITS</label>
+                <input
+                  type="text"
+                  placeholder="e.g. 6 or 100"
+                  value={projectModalForm.units || ''}
+                  onChange={(e) => setProjectModalForm({ ...projectModalForm, units: e.target.value })}
+                  style={{ width: '100%', height: '38px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>FLOORS</label>
+                <input
+                  type="text"
+                  placeholder="e.g. 3"
+                  value={projectModalForm.floors || ''}
+                  onChange={(e) => setProjectModalForm({ ...projectModalForm, floors: e.target.value })}
+                  style={{ width: '100%', height: '38px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>PRIMARY FEATURED PHOTO URL</label>
+              <input
+                type="text"
+                required
+                placeholder="e.g. /site-photos/vadapalani/vadapalani-1.jpg"
+                value={projectModalForm.image}
+                onChange={(e) => setProjectModalForm({ ...projectModalForm, image: e.target.value })}
+                style={{ width: '100%', height: '38px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>
+                GALLERY PHOTO URLS (ONE PER LINE)
+              </label>
+              <textarea
+                rows={3}
+                placeholder="/site-photos/vadapalani/vadapalani-1.jpg&#10;/site-photos/vadapalani/vadapalani-2.jpg"
+                value={projectGalleryInput}
+                onChange={(e) => setProjectGalleryInput(e.target.value)}
+                style={{ width: '100%', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '8px 12px', color: '#ffffff', fontSize: '13px' }}
+              />
+            </div>
+
+            <DialogFooter style={{ marginTop: '12px' }}>
+              <Button type="button" variant="outline" onClick={() => setShowProjectModal(false)} style={{ fontSize: '12px' }}>
+                Cancel
+              </Button>
+              <Button type="submit" style={{ background: '#c9a063', color: '#0f172a', fontWeight: '700', fontSize: '12px' }}>
+                {editingProjectIndex !== null ? 'Save Project Draft' : 'Add Project'}
               </Button>
             </DialogFooter>
           </form>
