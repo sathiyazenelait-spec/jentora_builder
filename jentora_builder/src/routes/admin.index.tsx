@@ -36,6 +36,10 @@ import {
   Layers,
   Image as ImageIcon,
   CheckCircle2,
+  Upload,
+  Copy,
+  CheckCheck,
+  Link as LinkIcon,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
@@ -67,11 +71,13 @@ import {
   servicesPageConfig as defaultServicesPageConfig,
   serviceItems as defaultServiceItems,
   projects as defaultProjects,
+  defaultMediaAssets,
   applyDynamicContent,
   type ServiceItem,
   type Project,
   type FooterConfig,
   type ServicesPageConfig,
+  type MediaAsset,
 } from '@/data/company';
 
 export const Route = createFileRoute('/admin/')({
@@ -81,7 +87,7 @@ export const Route = createFileRoute('/admin/')({
 function SuperAdminDashboard() {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<User | null>(() => authStorage.getUser());
-  const [activeTab, setActiveTab] = useState<'overview' | 'inquiries' | 'services' | 'projects' | 'cms' | 'users'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'inquiries' | 'services' | 'projects' | 'assets' | 'cms' | 'users'>('overview');
 
   // Loading & error states - initialized to false if user session is already cached
   const [loading, setLoading] = useState(() => !authStorage.isAuthenticated());
@@ -93,6 +99,29 @@ function SuperAdminDashboard() {
   const [queries, setQueries] = useState<ContactQuery[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [cmsData, setCmsData] = useState<any>(null);
+
+  // Media Assets Library State
+  const [mediaAssets, setMediaAssets] = useState<MediaAsset[]>(() => [...defaultMediaAssets]);
+  const [savingAssets, setSavingAssets] = useState(false);
+  const [assetCategoryFilter, setAssetCategoryFilter] = useState<string>('ALL');
+  const [assetSearchKeyword, setAssetSearchKeyword] = useState<string>('');
+  const [showAddAssetModal, setShowAddAssetModal] = useState(false);
+  const [newAssetMode, setNewAssetMode] = useState<'browse' | 'url'>('browse');
+  const [newAssetForm, setNewAssetForm] = useState<{
+    title: string;
+    category: 'Services' | 'Projects' | 'Branding' | 'Elevations' | 'General';
+    url: string;
+    size: string;
+  }>({
+    title: '',
+    category: 'Services',
+    url: '',
+    size: '',
+  });
+
+  // Asset picker modal for selecting an image in Service or Project
+  const [showAssetPickerModal, setShowAssetPickerModal] = useState(false);
+  const [assetPickerTarget, setAssetPickerTarget] = useState<'service' | 'project' | null>(null);
 
   // Services Management State
   const [servicesList, setServicesList] = useState<ServiceItem[]>(() => [...defaultServiceItems]);
@@ -308,6 +337,19 @@ function SuperAdminDashboard() {
             }
           } catch (e) {
             console.warn('Could not parse footer json', e);
+          }
+        }
+
+        // Hydrate media_assets
+        const mediaAssetsItem = list.find((item: any) => item.key === 'media_assets');
+        if (mediaAssetsItem && mediaAssetsItem.jsonContent) {
+          try {
+            const parsed = typeof mediaAssetsItem.jsonContent === 'string' ? JSON.parse(mediaAssetsItem.jsonContent) : mediaAssetsItem.jsonContent;
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              setMediaAssets(parsed);
+            }
+          } catch (e) {
+            console.warn('Could not parse media assets json', e);
           }
         }
       }
@@ -674,6 +716,105 @@ function SuperAdminDashboard() {
     });
   };
 
+  // Media Assets Operations
+  const [copiedAssetId, setCopiedAssetId] = useState<string | null>(null);
+
+  const handleCopyAssetUrl = (url: string, id: string) => {
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(url);
+      setCopiedAssetId(id);
+      showToast('Asset image URL copied to clipboard!');
+      setTimeout(() => setCopiedAssetId(null), 2500);
+    }
+  };
+
+  const handleSaveAssets = async (assetsToSave?: MediaAsset[]) => {
+    const listToSave = assetsToSave || mediaAssets;
+    try {
+      setSavingAssets(true);
+      await adminApi.updateContentSection('media_assets', listToSave);
+      applyDynamicContent({
+        media_assets: listToSave,
+      });
+      showToast('Media Assets Library saved and synchronized to website successfully!');
+    } catch (err: any) {
+      alert('Failed to save media assets: ' + err.message);
+    } finally {
+      setSavingAssets(false);
+    }
+  };
+
+  const handleCreateAsset = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newAssetForm.title.trim()) {
+      alert('Please enter a descriptive title for this asset.');
+      return;
+    }
+    if (!newAssetForm.url.trim()) {
+      alert('Please select an image file to browse or paste an image URL.');
+      return;
+    }
+
+    const newAsset: MediaAsset = {
+      id: `asset-${Date.now()}`,
+      title: newAssetForm.title.trim(),
+      category: newAssetForm.category,
+      url: newAssetForm.url.trim(),
+      size: newAssetForm.size || 'Web Asset',
+      uploadedAt: new Date().toISOString().split('T')[0],
+    };
+
+    const updated = [newAsset, ...mediaAssets];
+    setMediaAssets(updated);
+    setShowAddAssetModal(false);
+    setNewAssetForm({
+      title: '',
+      category: 'Services',
+      url: '',
+      size: '',
+    });
+    showToast(`Asset "${newAsset.title}" added to library.`);
+    handleSaveAssets(updated);
+  };
+
+  const handleDeleteAsset = (id: string) => {
+    const target = mediaAssets.find((a) => a.id === id);
+    if (!target) return;
+    if (!confirm(`Are you sure you want to remove asset "${target.title}"?`)) return;
+    const updated = mediaAssets.filter((a) => a.id !== id);
+    setMediaAssets(updated);
+    showToast(`Asset "${target.title}" removed.`);
+    handleSaveAssets(updated);
+  };
+
+  // Helper for reading local files as Data URLs instantly without requiring npm run build
+  const handleLocalFileSelect = (file: File, callback: (dataUrl: string, name: string, sizeStr: string) => void) => {
+    if (!file.type.startsWith('image/')) {
+      alert('Please select a valid image file (PNG, JPG, WEBP, SVG, etc.)');
+      return;
+    }
+    const sizeKb = Math.round(file.size / 1024);
+    const sizeStr = sizeKb > 1024 ? `${(sizeKb / 1024).toFixed(1)} MB` : `${sizeKb} KB`;
+    const cleanName = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      if (ev.target?.result) {
+        callback(ev.target.result as string, cleanName, sizeStr);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Filtered Media Assets list
+  const filteredAssets = mediaAssets.filter((a) => {
+    const matchesCategory = assetCategoryFilter === 'ALL' || a.category === assetCategoryFilter;
+    const matchesKeyword = !assetSearchKeyword.trim() ||
+      `${a.title} ${a.category} ${a.url}`.toLowerCase().includes(assetSearchKeyword.toLowerCase().trim());
+    return matchesCategory && matchesKeyword;
+  });
+
+
   // Filtered queries list
   const filteredQueries = queries.filter((q) => {
     const matchesStatus = queryStatusFilter === 'ALL' || q.status === queryStatusFilter;
@@ -980,6 +1121,40 @@ function SuperAdminDashboard() {
               }}
             >
               {projectsList.length}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab('assets')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 18px',
+              borderRadius: '8px',
+              fontSize: '13px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              border: 'none',
+              background: activeTab === 'assets' ? '#c9a063' : 'transparent',
+              color: activeTab === 'assets' ? '#0f172a' : '#94a3b8',
+              transition: 'all 0.2s',
+            }}
+          >
+            <ImageIcon size={16} />
+            <span>Assets & Media</span>
+            <span
+              style={{
+                fontSize: '11px',
+                fontWeight: '700',
+                background: activeTab === 'assets' ? '#0f172a' : 'rgba(255,255,255,0.1)',
+                color: activeTab === 'assets' ? '#c9a063' : '#94a3b8',
+                padding: '2px 7px',
+                borderRadius: '10px',
+              }}
+            >
+              {mediaAssets.length}
             </span>
           </button>
 
@@ -2094,6 +2269,405 @@ function SuperAdminDashboard() {
           </div>
         )}
 
+        {/* TAB: ASSETS & MEDIA LIBRARY */}
+        {activeTab === 'assets' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {/* TOP ACTIONS BAR */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                background: '#131b2e',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '12px',
+                padding: '20px 24px',
+                flexWrap: 'wrap',
+                gap: '16px',
+              }}
+            >
+              <div>
+                <h2 style={{ fontSize: '20px', fontWeight: '700', color: '#f8fafc', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <ImageIcon size={22} style={{ color: '#c9a063' }} />
+                  <span>Media & Assets Library</span>
+                  <span
+                    style={{
+                      fontSize: '11px',
+                      background: 'rgba(201, 160, 99, 0.15)',
+                      border: '1px solid rgba(201, 160, 99, 0.4)',
+                      color: '#c9a063',
+                      padding: '2px 8px',
+                      borderRadius: '12px',
+                    }}
+                  >
+                    {mediaAssets.length} Assets
+                  </span>
+                </h2>
+                <p style={{ fontSize: '13px', color: '#94a3b8' }}>
+                  Browse local images or provide image URLs for Services and Projects without needing <code>npm run build</code>.
+                </p>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    setNewAssetForm({
+                      title: '',
+                      category: 'Services',
+                      url: '',
+                      size: '',
+                    });
+                    setShowAddAssetModal(true);
+                  }}
+                  style={{
+                    background: '#c9a063',
+                    color: '#0f172a',
+                    fontWeight: '600',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
+                >
+                  <Plus size={16} />
+                  <span>Add New Asset</span>
+                </Button>
+
+                <Button
+                  type="button"
+                  onClick={() => handleSaveAssets()}
+                  disabled={savingAssets}
+                  style={{
+                    background: 'rgba(201, 160, 99, 0.15)',
+                    border: '1px solid #c9a063',
+                    color: '#c9a063',
+                    fontWeight: '600',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
+                >
+                  {savingAssets ? (
+                    <>
+                      <RefreshCw className="animate-spin" size={16} />
+                      <span>Syncing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Save size={16} />
+                      <span>Sync to Database</span>
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+
+            {/* FILTER & SEARCH TOOLBAR */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '16px',
+                flexWrap: 'wrap',
+                background: '#0f172a',
+                padding: '16px 20px',
+                borderRadius: '10px',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+              }}
+            >
+              <div style={{ position: 'relative', flex: '1', minWidth: '240px', maxWidth: '400px' }}>
+                <Search
+                  size={16}
+                  style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }}
+                />
+                <input
+                  type="text"
+                  placeholder="Search assets by title, category, or URL..."
+                  value={assetSearchKeyword}
+                  onChange={(e) => setAssetSearchKeyword(e.target.value)}
+                  style={{
+                    width: '100%',
+                    height: '38px',
+                    background: '#131b2e',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '8px',
+                    padding: '0 12px 0 38px',
+                    color: '#ffffff',
+                    fontSize: '13px',
+                  }}
+                />
+              </div>
+
+              {/* CATEGORY FILTER PILLS */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                {['ALL', 'Services', 'Projects', 'Branding', 'Elevations', 'General'].map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => setAssetCategoryFilter(cat)}
+                    style={{
+                      background: assetCategoryFilter === cat ? '#c9a063' : 'rgba(255, 255, 255, 0.05)',
+                      color: assetCategoryFilter === cat ? '#0f172a' : '#94a3b8',
+                      border: `1px solid ${assetCategoryFilter === cat ? '#c9a063' : 'rgba(255, 255, 255, 0.1)'}`,
+                      padding: '6px 14px',
+                      borderRadius: '20px',
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease',
+                    }}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* ASSETS GRID */}
+            {filteredAssets.length === 0 ? (
+              <div
+                style={{
+                  background: '#131b2e',
+                  border: '1px dashed rgba(255, 255, 255, 0.15)',
+                  borderRadius: '12px',
+                  padding: '48px 24px',
+                  textAlign: 'center',
+                }}
+              >
+                <ImageIcon size={40} style={{ color: '#64748b', margin: '0 auto 12px' }} />
+                <h3 style={{ fontSize: '16px', fontWeight: '600', color: '#f8fafc', marginBottom: '6px' }}>
+                  No assets found
+                </h3>
+                <p style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '16px' }}>
+                  {assetSearchKeyword || assetCategoryFilter !== 'ALL'
+                    ? 'No assets match your search filters.'
+                    : 'Your media asset library is currently empty. Click below to add an image.'}
+                </p>
+                <Button
+                  type="button"
+                  onClick={() => setShowAddAssetModal(true)}
+                  style={{ background: '#c9a063', color: '#0f172a', fontWeight: '600' }}
+                >
+                  <Plus size={15} style={{ marginRight: '6px' }} />
+                  <span>Add First Asset</span>
+                </Button>
+              </div>
+            ) : (
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                  gap: '20px',
+                }}
+              >
+                {filteredAssets.map((asset) => {
+                  const isCopied = copiedAssetId === asset.id;
+                  return (
+                    <div
+                      key={asset.id}
+                      style={{
+                        background: '#131b2e',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        transition: 'transform 0.2s, border-color 0.2s',
+                      }}
+                    >
+                      {/* IMAGE PREVIEW */}
+                      <div
+                        style={{
+                          height: '180px',
+                          background: '#090d16',
+                          position: 'relative',
+                          overflow: 'hidden',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <img
+                          src={asset.url}
+                          alt={asset.title}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                          }}
+                          onError={(e) => {
+                            (e.target as HTMLElement).style.display = 'none';
+                          }}
+                        />
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '10px',
+                            left: '10px',
+                            background: 'rgba(15, 23, 42, 0.85)',
+                            backdropFilter: 'blur(4px)',
+                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                            borderRadius: '4px',
+                            padding: '3px 8px',
+                            fontSize: '11px',
+                            fontWeight: '600',
+                            color: '#c9a063',
+                          }}
+                        >
+                          {asset.category}
+                        </div>
+                        {asset.size && (
+                          <div
+                            style={{
+                              position: 'absolute',
+                              top: '10px',
+                              right: '10px',
+                              background: 'rgba(15, 23, 42, 0.85)',
+                              backdropFilter: 'blur(4px)',
+                              border: '1px solid rgba(255, 255, 255, 0.1)',
+                              borderRadius: '4px',
+                              padding: '3px 8px',
+                              fontSize: '11px',
+                              color: '#94a3b8',
+                            }}
+                          >
+                            {asset.size}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* CARD DETAILS */}
+                      <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
+                        <h4
+                          style={{
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            color: '#f8fafc',
+                            margin: 0,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                          title={asset.title}
+                        >
+                          {asset.title}
+                        </h4>
+
+                        {/* URL BAR */}
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            background: '#090d16',
+                            border: '1px solid rgba(255, 255, 255, 0.08)',
+                            borderRadius: '6px',
+                            padding: '4px 8px',
+                            gap: '6px',
+                          }}
+                        >
+                          <span
+                            style={{
+                              fontSize: '11px',
+                              color: '#64748b',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                              flex: 1,
+                              fontFamily: 'monospace',
+                            }}
+                          >
+                            {asset.url.startsWith('data:') ? 'Embedded Data URL' : asset.url}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleCopyAssetUrl(asset.url, asset.id)}
+                            style={{
+                              background: isCopied ? '#10b981' : 'rgba(201, 160, 99, 0.2)',
+                              border: 'none',
+                              color: isCopied ? '#ffffff' : '#c9a063',
+                              borderRadius: '4px',
+                              padding: '4px 8px',
+                              fontSize: '11px',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              fontWeight: '600',
+                              flexShrink: 0,
+                            }}
+                            title="Copy Image URL"
+                          >
+                            {isCopied ? <CheckCheck size={12} /> : <Copy size={12} />}
+                            <span>{isCopied ? 'Copied' : 'Copy'}</span>
+                          </button>
+                        </div>
+
+                        {/* ACTIONS FOOTER */}
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            paddingTop: '8px',
+                            borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+                            marginTop: 'auto',
+                          }}
+                        >
+                          <button
+                            type="button"
+                            onClick={() => {
+                              // Fast apply to service editor
+                              setServiceModalForm((prev) => ({ ...prev, image: asset.url }));
+                              setActiveTab('services');
+                              showToast(`Image "${asset.title}" applied to Service editor!`);
+                            }}
+                            style={{
+                              background: 'transparent',
+                              border: '1px solid rgba(201, 160, 99, 0.3)',
+                              color: '#c9a063',
+                              fontSize: '12px',
+                              padding: '4px 10px',
+                              borderRadius: '6px',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '5px',
+                            }}
+                          >
+                            <Hammer size={12} />
+                            <span>Use in Service</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteAsset(asset.id)}
+                            style={{
+                              background: 'rgba(239, 68, 68, 0.1)',
+                              border: '1px solid rgba(239, 68, 68, 0.3)',
+                              color: '#fca5a5',
+                              padding: '6px 10px',
+                              borderRadius: '6px',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              fontSize: '12px',
+                            }}
+                            title="Delete Asset"
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* TAB 4: WEBSITE CMS & CONTENT */}
         {activeTab === 'cms' && (
           <form onSubmit={handleSaveCms} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -2971,10 +3545,144 @@ function SuperAdminDashboard() {
               />
             </div>
 
-            {/* PRESET IMAGE SELECTOR */}
+            {/* SERVICE IMAGE SELECTION & ASSET PICKER */}
             <div>
-              <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>SERVICE PHOTO PRESET OR URL</label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '8px', marginBottom: '8px' }}>
+              <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '6px' }}>
+                SERVICE PHOTO (ASSET LIBRARY, BROWSE LOCAL FILE, OR DIRECT URL)
+              </label>
+
+              {/* CURRENT IMAGE PREVIEW */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  background: '#090d16',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: '8px',
+                  padding: '10px 12px',
+                  marginBottom: '10px',
+                }}
+              >
+                <div
+                  style={{
+                    width: '80px',
+                    height: '60px',
+                    borderRadius: '6px',
+                    overflow: 'hidden',
+                    background: '#131b2e',
+                    flexShrink: 0,
+                    border: '1px solid rgba(201, 160, 99, 0.4)',
+                  }}
+                >
+                  <img
+                    src={serviceModalForm.image}
+                    alt="Service Preview"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <span style={{ display: 'block', fontSize: '11px', color: '#64748b', textTransform: 'uppercase', marginBottom: '2px' }}>
+                    Active Service Image
+                  </span>
+                  <p
+                    style={{
+                      fontSize: '12px',
+                      color: '#f8fafc',
+                      margin: 0,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      fontFamily: 'monospace',
+                    }}
+                  >
+                    {serviceModalForm.image?.startsWith('data:') ? 'Embedded Local File (No Build Needed)' : serviceModalForm.image}
+                  </p>
+                </div>
+              </div>
+
+              {/* ACTION BUTTONS: ASSET LIBRARY + BROWSE LOCAL */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px', flexWrap: 'wrap' }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAssetPickerTarget('service');
+                    setShowAssetPickerModal(true);
+                  }}
+                  style={{
+                    background: '#c9a063',
+                    color: '#0f172a',
+                    border: 'none',
+                    borderRadius: '6px',
+                    padding: '8px 14px',
+                    fontSize: '12px',
+                    fontWeight: '700',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <ImageIcon size={14} />
+                  <span>Choose from Asset Library</span>
+                </button>
+
+                <label
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    color: '#f8fafc',
+                    borderRadius: '6px',
+                    padding: '8px 14px',
+                    fontSize: '12px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <Upload size={14} style={{ color: '#c9a063' }} />
+                  <span>Browse Image File</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        handleLocalFileSelect(file, (dataUrl) => {
+                          setServiceModalForm({ ...serviceModalForm, image: dataUrl });
+                          showToast(`Local image "${file.name}" loaded for this service!`);
+                        });
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+
+              {/* DIRECT URL INPUT */}
+              <div style={{ marginBottom: '10px' }}>
+                <input
+                  type="text"
+                  placeholder="Or paste custom image URL (e.g. /site-photos/... or https://...)"
+                  value={typeof serviceModalForm.image === 'string' ? serviceModalForm.image : ''}
+                  onChange={(e) => setServiceModalForm({ ...serviceModalForm, image: e.target.value })}
+                  style={{
+                    width: '100%',
+                    height: '36px',
+                    background: '#0f172a',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    borderRadius: '6px',
+                    padding: '0 10px',
+                    color: '#ffffff',
+                    fontSize: '12px',
+                  }}
+                />
+              </div>
+
+              {/* QUICK PRESETS */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '6px' }}>
                 {[
                   { name: 'Luxury Villas', src: villas },
                   { name: 'Commercial', src: serviceCommercial },
@@ -2993,7 +3701,7 @@ function SuperAdminDashboard() {
                       background: serviceModalForm.image === preset.src ? 'rgba(201,160,99,0.25)' : '#0f172a',
                       border: `1px solid ${serviceModalForm.image === preset.src ? '#c9a063' : 'rgba(255,255,255,0.15)'}`,
                       borderRadius: '6px',
-                      padding: '6px',
+                      padding: '5px',
                       color: '#ffffff',
                       fontSize: '11px',
                       cursor: 'pointer',
@@ -3004,13 +3712,6 @@ function SuperAdminDashboard() {
                   </button>
                 ))}
               </div>
-              <input
-                type="text"
-                placeholder="Or paste custom image URL (e.g. /site-photos/... or https://...)"
-                value={typeof serviceModalForm.image === 'string' ? serviceModalForm.image : ''}
-                onChange={(e) => setServiceModalForm({ ...serviceModalForm, image: e.target.value })}
-                style={{ width: '100%', height: '36px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 10px', color: '#ffffff', fontSize: '12px' }}
-              />
             </div>
 
             <div>
@@ -3175,12 +3876,117 @@ function SuperAdminDashboard() {
               </div>
             </div>
 
+            {/* PROJECT PRIMARY PHOTO */}
             <div>
-              <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>PRIMARY FEATURED PHOTO URL</label>
+              <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '6px' }}>
+                PRIMARY FEATURED PHOTO (ASSET LIBRARY, LOCAL BROWSE, OR DIRECT URL)
+              </label>
+
+              {/* PHOTO PREVIEW */}
+              {projectModalForm.image && (
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    background: '#090d16',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '8px',
+                    padding: '8px 12px',
+                    marginBottom: '10px',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '70px',
+                      height: '50px',
+                      borderRadius: '6px',
+                      overflow: 'hidden',
+                      background: '#131b2e',
+                      border: '1px solid rgba(201, 160, 99, 0.4)',
+                    }}
+                  >
+                    <img
+                      src={projectModalForm.image}
+                      alt="Project Preview"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ display: 'block', fontSize: '10px', color: '#64748b', textTransform: 'uppercase' }}>
+                      Current Project Cover
+                    </span>
+                    <span style={{ fontSize: '12px', color: '#f8fafc', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'block', fontFamily: 'monospace' }}>
+                      {projectModalForm.image?.startsWith('data:') ? 'Embedded Local File' : projectModalForm.image}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* ACTION BUTTONS */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAssetPickerTarget('project');
+                    setShowAssetPickerModal(true);
+                  }}
+                  style={{
+                    background: '#c9a063',
+                    color: '#0f172a',
+                    border: 'none',
+                    borderRadius: '6px',
+                    padding: '7px 12px',
+                    fontSize: '12px',
+                    fontWeight: '700',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <ImageIcon size={14} />
+                  <span>Choose from Asset Library</span>
+                </button>
+
+                <label
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    color: '#f8fafc',
+                    borderRadius: '6px',
+                    padding: '7px 12px',
+                    fontSize: '12px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <Upload size={14} style={{ color: '#c9a063' }} />
+                  <span>Browse Image File</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        handleLocalFileSelect(file, (dataUrl) => {
+                          setProjectModalForm({ ...projectModalForm, image: dataUrl });
+                          showToast(`Image "${file.name}" set as project cover!`);
+                        });
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+
               <input
                 type="text"
                 required
-                placeholder="e.g. /site-photos/vadapalani/vadapalani-1.jpg"
+                placeholder="e.g. /site-photos/vadapalani/vadapalani-1.jpg or https://..."
                 value={projectModalForm.image}
                 onChange={(e) => setProjectModalForm({ ...projectModalForm, image: e.target.value })}
                 style={{ width: '100%', height: '38px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', padding: '0 12px', color: '#ffffff', fontSize: '13px' }}
@@ -3209,6 +4015,417 @@ function SuperAdminDashboard() {
               </Button>
             </DialogFooter>
           </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* MODAL: ADD ASSET TO LIBRARY (BROWSE LOCAL OR ENTER URL) */}
+      <Dialog open={showAddAssetModal} onOpenChange={setShowAddAssetModal}>
+        <DialogContent
+          style={{
+            background: '#131b2e',
+            border: '1px solid rgba(201, 160, 99, 0.4)',
+            color: '#f8fafc',
+            maxWidth: '560px',
+            maxHeight: '90vh',
+            overflowY: 'auto',
+          }}
+        >
+          <DialogHeader>
+            <DialogTitle style={{ color: '#c9a063', fontSize: '18px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <ImageIcon size={20} />
+              <span>Add New Asset to Media Library</span>
+            </DialogTitle>
+            <DialogDescription style={{ color: '#94a3b8', fontSize: '12px' }}>
+              Upload local photos or provide an image URL. Assets update dynamically with <strong>zero build time</strong>.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleCreateAsset} style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '12px' }}>
+            {/* MODE SWITCHER */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', background: '#090d16', padding: '4px', borderRadius: '8px' }}>
+              <button
+                type="button"
+                onClick={() => setNewAssetMode('browse')}
+                style={{
+                  background: newAssetMode === 'browse' ? '#c9a063' : 'transparent',
+                  color: newAssetMode === 'browse' ? '#0f172a' : '#94a3b8',
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '8px',
+                  fontSize: '12px',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                }}
+              >
+                <Upload size={14} />
+                <span>Browse Local File</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setNewAssetMode('url')}
+                style={{
+                  background: newAssetMode === 'url' ? '#c9a063' : 'transparent',
+                  color: newAssetMode === 'url' ? '#0f172a' : '#94a3b8',
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '8px',
+                  fontSize: '12px',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                }}
+              >
+                <LinkIcon size={14} />
+                <span>Enter Image URL</span>
+              </button>
+            </div>
+
+            {/* BROWSE LOCAL FILE DROPZONE */}
+            {newAssetMode === 'browse' ? (
+              <div>
+                <label
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '2px dashed rgba(201, 160, 99, 0.4)',
+                    borderRadius: '10px',
+                    padding: '24px 16px',
+                    cursor: 'pointer',
+                    background: 'rgba(201, 160, 99, 0.04)',
+                    transition: 'all 0.2s',
+                    textAlign: 'center',
+                  }}
+                >
+                  <Upload size={32} style={{ color: '#c9a063', marginBottom: '8px' }} />
+                  <span style={{ fontSize: '13px', fontWeight: '600', color: '#f8fafc', marginBottom: '4px' }}>
+                    Click to browse or drop an image file
+                  </span>
+                  <span style={{ fontSize: '11px', color: '#64748b' }}>
+                    Supports PNG, JPG, JPEG, WEBP, SVG • Saved instantly with no build needed
+                  </span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        handleLocalFileSelect(file, (dataUrl, cleanName, sizeStr) => {
+                          setNewAssetForm((prev) => ({
+                            ...prev,
+                            url: dataUrl,
+                            title: prev.title || cleanName,
+                            size: sizeStr,
+                          }));
+                          showToast(`Loaded "${file.name}" (${sizeStr})`);
+                        });
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+            ) : (
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>
+                  EXTERNAL OR RELATIVE IMAGE URL
+                </label>
+                <input
+                  type="text"
+                  placeholder="https://images.unsplash.com/... or /site-photos/..."
+                  value={newAssetForm.url}
+                  onChange={(e) => setNewAssetForm({ ...newAssetForm, url: e.target.value })}
+                  style={{
+                    width: '100%',
+                    height: '38px',
+                    background: '#0f172a',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    borderRadius: '6px',
+                    padding: '0 12px',
+                    color: '#ffffff',
+                    fontSize: '13px',
+                  }}
+                />
+              </div>
+            )}
+
+            {/* LIVE PREVIEW IF URL AVAILABLE */}
+            {newAssetForm.url && (
+              <div
+                style={{
+                  background: '#090d16',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: '8px',
+                  padding: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                }}
+              >
+                <div
+                  style={{
+                    width: '90px',
+                    height: '65px',
+                    borderRadius: '6px',
+                    overflow: 'hidden',
+                    background: '#131b2e',
+                    border: '1px solid rgba(201, 160, 99, 0.4)',
+                    flexShrink: 0,
+                  }}
+                >
+                  <img
+                    src={newAssetForm.url}
+                    alt="Preview"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <span style={{ display: 'block', fontSize: '11px', color: '#10b981', fontWeight: '600', marginBottom: '2px' }}>
+                    ✓ Image Ready
+                  </span>
+                  <span style={{ fontSize: '11px', color: '#94a3b8', display: 'block' }}>
+                    Size: {newAssetForm.size || 'Web Link'}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* ASSET TITLE */}
+            <div>
+              <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>
+                ASSET TITLE / LABEL
+              </label>
+              <input
+                type="text"
+                required
+                placeholder="e.g. Modern Villa Elevation, Commercial Complex Front"
+                value={newAssetForm.title}
+                onChange={(e) => setNewAssetForm({ ...newAssetForm, title: e.target.value })}
+                style={{
+                  width: '100%',
+                  height: '38px',
+                  background: '#0f172a',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  borderRadius: '6px',
+                  padding: '0 12px',
+                  color: '#ffffff',
+                  fontSize: '13px',
+                }}
+              />
+            </div>
+
+            {/* ASSET CATEGORY */}
+            <div>
+              <label style={{ display: 'block', fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>
+                CATEGORY TAG
+              </label>
+              <select
+                value={newAssetForm.category}
+                onChange={(e) => setNewAssetForm({ ...newAssetForm, category: e.target.value as any })}
+                style={{
+                  width: '100%',
+                  height: '38px',
+                  background: '#0f172a',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  borderRadius: '6px',
+                  padding: '0 12px',
+                  color: '#ffffff',
+                  fontSize: '13px',
+                }}
+              >
+                <option value="Services">Services</option>
+                <option value="Projects">Projects</option>
+                <option value="Branding">Branding</option>
+                <option value="Elevations">Elevations</option>
+                <option value="General">General</option>
+              </select>
+            </div>
+
+            <DialogFooter style={{ marginTop: '12px' }}>
+              <Button type="button" variant="outline" onClick={() => setShowAddAssetModal(false)} style={{ fontSize: '12px' }}>
+                Cancel
+              </Button>
+              <Button type="submit" style={{ background: '#c9a063', color: '#0f172a', fontWeight: '700', fontSize: '12px' }}>
+                Save to Asset Library
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* MODAL: ASSET PICKER FOR SERVICES & PROJECTS */}
+      <Dialog open={showAssetPickerModal} onOpenChange={setShowAssetPickerModal}>
+        <DialogContent
+          style={{
+            background: '#131b2e',
+            border: '1px solid rgba(201, 160, 99, 0.4)',
+            color: '#f8fafc',
+            maxWidth: '780px',
+            maxHeight: '90vh',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <DialogHeader>
+            <DialogTitle style={{ color: '#c9a063', fontSize: '18px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <ImageIcon size={20} />
+              <span>Choose Image from Asset Library</span>
+            </DialogTitle>
+            <DialogDescription style={{ color: '#94a3b8', fontSize: '12px' }}>
+              Select an image from your library to apply to this{' '}
+              <strong style={{ color: '#f8fafc' }}>{assetPickerTarget === 'service' ? 'Service' : 'Project'}</strong>.
+            </DialogDescription>
+          </DialogHeader>
+
+          {/* FILTER TOOLBAR INSIDE PICKER */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '12px', flexWrap: 'wrap' }}>
+            <div style={{ position: 'relative', flex: 1, minWidth: '200px' }}>
+              <Search size={15} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
+              <input
+                type="text"
+                placeholder="Search assets..."
+                value={assetSearchKeyword}
+                onChange={(e) => setAssetSearchKeyword(e.target.value)}
+                style={{
+                  width: '100%',
+                  height: '34px',
+                  background: '#090d16',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: '6px',
+                  padding: '0 10px 0 32px',
+                  color: '#ffffff',
+                  fontSize: '12px',
+                }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+              {['ALL', 'Services', 'Projects', 'Elevations'].map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setAssetCategoryFilter(cat)}
+                  style={{
+                    background: assetCategoryFilter === cat ? '#c9a063' : 'rgba(255, 255, 255, 0.05)',
+                    color: assetCategoryFilter === cat ? '#0f172a' : '#94a3b8',
+                    border: `1px solid ${assetCategoryFilter === cat ? '#c9a063' : 'rgba(255, 255, 255, 0.1)'}`,
+                    padding: '4px 10px',
+                    borderRadius: '16px',
+                    fontSize: '11px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* ASSETS SCROLLABLE GRID */}
+          <div
+            style={{
+              maxHeight: '420px',
+              overflowY: 'auto',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))',
+              gap: '12px',
+              marginTop: '16px',
+              paddingRight: '4px',
+            }}
+          >
+            {filteredAssets.length === 0 ? (
+              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '32px', color: '#64748b', fontSize: '13px' }}>
+                No matching assets found.
+              </div>
+            ) : (
+              filteredAssets.map((asset) => (
+                <div
+                  key={asset.id}
+                  style={{
+                    background: '#090d16',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    borderRadius: '8px',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    transition: 'border-color 0.15s',
+                  }}
+                >
+                  <div style={{ height: '120px', background: '#000', overflow: 'hidden' }}>
+                    <img
+                      src={asset.url}
+                      alt={asset.title}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  </div>
+                  <div style={{ padding: '10px', display: 'flex', flexDirection: 'column', gap: '6px', flex: 1 }}>
+                    <span
+                      style={{
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        color: '#f8fafc',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                      title={asset.title}
+                    >
+                      {asset.title}
+                    </span>
+                    <span style={{ fontSize: '10px', color: '#c9a063' }}>{asset.category}</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (assetPickerTarget === 'service') {
+                          setServiceModalForm((prev) => ({ ...prev, image: asset.url }));
+                          showToast(`Image "${asset.title}" selected for Service!`);
+                        } else if (assetPickerTarget === 'project') {
+                          setProjectModalForm((prev) => ({ ...prev, image: asset.url }));
+                          showToast(`Image "${asset.title}" selected for Project!`);
+                        }
+                        setShowAssetPickerModal(false);
+                      }}
+                      style={{
+                        marginTop: 'auto',
+                        background: '#c9a063',
+                        color: '#0f172a',
+                        border: 'none',
+                        borderRadius: '4px',
+                        padding: '6px 10px',
+                        fontSize: '11px',
+                        fontWeight: '700',
+                        cursor: 'pointer',
+                        width: '100%',
+                      }}
+                    >
+                      Select This Image
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          <DialogFooter style={{ marginTop: '16px' }}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setShowAssetPickerModal(false)}
+              style={{ fontSize: '12px' }}
+            >
+              Close
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

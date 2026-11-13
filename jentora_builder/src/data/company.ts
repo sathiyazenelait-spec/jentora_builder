@@ -177,6 +177,15 @@ export interface ServicesPageConfig {
   ctaButtonText: string;
 }
 
+export interface MediaAsset {
+  id: string;
+  title: string;
+  category: 'Services' | 'Projects' | 'Branding' | 'Elevations' | 'General';
+  url: string;
+  size?: string;
+  uploadedAt: string;
+}
+
 export const footerConfig: FooterConfig = {
   serviceListStyle: 'numbers',
   navListStyle: 'numbers',
@@ -203,6 +212,105 @@ export const servicesPageConfig: ServicesPageConfig = {
   ctaTitle: 'LET’S BUILD SOMETHING EXCEPTIONAL.',
   ctaButtonText: 'START A CONVERSATION'
 };
+
+export const defaultMediaAssets: MediaAsset[] = [
+  {
+    id: 'asset-villas',
+    title: 'Luxury Villas & Residential',
+    category: 'Services',
+    url: villas,
+    size: '331 KB',
+    uploadedAt: '2026-11-13',
+  },
+  {
+    id: 'asset-comm',
+    title: 'Commercial Construction Highrise',
+    category: 'Services',
+    url: serviceCommercial,
+    size: '964 KB',
+    uploadedAt: '2026-11-13',
+  },
+  {
+    id: 'asset-ind',
+    title: 'Industrial Warehouse & PEB Plant',
+    category: 'Services',
+    url: serviceIndustrial,
+    size: '748 KB',
+    uploadedAt: '2026-11-13',
+  },
+  {
+    id: 'asset-apt',
+    title: 'Turnkey Apartment Complex',
+    category: 'Projects',
+    url: apartment,
+    size: '329 KB',
+    uploadedAt: '2026-11-13',
+  },
+  {
+    id: 'asset-interior',
+    title: 'Interior Design & Luxury Woodwork',
+    category: 'Services',
+    url: interior,
+    size: '278 KB',
+    uploadedAt: '2026-11-13',
+  },
+  {
+    id: 'asset-civil',
+    title: 'Civil Engineering & Foundation Works',
+    category: 'Services',
+    url: serviceCivil,
+    size: '970 KB',
+    uploadedAt: '2026-11-13',
+  },
+  {
+    id: 'asset-blueprint',
+    title: 'Architectural Blueprint & Planning',
+    category: 'Services',
+    url: serviceBlueprint,
+    size: '789 KB',
+    uploadedAt: '2026-11-13',
+  },
+  {
+    id: 'asset-manager',
+    title: 'Construction Project Management',
+    category: 'Services',
+    url: serviceManager,
+    size: '927 KB',
+    uploadedAt: '2026-11-13',
+  },
+  {
+    id: 'asset-vadapalani-1',
+    title: 'Jentora Vadapalani Landmark Facade',
+    category: 'Projects',
+    url: '/site-photos/vadapalani/vadapalani-1.jpg',
+    size: '420 KB',
+    uploadedAt: '2026-11-13',
+  },
+  {
+    id: 'asset-thiruvallur-1',
+    title: 'Jentora Thiruvallur Elevation Render',
+    category: 'Projects',
+    url: '/site-photos/thiruvallur/thiruvallur-1.png',
+    size: '512 KB',
+    uploadedAt: '2026-11-13',
+  },
+  {
+    id: 'asset-choolaimedu-1',
+    title: 'Jentora Edone Choolaimedu Project',
+    category: 'Projects',
+    url: '/site-photos/choolaimedu/choolaimedu-1.jpg',
+    size: '390 KB',
+    uploadedAt: '2026-11-13',
+  },
+  {
+    id: 'asset-madukkarai-1',
+    title: 'Jentora Highland Prive Coimbatore Villas',
+    category: 'Projects',
+    url: '/site-photos/madukkarai/madukkarai-1.jpg',
+    size: '480 KB',
+    uploadedAt: '2026-11-13',
+  },
+];
 
 export const projects: Project[] = [
   {
@@ -498,6 +606,28 @@ export function applyDynamicContent(contentMap: Record<string, any>): boolean {
           status: String(p.status || 'Completed'),
           image: String(p.image || '/site-photos/vadapalani/vadapalani-1.jpg'),
           gallery: Array.isArray(p.gallery) ? p.gallery : [p.image || '/site-photos/vadapalani/vadapalani-1.jpg'],
+        });
+      });
+      hasUpdates = true;
+    }
+  }
+
+  // 2.5. MEDIA ASSETS
+  if (contentMap.media_assets) {
+    let raw = contentMap.media_assets;
+    if (typeof raw === 'string') {
+      try { raw = JSON.parse(raw); } catch {}
+    }
+    if (Array.isArray(raw) && raw.length > 0) {
+      defaultMediaAssets.length = 0;
+      raw.forEach((a) => {
+        defaultMediaAssets.push({
+          id: String(a.id),
+          title: String(a.title || ''),
+          category: a.category || 'General',
+          url: String(a.url || ''),
+          size: a.size,
+          uploadedAt: a.uploadedAt,
         });
       });
       hasUpdates = true;

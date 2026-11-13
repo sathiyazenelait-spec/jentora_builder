@@ -1,4 +1,6 @@
-const API_BASE_URL = import.meta.env['VITE_API_URL'] || 'https://jentora-builder-backend-2kx8.onrender.com/api';
+const RAILWAY_API_URL = 'https://trustworthy-liberation-production-90f6.up.railway.app/api';
+const RENDER_API_URL = 'https://jentora-builder-backend-2kx8.onrender.com/api';
+const API_BASE_URL = import.meta.env['VITE_API_URL'] || RAILWAY_API_URL;
 
 export interface User {
   id: number;
