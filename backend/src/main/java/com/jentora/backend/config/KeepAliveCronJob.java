@@ -20,7 +20,7 @@ public class KeepAliveCronJob {
     @Value("${server.port:8082}")
     private String serverPort;
 
-    @Value("${jentora.keepalive.url:https://trustworthy-liberation-production-90f6.up.railway.app/api/public/content}")
+    @Value("${jentora.keepalive.url:https://jentora-builder-backend-2kx8.onrender.com/api/public/content}")
     private String keepAliveUrl;
 
     private final HttpClient httpClient = HttpClient.newBuilder()
